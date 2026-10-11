@@ -1,77 +1,80 @@
-<a id="models--specifications--pricing"></a>
-# Models and effort
+<a id="models--specifications--pricing"></a><a id="models-and-effort"></a>
+# Модели и глубина рассуждений
 
 <sub>Verified against Claude Code v2.1.285 (stable) on 2026-10-05</sub>
 
-Which model a session runs and how hard it thinks are two separate choices. This page is the lookup for both: the model aliases, the effort levels and the ways to set them. Which model and effort a task needs is taught in the Intermediate lesson [Pick the model and effort](../intermediate/03-model-and-effort.md). To compare the current models and find their IDs, see Anthropic's [models overview](https://platform.claude.com/docs/en/about-claude/models/overview).
+Выбор модели для сессии и настройка глубины ее рассуждений - это два независимых решения. Данная страница служит справочником по обоим аспектам: псевдонимы моделей, уровни рассуждений (effort) и способы их установки. Выбору оптимальной модели и уровня усилий для конкретной задачи посвящен урок промежуточного уровня [Выбор модели и глубины рассуждений](../intermediate/03-model-and-effort.md). Сравнение актуальных моделей и их идентификаторы доступны в [models overview](https://platform.claude.com/docs/en/about-claude/models/overview).
 
-<a id="the-current-lineup-july-2026"></a><a id="the-current-lineup-as-of-october-4-2026"></a><a id="the-headliners"></a><a id="claude-sonnet-5--the-new-default"></a><a id="claude-sonnet-5-legacy"></a><a id="claude-opus-48--the-opus-flagship"></a><a id="claude-opus-48-legacy"></a><a id="claude-fable-5--the-mythos-class"></a><a id="claude-fable-5-legacy"></a>
-## Aliases
+<a id="the-current-lineup-july-2026"></a><a id="the-current-lineup-as-of-october-4-2026"></a><a id="the-headliners"></a><a id="claude-sonnet-5--the-new-default"></a><a id="claude-sonnet-5-legacy"></a><a id="claude-opus-48--the-opus-flagship"></a><a id="claude-opus-48-legacy"></a><a id="claude-fable-5--the-mythos-class"></a><a id="claude-fable-5-legacy"></a><a id="aliases"></a>
+## Псевдонимы (Aliases)
 
-An alias picks the recommended model of a family, so you never need a version number. Pick one with `/model <alias>`, `claude --model <alias>` or the `model` setting ([Model configuration](https://code.claude.com/docs/en/model-config#model-aliases)).
+Псевдоним автоматически выбирает рекомендуемую модель семейства без необходимости указывать точный номер версии. Задать псевдоним можно командами `/model <alias>`, `claude --model <alias>` или через настройку `model` ([Model configuration](https://code.claude.com/docs/en/model-config#model-aliases)).
 
-| Alias | On the Anthropic API it uses | Reach for it when |
+| Псевдоним | В Anthropic API соответствует | Когда использовать |
 |---|---|---|
-| `sonnet` | The latest Sonnet | Day-to-day coding |
-| `opus` | The latest Opus | Complex reasoning |
-| `fable` | The Fable model for your provider | The hardest, longest-running tasks |
-| `best` | Fable where your account has it, otherwise Opus | You want the strongest model available to you |
-| `haiku` | Haiku | Quick, simple tasks |
-| `opusplan` | Opus in plan mode, then Sonnet to carry out the plan | You want deep planning and cheaper execution |
-| `opus[1m]` | Opus with a 1 million token context window | Very long sessions, on a provider where `opus` doesn't already have that window |
+| `sonnet` | Актуальная версия Sonnet | Повседневная разработка |
+| `opus` | Актуальная версия Opus | Сложный архитектурный анализ и рассуждения |
+| `fable` | Модель класса Fable для вашего провайдера | Самые сложные и продолжительные автономные задачи |
+| `best` | Fable (если доступна на аккаунте), иначе Opus | Требуется максимально мощная модель из доступных |
+| `haiku` | Haiku | Быстрые простые задачи |
+| `opusplan` | Opus в режиме планирования, Sonnet для реализации плана | Глубокое проектирование при экономичном исполнении |
+| `opus[1m]` | Opus с контекстным окном в 1 миллион токенов | Очень длинные сессии у провайдеров, где у `opus` окно меньше |
 
-- An alias moves to a newer model over time. To stay on one version, use its full model name, such as `claude-opus-5-5`, from the [models overview](https://platform.claude.com/docs/en/about-claude/models/overview).
-- `default` isn't an alias: it clears any model you picked and returns to your account's default.
-- On other providers an alias can resolve to an older model: `sonnet` does on Claude Platform on AWS, Amazon Bedrock, Google Cloud's Agent Platform and Microsoft Foundry, and `opus` does on Microsoft Foundry. The [alias table](https://code.claude.com/docs/en/model-config#model-aliases) lists them.
-- Fable can draw on usage credits depending on your plan and seat ([Fable and usage credits](https://code.claude.com/docs/en/model-config#fable-and-usage-credits)).
+- Псевдоним со временем переключается на более новые модели семейства. Чтобы зафиксировать точную версию, укажите ее полное имя (например, `claude-opus-5-5`) из [models overview](https://platform.claude.com/docs/en/about-claude/models/overview).
+- Имя `default` не является псевдонимом: оно сбрасывает выбранную модель к значению по умолчанию для вашего аккаунта.
+- У сторонних облачных провайдеров псевдоним может указывать на предыдущие поколения моделей: `sonnet` на Claude Platform on AWS, Amazon Bedrock, Google Cloud Agent Platform и Microsoft Foundry, а `opus` на Microsoft Foundry. Полный список приведен в [alias table](https://code.claude.com/docs/en/model-config#model-aliases).
+- Модели класса Fable могут расходовать дополнительные кредиты использования в зависимости от вашего плана и типа лицензии ([Fable and usage credits](https://code.claude.com/docs/en/model-config#fable-and-usage-credits)).
 
-The default model differs by account type and provider. Check yours with `/model` or `/status`, and see [Default model setting](https://code.claude.com/docs/en/model-config#default-model-setting) for the rules.
+Модель по умолчанию зависит от типа учетной записи и провайдера. Проверить текущую модель можно командами `/model` или `/status`, а правила разрешения описаны в [Default model setting](https://code.claude.com/docs/en/model-config#default-model-setting).
 
-## Effort levels
+<a id="effort-levels"></a>
+## Уровни рассуждений (Effort levels)
 
-Effort controls how much the model reasons on each step. Lower effort answers sooner and spends fewer tokens; higher effort checks more of its own work ([Adjust effort level](https://code.claude.com/docs/en/model-config#adjust-effort-level)).
+Уровень усилий (effort) определяет глубину логических рассуждений модели на каждом шаге. Низкий уровень дает быстрые ответы и тратит меньше токенов; высокий уровень выполняет глубокую самопроверку ([Adjust effort level](https://code.claude.com/docs/en/model-config#adjust-effort-level)).
 
-| Level | Fits |
+| Уровень | Для каких задач подходит |
 |---|---|
-| `low` | Quick exchanges where you review each result: a first sketch, a rename |
-| `medium` | Day-to-day work with a clear scope, such as a new feature, on the models where it is the default; elsewhere, a cheaper level that gives up some capability |
-| `high` | Work where edge cases are likely, such as fixing a bug in existing code |
-| `xhigh` | Deeper reasoning at a higher token spend |
-| `max` | Hard problems Claude works through without you; test it before relying on it, since it can overthink |
+| `low` | Быстрые взаимодействия с вашим контролем каждого шага: набросок идеи, переименование |
+| `medium` | Повседневная работа с четкими границами (например, новая функциональность) на моделях, где этот уровень дефолтный; в остальных случаях - более экономный режим |
+| `high` | Задачи с вероятными граничными случаями (исправление багов в существующем коде) |
+| `xhigh` | Глубокий анализ ценой повышенного расхода токенов |
+| `max` | Сложнейшие задачи, решаемые Claude автономно; требует предварительного тестирования, так как модель склонна к избыточному анализу |
 
-- Which levels a model offers, and which one it starts at, differ by model: see the [levels per model](https://code.claude.com/docs/en/model-config#adjust-effort-level) in the docs. `/effort status` prints the level in effect.
-- Set a level the model doesn't offer and Claude Code uses the highest level it does offer below that.
-- The scale is calibrated per model, so `high` on one model is not the same amount of reasoning as `high` on another.
+- Доступные уровни и значение по умолчанию различаются в зависимости от модели: см. [levels per model](https://code.claude.com/docs/en/model-config#adjust-effort-level) в документации. Команда `/effort status` выводит активный уровень.
+- При указании неподдерживаемого уровня Claude Code выбирает наивысший доступный уровень ниже указанного.
+- Шкала откалибрована индивидуально под каждую модель, поэтому `high` для одной модели не равен объему рассуждений `high` для другой.
 
-## Setting effort
+<a id="setting-effort"></a>
+## Настройка уровня усилий
 
-| Where | How long it lasts |
+| Где настраивается | Срок действия настройки |
 |---|---|
-| `/effort <level>`, or `/effort` for a slider | Saved as your default for that model; press `s` in the slider for this session only |
-| The effort slider in `/model` | The same as `/effort` |
-| `claude --effort <level>` | This session |
-| `CLAUDE_CODE_EFFORT_LEVEL` environment variable | Every session started with it. It overrides the other sources, though a `maxEffortLevel` cap still applies |
-| `modelSettings` or `effortLevel` in a settings file | Every session the file applies to. `modelSettings` sets one model's level; a top-level `effortLevel` in your user settings doesn't apply to the newest models |
-| `effort` in a skill's or subagent's frontmatter | While that skill or subagent runs |
+| `/effort <level>` или `/effort` для вызова ползунка | Сохраняется как настройка по умолчанию для данной модели; клавиша `s` в ползунке применяет только к текущей сессии |
+| Ползунок усилий в команде `/model` | Аналогично вызову `/effort` |
+| Флаг командной строки `claude --effort <level>` | Только текущая сессия |
+| Переменная окружения `CLAUDE_CODE_EFFORT_LEVEL` | Все сессии с этой переменной (переопределяет другие источники, но подчиняется ограничению `maxEffortLevel`) |
+| Параметры `modelSettings` или `effortLevel` в конфигурационном файле | Все сессии в области видимости файла. `modelSettings` задает уровень конкретной модели; верхнеуровневый `effortLevel` в пользовательских настройках не действует на новейшие модели |
+| Поле `effort` во frontmatter навыка или субагента | На время выполнения этого навыка или субагента |
 
-`/effort auto` clears the level you saved for the current model; the model then uses an `effortLevel` from your settings if one applies, otherwise its own default ([Set the effort level](https://code.claude.com/docs/en/model-config#set-the-effort-level)).
+Команда `/effort auto` сбрасывает сохраненный уровень для текущей модели: после этого модель использует `effortLevel` из настроек (если задан) либо собственное значение по умолчанию ([Set the effort level](https://code.claude.com/docs/en/model-config#set-the-effort-level)).
 
-## Gotchas
+<a id="gotchas"></a>
+## Важные нюансы
 
-- `max` applies to the current session only, unless you set it with `CLAUDE_CODE_EFFORT_LEVEL`. The `effortLevel` and `modelSettings` settings don't accept it.
-- `ultrathink` in a prompt asks for deeper reasoning on that turn only and leaves the effort level unchanged. Phrases such as "think hard" are ordinary text ([Use ultrathink](https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning)).
-- Ultracode is a setting, not an effort level: with it on, Claude plans a [dynamic workflow](https://code.claude.com/docs/en/workflows) for each substantive task, at whatever level the session runs ([Model configuration](https://code.claude.com/docs/en/model-config#adjust-effort-level)).
-- Switching models in the middle of a session recomputes the whole request, and on most models so does changing effort, so Claude Code may ask you to confirm first ([Prompt caching](https://code.claude.com/docs/en/prompt-caching)).
+- Уровень `max` действует только на текущую сессию, если не задан через `CLAUDE_CODE_EFFORT_LEVEL`. Параметры конфигурации `effortLevel` и `modelSettings` его не принимают.
+- Ключевое слово `ultrathink` в запросе включает углубленные рассуждения строго на один шаг и не меняет общий уровень effort. Фразы вроде «подумай получше» воспринимаются как обычный текст ([Use ultrathink](https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning)).
+- Ultracode является настройкой поведения, а не уровнем effort: при его включении Claude строит план [динамического воркфлоу](https://code.claude.com/docs/en/workflows) для каждой комплексной задачи на текущем уровне effort сессии ([Model configuration](https://code.claude.com/docs/en/model-config#adjust-effort-level)).
+- Смена модели посреди сессии приводит к пересчету всего контекста запроса (на большинстве моделей изменение effort делает то же самое), поэтому Claude Code может предварительно запросить подтверждение ([Prompt caching](https://code.claude.com/docs/en/prompt-caching)).
 
-<a id="fast-mode"></a>
-## Related pages
+<a id="fast-mode"></a><a id="related-pages"></a>
+## Связанные разделы
 
-- Fast mode, which the docs mark "in research preview": a faster configuration of supported Opus models that subscription plans pay for with usage credits only. See [Fast mode](https://code.claude.com/docs/en/fast-mode), and the [Fast mode](../intermediate/electives/fast-mode.md) Elective.
-- Choosing a model and effort for a task: Anthropic's [Choosing a Claude model and effort level in Claude Code](https://claude.com/blog/claude-model-and-effort-level-in-claude-code).
-- Retirement dates: [Model deprecations](https://platform.claude.com/docs/en/about-claude/model-deprecations).
+- Быстрый режим (Fast mode), отмеченный в документации как research preview: ускоренная конфигурация поддерживаемых моделей Opus, оплачиваемая в тарифах по подписке только кредитными баллами (usage credits). См. [Fast mode](https://code.claude.com/docs/en/fast-mode) и факультатив [Быстрый режим](../intermediate/electives/fast-mode.md).
+- Выбор модели и уровня рассуждений для задачи: статья Anthropic [Choosing a Claude model and effort level in Claude Code](https://claude.com/blog/claude-model-and-effort-level-in-claude-code).
+- Даты вывода моделей из эксплуатации: [Model deprecations](https://platform.claude.com/docs/en/about-claude/model-deprecations).
 
 <a id="pricing"></a><a id="subscription-plans"></a><a id="api-pay-as-you-go"></a>
-The guide carries no prices or plan limits. See [claude.com/pricing](https://claude.com/pricing) for plans and [API pricing](https://platform.claude.com/docs/en/about-claude/pricing) for per-token rates.
+В данном руководстве не приводятся цены и тарифные лимиты. Актуальные данные доступны на страницах [claude.com/pricing](https://claude.com/pricing) (подписки) и [API pricing](https://platform.claude.com/docs/en/about-claude/pricing) (тарификация токенов).
 
 ---
 

@@ -1,64 +1,67 @@
-<a id="slash-commands--cheatsheet"></a>
-# Commands by level
+<a id="slash-commands--cheatsheet"></a><a id="commands-by-level"></a>
+# Команды по уровням
 
 <sub>Verified against Claude Code v2.1.285 (stable) on 2026-10-05</sub>
 
-The built-in commands, bundled skills and workflows, and `claude` command-line forms the lessons use, grouped by the level that teaches them. It is not the full list: the official [commands reference](https://code.claude.com/docs/en/commands#all-commands) has every command and its options, the [CLI reference](https://code.claude.com/docs/en/cli-reference#cli-flags) has the command-line flags, and typing `/` in a session shows the commands available to you.
+Встроенные команды, системные навыки, воркфлоу и формы вызова `claude` из терминала, сгруппированные по уровням руководства. Это не полный перечень: официальный справочник [commands reference](https://code.claude.com/docs/en/commands#all-commands) описывает все команды и опции, [CLI reference](https://code.claude.com/docs/en/cli-reference#cli-flags) содержит флаги командной строки, а ввод символа `/` в терминале выводит список команд, доступных в текущей сессии.
 
-<a id="common-built-in-slash-commands"></a>
-## Beginner
+<a id="common-built-in-slash-commands"></a><a id="beginner"></a>
+## Начальный уровень (Beginner)
 
-- `/status`: your version, model, account and connectivity. [Install, sign in and look around](../beginner/01-install-and-look-around.md)
-- `/exit`: end the session. [Install, sign in and look around](../beginner/01-install-and-look-around.md)
-- `/plan`: enter plan mode from the prompt, optionally with the task. [Permission modes and plan mode](../beginner/02-permission-modes-and-plan-mode.md)
-- `/diff`: review the changes in your working tree, including Claude's edits. [Your first change, from request to commit](../beginner/03-first-change.md)
-- `/context`: how full the context window is, as a colored grid. [Keep a session on track](../beginner/04-keep-a-session-on-track.md)
-- `/clear`: start a new conversation with empty context. [Keep a session on track](../beginner/04-keep-a-session-on-track.md)
-- `/compact`: summarize the conversation so far to free context. [Keep a session on track](../beginner/04-keep-a-session-on-track.md)
-- `/rewind`: go back to an earlier point in the conversation, the code, or both ([Checkpointing](https://code.claude.com/docs/en/checkpointing)). [Keep a session on track](../beginner/04-keep-a-session-on-track.md)
-- `/resume`: pick up an earlier conversation ([Manage sessions](https://code.claude.com/docs/en/sessions)). [Keep a session on track](../beginner/04-keep-a-session-on-track.md)
-- `/init`: write a starting `CLAUDE.md` for the project. [Project memory with CLAUDE.md](../beginner/05-project-memory.md)
-- `/memory`: edit `CLAUDE.md` files and manage auto memory. [Project memory with CLAUDE.md](../beginner/05-project-memory.md)
+- `/status`: информация о версии, модели, аккаунте и сетевом подключении. [Установка, вход и знакомство с интерфейсом](../beginner/01-install-and-look-around.md)
+- `/exit`: завершение сессии. [Установка, вход и знакомство с интерфейсом](../beginner/01-install-and-look-around.md)
+- `/plan`: переход в режим планирования из строки ввода (опционально с текстом задачи). [Режимы разрешений и режим планирования](../beginner/02-permission-modes-and-plan-mode.md)
+- `/diff`: просмотр изменений в рабочей копии, включая правки Claude. [Первое изменение: от запроса до коммита](../beginner/03-first-change.md)
+- `/context`: степень заполнения контекстного окна в виде цветной сетки. [Контроль контекста и точность сессии](../beginner/04-keep-a-session-on-track.md)
+- `/clear`: начало нового диалога с чистым контекстом. [Контроль контекста и точность сессии](../beginner/04-keep-a-session-on-track.md)
+- `/compact`: сжатие истории диалога для освобождения контекста. [Контроль контекста и точность сессии](../beginner/04-keep-a-session-on-track.md)
+- `/rewind`: возврат к предыдущей точке диалога, кода или обоих состояний ([Checkpointing](https://code.claude.com/docs/en/checkpointing)). [Контроль контекста и точность сессии](../beginner/04-keep-a-session-on-track.md)
+- `/resume`: возобновление одной из прошлых сессий ([Manage sessions](https://code.claude.com/docs/en/sessions)). [Контроль контекста и точность сессии](../beginner/04-keep-a-session-on-track.md)
+- `/init`: генерация начального файла `CLAUDE.md` для проекта. [Память проекта с CLAUDE.md](../beginner/05-project-memory.md)
+- `/memory`: редактирование файлов `CLAUDE.md` и управление автоматической памятью. [Память проекта с CLAUDE.md](../beginner/05-project-memory.md)
 
-Electives: `/powerup` and `/output-style` ([the built-in teachers](../beginner/electives/built-in-teachers.md)).
+Факультативы: `/powerup` и `/output-style` ([Встроенные обучающие инструменты](../beginner/electives/built-in-teachers.md)).
 
-## Intermediate
+<a id="intermediate"></a>
+## Средний уровень (Intermediate)
 
-- `/skills`: list the skills available in this session. [Turn a repeated workflow into a skill](../intermediate/01-first-skill.md)
-- `/doctor`: check your setup; `/doctor prompt-audit` checks your instruction files. [Organize project memory and see what loaded](../intermediate/02-organize-memory.md)
-- `/model`: switch the model and save it as your default; for models that support it, the left and right arrow keys adjust effort. [Pick the model and effort](../intermediate/03-model-and-effort.md)
-- `/effort`: set the effort level. [Pick the model and effort](../intermediate/03-model-and-effort.md)
-- `/permissions`: manage allow, ask and deny rules. [Permissions, settings scopes and the sandbox](../intermediate/04-permissions-and-sandbox.md)
-- `/sandbox`: turn the sandbox on or off. [Permissions, settings scopes and the sandbox](../intermediate/04-permissions-and-sandbox.md)
-- `/hooks`: see which hooks are configured. [Enforce a rule with a hook](../intermediate/05-hooks.md)
-- `/agents`: a reminder of how to create and manage subagents. [Delegate to a custom subagent](../intermediate/06-subagents.md)
-- `/mcp`: manage MCP server connections and sign-ins. [Connect a tool with MCP](../intermediate/07-mcp.md)
-- `/plugin`: browse, install and manage plugins. [Install and manage plugins](../intermediate/08-plugins.md)
+- `/skills`: список навыков, доступных в текущей сессии. [Превращение повторяющегося процесса в навык](../intermediate/01-first-skill.md)
+- `/doctor`: диагностика окружения; команда `/doctor prompt-audit` проверяет файлы инструкций. [Организация памяти проекта и проверка загрузки](../intermediate/02-organize-memory.md)
+- `/model`: переключение модели с сохранением значения по умолчанию; клавиши стрелок регулируют effort на поддерживаемых моделях. [Выбор модели и глубины рассуждений](../intermediate/03-model-and-effort.md)
+- `/effort`: выбор уровня усилий рассуждений. [Выбор модели и глубины рассуждений](../intermediate/03-model-and-effort.md)
+- `/permissions`: управление правилами allow, ask и deny. [Разрешения, области видимости настроек и песочница](../intermediate/04-permissions-and-sandbox.md)
+- `/sandbox`: включение и выключение песочницы. [Разрешения, области видимости настроек и песочница](../intermediate/04-permissions-and-sandbox.md)
+- `/hooks`: просмотр настроенных перехватчиков событий (хуков). [Применение правил с помощью хуков](../intermediate/05-hooks.md)
+- `/agents`: справочная панель по созданию субагентов и управлению ими. [Делегирование кастомному субагенту](../intermediate/06-subagents.md)
+- `/mcp`: управление подключениями и авторизацией MCP-серверов. [Подключение инструментов через MCP](../intermediate/07-mcp.md)
+- `/plugin`: обзор, установка и управление плагинами. [Установка плагинов и управление ими](../intermediate/08-plugins.md)
 
-Electives: `/statusline` ([The status line](../intermediate/electives/status-line.md)); `/chrome` ([Claude in Chrome](../intermediate/electives/claude-in-chrome.md)); `/fast` ([Fast mode](../intermediate/electives/fast-mode.md)).
+Факультативы: `/statusline` ([Строка состояния](../intermediate/electives/status-line.md)); `/chrome` ([Claude в Chrome](../intermediate/electives/claude-in-chrome.md)); `/fast` ([Быстрый режим](../intermediate/electives/fast-mode.md)).
 
-## Advanced
+<a id="advanced"></a>
+## Продвинутый уровень (Advanced)
 
-- `claude --worktree <name>` (`-w`): start a session in an isolated git worktree at `.claude/worktrees/<name>` ([CLI reference](https://code.claude.com/docs/en/cli-reference#cli-flags)). [Parallel sessions with worktrees](../advanced/01-parallel-sessions.md)
-- `/tasks`: view and manage background work in this session, including subagents that have finished. [Choose an orchestration pattern](../advanced/02-orchestration-patterns.md)
-- `/workflows`: watch, pause, resume and save dynamic workflows. [Run and save a dynamic workflow](../advanced/03-dynamic-workflows.md)
-- `/deep-research <question>`: a bundled workflow that fans out web searches on a question, cross-checks the sources and writes a cited report. [Run and save a dynamic workflow](../advanced/03-dynamic-workflows.md)
-- `claude -p "<prompt>"`: run one prompt without the interactive interface, print the answer and exit; a script adds `--output-format json`, `--allowedTools` and `--max-turns` ([CLI reference](https://code.claude.com/docs/en/cli-reference#cli-commands)). [Script Claude Code with `claude -p`](../advanced/04-headless.md)
-- `/install-github-app`: install the Claude GitHub App for a repository, with optional workflow and secret setup. [GitHub Actions](../advanced/05-github-actions.md)
-- `claude plugin validate <dir>`: check a marketplace or a plugin folder before you share it; `--strict` also fails on warnings ([Plugin commands reference](https://code.claude.com/docs/en/plugins/cli-reference#plugin-validate)). [Share your setup with a team](../advanced/06-share-your-setup.md)
-- `/usage`: the session's cost, your plan's usage limits and activity stats. [Put bounds on autonomous runs](../advanced/07-bounded-runs.md)
+- `claude --worktree <name>` (`-w`): запуск сессии в изолированном git worktree по пути `.claude/worktrees/<name>` ([CLI reference](https://code.claude.com/docs/en/cli-reference#cli-flags)). [Параллельные сессии с worktree](../advanced/01-parallel-sessions.md)
+- `/tasks`: просмотр и управление фоновыми задачами в сессии, включая завершенные субагенты. [Выбор паттерна оркестрации](../advanced/02-orchestration-patterns.md)
+- `/workflows`: отслеживание, пауза, возобновление и сохранение динамических воркфлоу. [Запуск и сохранение динамического воркфлоу](../advanced/03-dynamic-workflows.md)
+- `/deep-research <question>`: встроенный воркфлоу, распараллеливающий поиск по веб-источникам, проверяющий факты и формирующий отчет со ссылками. [Запуск и сохранение динамического воркфлоу](../advanced/03-dynamic-workflows.md)
+- `claude -p "<prompt>"`: выполнение одиночного запроса без интерактивного режима, вывод ответа в stdout и выход; для скриптов используются флаги `--output-format json`, `--allowedTools` и `--max-turns` ([CLI reference](https://code.claude.com/docs/en/cli-reference#cli-commands)). [Автоматизация Claude Code с помощью `claude -p`](../advanced/04-headless.md)
+- `/install-github-app`: установка приложения Claude GitHub App для репозитория с настройкой воркфлоу и секретов. [Интеграция с GitHub Actions](../advanced/05-github-actions.md)
+- `claude plugin validate <dir>`: валидация маркетплейса или папки плагина перед публикацией; флаг `--strict` переводит предупреждения в ошибки ([Plugin commands reference](https://code.claude.com/docs/en/plugins/cli-reference#plugin-validate)). [Совместное использование настроек в команде](../advanced/06-share-your-setup.md)
+- `/usage`: статистика стоимости сессии, лимиты тарифа и активность. [Ограничения для автономных запусков](../advanced/07-bounded-runs.md)
 
-Electives: `claude agents` and `/background` ([Agent view](../advanced/electives/agent-view.md)); `/goal`, `/loop` and `/schedule` ([`/goal`, `/loop` and routines](../advanced/electives/goal-loop-routines.md)); `claude plugin eval` ([Testing and publishing a plugin](../advanced/electives/publish-a-plugin.md)).
+Факультативы: `claude agents` и `/background` ([Режим Agent view](../advanced/electives/agent-view.md)); `/goal`, `/loop` и `/schedule` ([`/goal`, `/loop` и рутины](../advanced/electives/goal-loop-routines.md)); `claude plugin eval` ([Тестирование и публикация плагина](../advanced/electives/publish-a-plugin.md)).
 
-<a id="custom-slash-commands-skills"></a>
-## Your own commands
+<a id="custom-slash-commands-skills"></a><a id="your-own-commands"></a>
+## Пользовательские команды
 
-A command you write yourself is a skill: a `SKILL.md` file in `.claude/skills/<name>/`, or a Markdown file in `.claude/commands/`, the older format ([Extend Claude with skills](https://code.claude.com/docs/en/skills)). The Intermediate lesson [Turn a repeated workflow into a skill](../intermediate/01-first-skill.md) teaches them.
+Собственная команда создается в виде навыка (skill): файла `SKILL.md` в папке `.claude/skills/<name>/` или Markdown-файла в устаревшем формате в `.claude/commands/` ([Extend Claude with skills](https://code.claude.com/docs/en/skills)). Их создание подробно рассмотрено в уроке [Превращение повторяющегося процесса в навык](../intermediate/01-first-skill.md).
 
-## Shortcuts and cheat sheets
+<a id="shortcuts-and-cheat-sheets"></a>
+## Горячие клавиши и шпаргалки
 
-- [Interactive mode](https://code.claude.com/docs/en/interactive-mode): keyboard shortcuts, input modes and interactive features.
-- [Claude Code cheatsheet](https://support.claude.com/en/articles/14553413-claude-code-cheatsheet): the commands and shortcuts worth learning first.
+- [Interactive mode](https://code.claude.com/docs/en/interactive-mode): горячие клавиши, режимы ввода и интерактивные функции.
+- [Claude Code cheatsheet](https://support.claude.com/en/articles/14553413-claude-code-cheatsheet): ключевые команды и комбинации клавиш для быстрого старта.
 
 ---
 
