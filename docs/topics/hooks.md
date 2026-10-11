@@ -2,7 +2,7 @@
 
 <sub>Topic · Verified against Claude Code v2.1.285 (stable) on 2026-10-05</sub>
 
-Commands that run at fixed points in a session, so a rule holds without relying on Claude to remember it.
+Команды, которые выполняются в фиксированные моменты сессии, гарантируя соблюдение правил без необходимости полагаться на память Claude. <details style="display:inline"><summary><code>[en]</code></summary>Commands that run at fixed points in a session, so a rule holds without relying on Claude to remember it.</details>
 
 ## Lessons
 

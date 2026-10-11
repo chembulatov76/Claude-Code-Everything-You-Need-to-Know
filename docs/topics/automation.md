@@ -2,7 +2,7 @@
 
 <sub>Topic · Verified against Claude Code v2.1.285 (stable) on 2026-10-05</sub>
 
-Running Claude Code without a person at the keyboard: scripts, CI and schedules.
+Автономный запуск Claude Code без человека за клавиатурой: скрипты, CI/CD и запуск по расписанию. <details style="display:inline"><summary><code>[en]</code></summary>Running Claude Code without a person at the keyboard: scripts, CI and schedules.</details>
 
 ## Lessons
 

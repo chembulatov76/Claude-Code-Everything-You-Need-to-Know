@@ -2,7 +2,7 @@
 
 <sub>Topic · Verified against Claude Code v2.1.285 (stable) on 2026-10-05</sub>
 
-Ways to split work across contexts and sessions: subagents, worktrees, dynamic workflows and agent teams.
+Способы разделения задач между контекстами и сессиями: субагенты, worktrees, динамические воркфлоу и команды агентов. <details style="display:inline"><summary><code>[en]</code></summary>Ways to split work across contexts and sessions: subagents, worktrees, dynamic workflows and agent teams.</details>
 
 ## Lessons
 

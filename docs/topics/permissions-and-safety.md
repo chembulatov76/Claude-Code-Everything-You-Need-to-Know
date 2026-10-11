@@ -2,7 +2,7 @@
 
 <sub>Topic · Verified against Claude Code v2.1.285 (stable) on 2026-10-05</sub>
 
-What Claude Code may do without asking, and how to keep it away from what it shouldn't touch.
+Что Claude Code может выполнять без подтверждения пользователя и как защитить систему от нежелательных действий. <details style="display:inline"><summary><code>[en]</code></summary>What Claude Code may do without asking, and how to keep it away from what it shouldn't touch.</details>
 
 ## Lessons
 

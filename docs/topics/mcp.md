@@ -2,7 +2,7 @@
 
 <sub>Topic · Verified against Claude Code v2.1.285 (stable) on 2026-10-05</sub>
 
-Connecting Claude Code to outside tools and data with the Model Context Protocol.
+Подключение Claude Code к внешним инструментам и источникам данных с помощью протокола Model Context Protocol. <details style="display:inline"><summary><code>[en]</code></summary>Connecting Claude Code to outside tools and data with the Model Context Protocol.</details>
 
 ## Lessons
 

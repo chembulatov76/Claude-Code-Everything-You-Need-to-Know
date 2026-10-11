@@ -2,7 +2,7 @@
 
 <sub>Topic · Verified against Claude Code v2.1.285 (stable) on 2026-10-05</sub>
 
-Which model and effort level a task needs, and what a session costs.
+Какая модель и уровень мыслительных усилий нужны для конкретной задачи, и как контролировать расходы токенов. <details style="display:inline"><summary><code>[en]</code></summary>Which model and effort level a task needs, and what a session costs.</details>
 
 ## Lessons
 

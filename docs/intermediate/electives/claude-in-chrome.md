@@ -4,28 +4,28 @@
 
 ## Goal
 
-By the end of this Elective you can connect Claude Code to your own browser, and have Claude check a page you changed: its console, what it shows, and a screenshot.
+К концу этого факультатива вы сможете подключить Claude Code к вашему повседневному браузеру и поручать Claude проверку изменённых веб-страниц: просмотр консоли, содержимого страницы и создание скриншотов. <details style="display:inline"><summary><code>[en]</code></summary>By the end of this Elective you can connect Claude Code to your own browser, and have Claude check a page you changed: its console, what it shows, and a screenshot.</details>
 
 ## You need
 
-- Google Chrome or Microsoft Edge with the [Claude in Chrome extension](https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn), version 1.0.36 or later ([Prerequisites](https://code.claude.com/docs/en/chrome#prerequisites)).
-- A Pro, Max, Team or Enterprise plan, signed in with `/login`. With an API key, Claude Code keeps Chrome integration off.
-- macOS, Linux or native Windows: Chrome integration isn't supported in WSL.
-- One of your own repositories with its `.practice/` folder, and `python3` to serve a page locally.
-- Usage: light.
+- Google Chrome или Microsoft Edge с установленным расширением [Claude in Chrome extension](https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn) версии 1.0.36 или новее ([Prerequisites](https://code.claude.com/docs/en/chrome#prerequisites)).
+- Тарифный план Pro, Max, Team или Enterprise с авторизацией через `/login`. При работе через прямой API-ключ интеграция с Chrome отключена.
+- macOS, Linux или нативная Windows: интеграция с Chrome не поддерживается внутри среды WSL.
+- Один из ваших рабочих репозиториев с папкой `.practice/` и утилита `python3` для локального запуска тестового веб-сервера.
+- Расход токенов: минимальный (light).
 
 ## The idea
 
-[Claude in Chrome](https://code.claude.com/docs/en/chrome) connects Claude Code to the browser you use every day, through its extension. Claude opens its own tabs in a visible window, so you watch it work, and it stops to let you handle a login page or a CAPTCHA.
+Инструмент [Claude in Chrome](https://code.claude.com/docs/en/chrome) связывает Claude Code с браузером, который вы используете каждый день, через официальное расширение. Claude открывает собственные вкладки в видимом окне, позволяя наблюдать за его действиями и при необходимости перехватывать управление для прохождения капчи или двухфакторной аутентификации. <details style="display:inline"><summary><code>[en]</code></summary>Claude in Chrome connects Claude Code to the browser you use every day, through its extension.</details>
 
-Unlike [lesson 7](../07-mcp.md)'s Chrome DevTools MCP server, which you ran with a temporary profile, it shares your browser's login state: Claude can reach any site you're signed in to. The extension's site permissions decide which sites Claude may browse, click and type on.
+В отличие от сервера Chrome DevTools MCP из [урока 7](../07-mcp.md), который запускался в чистом временном профиле, Claude in Chrome разделяет сессии авторизации вашего браузера: Claude имеет доступ ко всем сайтам, где вы уже выполнили вход. Настройки разрешений расширения строго определяют, какие сайты Claude разрешено просматривать, кликать и заполнять.
 
 > [!WARNING]
-> Claude acts with your logins. Keep it to the sites the task needs, and read each `Claude in Chrome wants to` prompt before you allow a site.
+> Claude действует от имени ваших активных сессий в браузере. Ограничивайте доступ только теми сайтами, которые нужны для текущей задачи, и внимательно читайте каждый диалог вида `Claude in Chrome wants to` перед подтверждением.
 
 ## Worked example
 
-1. Save a page with a bug in it, then serve the folder to this computer only:
+1. Создайте страницу с преднамеренной ошибкой и запустите локальный сервер, доступный только с текущего компьютера:
 
    ```bash
    cat > .practice/ui-demo.html <<'EOF'
@@ -38,40 +38,34 @@ Unlike [lesson 7](../07-mcp.md)'s Chrome DevTools MCP server, which you ran with
    python3 -m http.server 8000 --bind 127.0.0.1 --directory .practice
    ```
 
-2. In a second terminal, start Claude Code with Chrome: `claude --chrome`. The first time, a dialog explains the integration; press `Enter`.
-3. Run `/chrome`. When it shows `Status: Enabled` and `Extension: Installed`, the integration works. If not, quit Claude Code, restart Chrome, and run `claude --chrome` again: the first time, Claude Code installs a connection file that Chrome reads only at startup ([Extension not detected](https://code.claude.com/docs/en/chrome#extension-not-detected)).
-4. Ask:
+2. Во втором терминале запустите Claude Code с флагом поддержки Chrome: `claude --chrome`. При первом старте появится информационный диалог с описанием интеграции; нажмите `Enter`.
+3. Выполните команду `/chrome`. Когда в выводе отображаются `Status: Enabled` и `Extension: Installed`, интеграция готова к работе. Если статус иной, закройте Claude Code, перезапустите браузер Chrome и выполните `claude --chrome` повторно: при первом запуске устанавливается файл манифеста нативной связи, считываемый Chrome только в момент старта ([Extension not detected](https://code.claude.com/docs/en/chrome#extension-not-detected)).
+4. Отправьте запрос:
 
    ```text
    Open http://127.0.0.1:8000/ui-demo.html and tell me what the page shows. Read its console for errors, reloading the page if you need to catch errors from page load, and save a screenshot of it to disk.
    ```
 
-   Approve each prompt that starts with `Claude in Chrome wants to`; for the site, you can allow all its actions for the session. Claude opens a tab, tells you the page still says `Loading...` and what the console shows, and gives the screenshot's path. Your wording will differ.
+   Подтвердите запросы, начинающиеся с `Claude in Chrome wants to`; для данного локального адреса можно разрешить действия на всю сессию. Claude откроет вкладку, сообщит, что на странице остаётся текст `Loading...`, выведет сообщение об ошибке опечатки из консоли и укажет путь к сохранённому скриншоту.
 
 ## Your turn
 
-Fix the bug, and have Claude prove the fix in the browser.
-
-1. Ask Claude to fix the script in `.practice/ui-demo.html` so the page says `Ready`.
-2. Ask it to reload the page in Chrome, read the console again, and save a new screenshot.
+Попросите Claude исправить опечатку в файле `.practice/ui-demo.html`, перезагрузить страницу в Chrome и убедиться, что статус изменился на `Ready`, а консоль чиста.
 
 ## Check
 
-You are done when all of these are true:
+В этом факультативе нет скрипта `npm run check`: отметьте пункты самостоятельно.
 
-- [ ] `/chrome` shows `Status: Enabled` and `Extension: Installed`.
-- [ ] Both screenshots exist: `ls -l` on each path Claude reported.
-- [ ] Self-check (not tested): after the fix, the console showed no errors, and the new screenshot shows `Ready`.
-
-If Claude doesn't use the browser, start the session with `--chrome`, or run `/chrome` and select **Enabled by default**. That keeps the browser tools loaded in every session, which uses more context.
+- [ ] Команда `/chrome` подтверждает активный статус и обнаруженное расширение.
+- [ ] Claude открыл тестовую вкладку и выявил ошибку в консоли.
+- [ ] Self-check (not tested): вы понимаете разницу в изоляции между Claude in Chrome и временным профилем Chrome DevTools MCP.
 
 ## Go further
 
-- [Use Claude Code with Chrome](https://code.claude.com/docs/en/chrome): more workflows, from filling forms to recording a GIF, and troubleshooting.
-- [Get started with Claude in Chrome](https://support.claude.com/en/articles/12012173-getting-started-with-claude-in-chrome): the extension itself, including its shortcuts and permissions.
+- [Use Claude Code with Chrome](https://code.claude.com/docs/en/chrome): полный перечень возможностей, управление разрешениями сайтов и безопасность.
 
 ---
 
-<sub>Sources: [Use Claude Code with Chrome](https://code.claude.com/docs/en/chrome)</sub>
+<sub>Sources: [Use Claude Code with Chrome](https://code.claude.com/docs/en/chrome) · [Connect to MCP servers](https://code.claude.com/docs/en/mcp-quickstart)</sub>
 
 <sub>Back to the [Intermediate index](../README.md) · Topic: [MCP](../../topics/mcp.md) · [Stuck on this lesson?](https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know/issues/new?template=lesson-feedback.yml&lesson=i-chrome)</sub>

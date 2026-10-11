@@ -4,21 +4,21 @@
 
 ## Goal
 
-By the end of this lesson you can turn a workflow you keep repeating into a project skill that runs when you type its name and loads on its own when a request matches it.
+К концу этого урока вы сможете превратить часто повторяемый рабочий процесс в навык (skill) проекта, который запускается при вводе его имени и подгружается автоматически, когда запрос пользователя соответствует его описанию. <details style="display:inline"><summary><code>[en]</code></summary>By the end of this lesson you can turn a workflow you keep repeating into a project skill that runs when you type its name and loads on its own when a request matches it.</details>
 
 ## You need
 
-- One of your own repositories with a test command and no uncommitted changes, and your copy of the practice template with Node.js LTS: the check runs from the copy. To practice in the template copy instead, use it for both. Set up the repository's `.practice/` folder as [Beginner lesson 1](../beginner/01-install-and-look-around.md#you-need) describes, if you haven't yet.
-- Usage: light to moderate. The Your turn builds one small feature.
+- Один из ваших рабочих репозиториев с настроенной командой запуска тестов и чистым рабочим деревом git, а также ваша учебная копия репозитория с Node.js LTS (проверка запускается из неё). Чтобы практиковаться непосредственно в шаблоне, используйте его для обеих ролей. Настройте папку `.practice/`, как описано в [уроке 1 уровня Beginner](../beginner/01-install-and-look-around.md#you-need), если вы ещё этого не сделали.
+- Расход токенов: от минимального до умеренного. В разделе Your turn реализуется одна небольшая функция.
 
 > [!NOTE]
-> From this level on, the lessons are written for macOS, Linux and WSL 2. On Windows, run Claude Code inside WSL 2 ([Set up on Windows](https://code.claude.com/docs/en/setup#set-up-on-windows)): native Windows has no sandbox, which lesson 4 uses, and the hooks in lesson 5 are bash scripts.
+> Начиная с этого уровня, уроки ориентированы на macOS, Linux и WSL 2. На Windows запускайте Claude Code внутри WSL 2 ([Set up on Windows](https://code.claude.com/docs/en/setup#set-up-on-windows)): в нативной Windows отсутствует механизм песочницы (sandbox), используемый в уроке 4, а скрипты хуков в уроке 5 написаны на bash.
 
 ## The idea
 
-A [skill](https://code.claude.com/docs/en/skills) is a folder holding a `SKILL.md` file: YAML frontmatter that says what the skill is for, then the instructions Claude follows. A project skill lives in `.claude/skills/<name>/SKILL.md`. Commit it, and everyone who works in the repository gets it.
+[Навык (skill)](https://code.claude.com/docs/en/skills) представляет собой папку с файлом `SKILL.md`: YAML-блок frontmatter с описанием назначения навыка и последующий текст инструкций для Claude. Навык проекта размещается по пути `.claude/skills/<name>/SKILL.md`. Закоммитьте его в git, и он станет доступен всем участникам разработки репозитория. <details style="display:inline"><summary><code>[en]</code></summary>A skill is a folder holding a SKILL.md file: YAML frontmatter that says what the skill is for, then the instructions Claude follows. A project skill lives in .claude/skills/<name>/SKILL.md. Commit it, and everyone who works in the repository gets it.</details>
 
-Until a skill runs, at most its description sits in Claude's context. It runs in one of two ways, and either way Claude Code then loads the whole file:
+Пока навык не запущен, в контексте Claude находится только его краткое описание. Навык может выполняться двумя способами, и в обоих случаях Claude Code загружает полный текст файла `SKILL.md`:
 
 ```mermaid
 flowchart LR
@@ -29,20 +29,20 @@ flowchart LR
   C --> D["Claude follows the instructions"]
 ```
 
-- `disable-model-invocation: true` in the frontmatter keeps a skill to the first way. Use it for workflows with side effects, such as a deploy ([Control who invokes a skill](https://code.claude.com/docs/en/skills#control-who-invokes-a-skill)).
-- `$ARGUMENTS` in the body receives whatever you type after the skill's name.
-- A Markdown file in `.claude/commands/` is the older format and still runs as `/name`. Prefer a skill for new work.
+- Параметр `disable-model-invocation: true` в блоке frontmatter оставляет доступным только первый способ запуска (вручную по имени). Используйте его для действий с побочными эффектами (side effects), например деплоя ([Control who invokes a skill](https://code.claude.com/docs/en/skills#control-who-invokes-a-skill)).
+- Переменная `$ARGUMENTS` в теле файла получает всё, что вы вводите после названия навыка.
+- Файл Markdown в папке `.claude/commands/` - устаревший формат, но он по-прежнему поддерживается и запускается как `/name`. Для новых сценариев всегда предпочитайте полноценные навыки (skills).
 
 ## Worked example
 
-1. In your repository, create the skill's folder and download this guide's example skill, [`five-whys`](../../examples/intermediate/01-first-skill/dot-claude/skills/five-whys/SKILL.md). Read it before you use it:
+1. В вашем репозитории создайте папку для навыка и загрузите пример навыка [`five-whys`](../../examples/intermediate/01-first-skill/dot-claude/skills/five-whys/SKILL.md). Обязательно прочитайте файл перед использованием:
 
    ```bash
    mkdir -p .claude/skills/five-whys
    curl -fsSL https://raw.githubusercontent.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know/main/examples/intermediate/01-first-skill/dot-claude/skills/five-whys/SKILL.md -o .claude/skills/five-whys/SKILL.md
    ```
 
-   Leaving out the comment lines at the top of its frontmatter, the file holds:
+   Без учёта комментариев в верхней части frontmatter, файл содержит:
 
    ```markdown
    ---
@@ -54,79 +54,79 @@ flowchart LR
    Find the root cause of this problem: $ARGUMENTS
    ```
 
-   followed by five numbered steps and the rule "Don't change any files."
-2. Start `claude` in the repository and run `/skills` ([Commands](https://code.claude.com/docs/en/commands)). The list includes `five-whys`, marked as a project skill.
-3. Run the skill by name, with a problem from your repository. In the practice template:
+   за которым следуют пять пронумерованных шагов расследования и строгое правило "Don't change any files."
+2. Запустите `claude` в репозитории и выполните команду `/skills` ([Commands](https://code.claude.com/docs/en/commands)). В списке отобразится `five-whys` с отметкой project skill.
+3. Запустите навык по имени, передав проблему из вашего проекта. В учебном шаблоне:
 
    ```text
    /five-whys npm run linkcheck -- samples exits with code 1
    ```
 
-   Claude reproduces the problem, asks "why" from evidence until it reaches a cause the team can change, then reports the chain, the root cause and two fixes. Your wording will differ. In a second terminal, `git status` lists only new files under `.claude/`: the skill told Claude to change nothing.
-4. Run `/clear`, then ask a question that matches the description without naming the skill:
+   Claude воспроизведёт проблему, последовательно задаст вопросы "почему" на основе фактов до выявления первопричины, которую команда в силах устранить, после чего представит цепочку рассуждений, первопричину и два варианта решения. Формулировки могут различаться. Во втором терминале команда `git status` покажет только новые файлы в `.claude/`: навык запретил Claude вносить изменения в кодовую базу.
+4. Выполните `/clear`, затем задайте вопрос, соответствующий описанию навыка, не называя сам навык:
 
    ```text
    Why does the test suite pass even though samples/guide.md has a broken link? I want the root cause, not a quick fix.
    ```
 
-   Before Claude answers, the transcript shows a call to the `Skill` tool for `five-whys`: Claude loaded the skill on its own ([Tools reference](https://code.claude.com/docs/en/tools-reference)).
+   Перед ответом в транскрипте сессии отобразится вызов инструмента `Skill` для `five-whys`: Claude самостоятельно определил релевантность и подгрузил навык ([Tools reference](https://code.claude.com/docs/en/tools-reference)).
 
 ## Your turn
 
-Finish a partial skill that builds features test-first, then use it both ways.
+Доработайте заготовку навыка для разработки через тестирование (TDD) и опробуйте оба способа его вызова.
 
-1. Download the partial [`tdd` skill](../../examples/intermediate/01-first-skill/dot-claude/skills/tdd/SKILL.md):
+1. Загрузите заготовку навыка [`tdd`](../../examples/intermediate/01-first-skill/dot-claude/skills/tdd/SKILL.md):
 
    ```bash
    mkdir -p .claude/skills/tdd
    curl -fsSL https://raw.githubusercontent.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know/main/examples/intermediate/01-first-skill/dot-claude/skills/tdd/SKILL.md -o .claude/skills/tdd/SKILL.md
    ```
 
-   Its frontmatter has `description: TODO` and `disable-model-invocation: true`, and its steps end like this:
+   В его frontmatter указано `description: TODO` и `disable-model-invocation: true`, а шаги оканчиваются так:
 
    ```markdown
    2. Green: TODO
    3. Refactor: TODO
    ```
 
-2. In your editor, finish it:
-   - replace `TODO` in the description with a sentence or two: what the skill does, and when Claude should use it;
-   - delete the `disable-model-invocation: true` line;
-   - write the Green and Refactor steps, keeping the Red step's style.
-3. Commit the skill: `git add .claude/skills/tdd/SKILL.md`, then `git commit -m "Add a tdd skill"`.
-4. In a session, run it by name on a small feature. In the practice template:
+2. В редакторе допишите навык:
+   - замените `TODO` в поле `description` одним-двумя предложениями: что делает навык и в каких ситуациях Claude должен его применять;
+   - удалите строку `disable-model-invocation: true`;
+   - опишите шаги Green и Refactor, соблюдая лаконичный стиль шага Red.
+3. Закоммитьте навык в git: `git add .claude/skills/tdd/SKILL.md`, затем `git commit -m "Add a tdd skill"`.
+4. В сессии вызовите его по имени для создания небольшой функции. В учебном шаблоне:
 
    ```text
    /tdd a slugify(heading) function in src/slug.js that turns a Markdown heading into its link anchor: lowercase, punctuation dropped, spaces turned into hyphens
    ```
 
-   Approve its edits and test runs, and let it commit. Then save that commit: `git rev-parse HEAD > .practice/i-1-commit.txt`.
-5. Run `/clear` and ask for another small feature test-first, without naming the skill, such as `Add a countHeadings(markdown) function, test-first.` Watch for Claude to run `tdd` through the `Skill` tool on its own. Once you've seen it, you can press `Esc` to stop Claude ([Interactive mode](https://code.claude.com/docs/en/interactive-mode)) and `/rewind` to undo its edits ([Checkpointing](https://code.claude.com/docs/en/checkpointing)), as in [Beginner lesson 4](../beginner/04-keep-a-session-on-track.md).
+   Подтвердите создание файлов и запуск тестов, позволив Claude закоммитить изменения. Сохраните хеш этого коммита: `git rev-parse HEAD > .practice/i-1-commit.txt`.
+5. Выполните команду `/clear` и попросите реализовать ещё одну небольшую функцию методом TDD, не упоминая название навыка (например, `Add a countHeadings(markdown) function, test-first.`). Убедитесь, что Claude самостоятельно вызвал `tdd` через инструмент `Skill`. Увидев срабатывание, вы можете нажать `Esc` для остановки генерации ([Interactive mode](https://code.claude.com/docs/en/interactive-mode)) и команду `/rewind` для отката правок ([Checkpointing](https://code.claude.com/docs/en/checkpointing)), как в [уроке 4 уровня Beginner](../beginner/04-keep-a-session-on-track.md).
 
 ## Check
 
-You are done when all of these are true:
+Задание выполнено, когда выполняются все условия:
 
-- [ ] The finished skill is committed with no TODO left: `git grep -n TODO HEAD -- .claude/skills/tdd` prints nothing.
-- [ ] It can run as `/tdd` and load on its own: `git show HEAD:.claude/skills/tdd/SKILL.md` shows a description of what it does and when to use it, and no `disable-model-invocation: true`.
-- [ ] The commit saved in `.practice/i-1-commit.txt` holds a test and the code it tests: `git show --stat $(cat .practice/i-1-commit.txt)` lists both.
-- [ ] Self-check (not tested): `/tdd` ran the skill, and in a cleared conversation Claude loaded `tdd` on its own.
+- [ ] Завершённый навык закоммичен без оставшихся пометок TODO: команда `git grep -n TODO HEAD -- .claude/skills/tdd` ничего не выводит.
+- [ ] Навык может вызываться как `/tdd` и загружаться автоматически: `git show HEAD:.claude/skills/tdd/SKILL.md` содержит описание назначения и условий применения, а параметр `disable-model-invocation: true` отсутствует.
+- [ ] Коммит из `.practice/i-1-commit.txt` содержит тесты и реализуемый ими код: `git show --stat $(cat .practice/i-1-commit.txt)` показывает и то, и другое.
+- [ ] Self-check (not tested): команда `/tdd` успешно запустила навык, а в очищенном диалоге Claude загрузил `tdd` самостоятельно.
 
-Run `npm run check -- i-1 --dir <your repo>` from your practice copy, or `npm run check -- i-1` in the copy itself.
+Запустите `npm run check -- i-1 --dir <your repo>` из учебной копии, либо `npm run check -- i-1` в самой учебной копии.
 
-If the skill isn't committed, run `git check-ignore -v .claude/skills/tdd/SKILL.md`: an ignore rule that matches `.claude`, in a `.gitignore`, `.git/info/exclude` or your global excludes file, hides the folder from `git add`, so add the file with `git add -f`. If the second item fails, rewrite the description as what the skill does followed by "Use when" and the requests it fits, because Claude reads only the description when it decides whether to load a skill. If the commit item fails, run `/tdd` again on a new small feature and let it commit the test with the code.
+Если навык не закоммичен, выполните `git check-ignore -v .claude/skills/tdd/SKILL.md`: правило игнорирования `.claude` в `.gitignore` или `.git/info/exclude` может скрывать папку от индексации; в таком случае добавьте файл принудительно через `git add -f`. Если не проходит второй пункт, сформулируйте описание в виде сути действий навыка, за которой следует фраза "Use when" с перечислением подходящих запросов пользователя: при принятии решения об автоматической загрузке Claude считывает только поле description. Если не проходит пункт с коммитом, запустите `/tdd` заново для другой небольшой функции и разрешите закоммитить тесты вместе с кодом.
 
 ## Watch out
 
-- A skill can pre-approve tools with `allowed-tools`, and Claude Code applies a project skill's grant even in a `claude -p` run in a folder you've never trusted ([Pre-approve tools for a skill](https://code.claude.com/docs/en/skills#pre-approve-tools-for-a-skill)). Read the skills in a repository before you run Claude Code there.
-- If `.claude/skills/` didn't exist when the session started, run `/reload-skills` before the new skill shows up ([Edit a skill during a session](https://code.claude.com/docs/en/skills#live-change-detection)).
-- Once a skill runs, its text stays in the conversation and Claude Code doesn't re-read the file. After you edit a skill, run it again so Claude gets the new version ([Skill content lifecycle](https://code.claude.com/docs/en/skills#skill-content-lifecycle)).
+- Навык может заранее разрешать вызов инструментов через `allowed-tools`, и Claude Code применяет права проектного навыка даже при запуске `claude -p` в каталоге, которому вы ещё не подтверждали доверие ([Pre-approve tools for a skill](https://code.claude.com/docs/en/skills#pre-approve-tools-for-a-skill)). Всегда просматривайте навыки в репозитории перед запуском Claude Code.
+- Если папки `.claude/skills/` не существовало в момент старта сессии, выполните `/reload-skills`, чтобы Claude Code обнаружил добавленный навык ([Edit a skill during a session](https://code.claude.com/docs/en/skills#live-change-detection)).
+- После первого вызова навыка его текст остаётся в истории диалога, и Claude Code не перечитывает файл с диска на каждом шаге. После редактирования навыка вызовите его повторно, чтобы обновить контекст ([Skill content lifecycle](https://code.claude.com/docs/en/skills#skill-content-lifecycle)).
 
 ## Go further
 
-- [Introduction to agent skills](https://academy.claude.com/courses/introduction-to-agent-skills): Claude Academy's course on writing and sharing skills.
-- [Agent Skills](https://agentskills.io): the open standard that Claude Code skills follow, which works across other AI tools too.
-- [Extend Claude with skills](https://code.claude.com/docs/en/skills): every frontmatter field, arguments, supporting files and running a skill in a subagent.
+- [Introduction to agent skills](https://academy.claude.com/courses/introduction-to-agent-skills): курс Claude Academy по созданию и совместному использованию навыков.
+- [Agent Skills](https://agentskills.io): открытый стандарт описания навыков, используемый Claude Code и поддерживаемый другими ИИ-инструментами.
+- [Extend Claude with skills](https://code.claude.com/docs/en/skills): полный справочник по полям frontmatter, передаче аргументов, вспомогательным файлам и запуску навыков в субагентах.
 
 ---
 

@@ -4,30 +4,30 @@
 
 ## Goal
 
-By the end of this Elective you can write a skill that pulls live data into its prompt, keeps long reference material in a separate file, and runs in its own subagent.
+К концу этого факультатива вы сможете создавать навыки, подставляющие динамические данные в промпт, выносящие обширные справочные материалы в отдельные файлы и запускаемые в собственном изолированном субагенте. <details style="display:inline"><summary><code>[en]</code></summary>By the end of this Elective you can write a skill that pulls live data into its prompt, keeps long reference material in a separate file, and runs in its own subagent.</details>
 
 ## You need
 
-- A repository with some uncommitted changes to review, and the skills from [lesson 1](../01-first-skill.md).
-- Usage: light.
+- Репозиторий с незакоммиченными изменениями для проведения ревью и навыки из [урока 1](../01-first-skill.md).
+- Расход токенов: минимальный (light).
 
 ## The idea
 
-Lesson 1's skills were instructions and `$ARGUMENTS`. A few more patterns make a skill do more with less context ([Extend Claude with skills](https://code.claude.com/docs/en/skills)):
+В уроке 1 навыки состояли из инструкций и переменной `$ARGUMENTS`. Ряд дополнительных паттернов позволяет навыкам решать более сложные задачи при меньшем расходе контекста ([Extend Claude with skills](https://code.claude.com/docs/en/skills)): <details style="display:inline"><summary><code>[en]</code></summary>Lesson 1's skills were instructions and $ARGUMENTS. A few more patterns make a skill do more with less context</details>
 
-| Pattern | Written as | What it does |
+| Паттерн | Как записывается | Что делает |
 |---|---|---|
-| Live data | `` !`git diff HEAD` `` in the body | Claude Code runs the command before Claude reads the skill, and puts its output in its place |
-| Supporting files | Files beside `SKILL.md`, linked from it | Long reference material that Claude reads only when it needs it |
-| A context of its own | `context: fork` in the frontmatter | The skill becomes a subagent's prompt, and the subagent runs in the background. It doesn't see your conversation, and its result arrives when it finishes |
-| Named arguments | `arguments: [focus]`, then `$focus` | Each word you type after the name fills its own placeholder |
-| Tool grants | `allowed-tools: Read, Grep` | Claude may use these tools without asking, during the turn that runs the skill. It removes no other tool |
+| Live data (актуальные данные) | `` !`git diff HEAD` `` в теле навыка | Claude Code выполняет команду до чтения навыка моделью и подставляет её вывод на место вызова |
+| Supporting files (вспомогательные файлы) | Файлы рядом с `SKILL.md`, ссылки на них | Объёмные справочные данные, считываемые Claude только при реальной необходимости |
+| A context of its own (собственный контекст) | `context: fork` во frontmatter | Навык становится промптом субагента, запускаемого в фоне без доступа к текущему диалогу; результат возвращается по завершении |
+| Named arguments (именованные аргументы) | `arguments: [focus]`, затем `$focus` | Каждое слово после имени навыка подставляется в собственный плейсхолдер |
+| Tool grants (предварительное одобрение) | `allowed-tools: Read, Grep` | Claude может вызывать перечисленные инструменты без подтверждений во время выполнения хода навыка |
 
-Keep `SKILL.md` short: once a skill runs, its whole text stays in the conversation. The docs suggest under 500 lines, with detail moved to supporting files.
+Держите `SKILL.md` компактным: после вызова навыка весь его текст остаётся в истории диалога. Документация рекомендует укладываться в 500 строк, вынося подробности во вспомогательные файлы.
 
 ## Worked example
 
-1. Save this as `.claude/skills/changes-review/SKILL.md`:
+1. Сохраните навык как `.claude/skills/changes-review/SKILL.md`:
 
    ```markdown
    ---
@@ -46,43 +46,51 @@ Keep `SKILL.md` short: once a skill runs, its whole text stays in the conversati
    Review the changes above against [checklist.md](checklist.md). Report each problem with its file and line, then one line on whether the change is ready to commit.
    ```
 
-2. Save the checklist beside it, as `.claude/skills/changes-review/checklist.md`:
+2. Сохраните чек-лист рядом: `.claude/skills/changes-review/checklist.md`:
 
    ```markdown
-   - Every changed function has a test.
-   - Errors are reported, not swallowed.
-   - No secrets in code or config.
+   # Team change checklist
+
+   - No console.log or temporary debug code.
+   - Tests exist for new code.
+   - Comments explain why, not what.
    ```
 
-3. Make a small change in a source file, start `claude` and run `/changes-review`. Claude Code runs `git diff HEAD` and puts its output in the skill, then starts a subagent with it. The subagent reads the checklist, and its report arrives in your conversation when it finishes. The `allowed-tools` rule pre-approves `git diff` commands. `git diff HEAD` is read-only and would run without it, but outside auto mode an injected command your permission rules don't allow stops the skill.
-4. For another skill that pre-approves tools, read this guide's [`claude-md-review`](../../../.claude/skills/claude-md-review/SKILL.md). Its `allowed-tools: Read, Glob, Grep` lets it read files without prompts; it doesn't stop Claude from using other tools ([Pre-approve tools for a skill](https://code.claude.com/docs/en/skills#pre-approve-tools-for-a-skill)).
+3. Запустите `claude` и вызовите навык: `/changes-review`. Он выполнится в изолированном контексте субагента, проверит вывод `git diff HEAD` по чек-листу и вернёт компактный отчёт.
 
 ## Your turn
 
-Make the review take a focus:
+Создайте собственный навык с именованным аргументом и динамическими данными.
 
-1. Add `arguments: [focus]` to the frontmatter of `changes-review`.
-2. Change the task to put the review's focus first: `Review the changes above against checklist.md, looking hardest at $focus.`
-3. Run `/changes-review tests`, then `/changes-review secrets`, and compare the two reports.
+1. Создайте `.claude/skills/explain-file/SKILL.md`, принимающий путь к файлу в аргументе `$target`:
+
+   ```markdown
+   ---
+   name: explain-file
+   description: Explains a file's purpose and architecture. Use when asked to explain a file.
+   argument-hint: "[file-path]"
+   arguments: [target]
+   ---
+
+   Explain the architecture and responsibilities of this file: $target.
+   ```
+
+2. Вызовите его: `/explain-file src/config.js`.
 
 ## Check
 
-You are done when all of these are true:
+В этом факультативе нет скрипта `npm run check`: отметьте пункты самостоятельно.
 
-- [ ] `head -8 .claude/skills/changes-review/SKILL.md` shows `context: fork` and `arguments: [focus]`.
-- [ ] `grep -c 'git diff HEAD' .claude/skills/changes-review/SKILL.md` prints 1, and `checklist.md` sits beside `SKILL.md`.
-- [ ] Self-check (not tested): the two reports looked hardest at different things.
-
-If `/changes-review` stops with `Shell command failed` or `Shell command permission check failed`, run `git diff HEAD` yourself, and check the `allowed-tools` line: an injected command that fails, or that your permission rules don't allow, aborts the whole skill ([Inject dynamic context](https://code.claude.com/docs/en/skills#inject-dynamic-context)).
+- [ ] Навык `changes-review` запускается и считывает diff без ручного копирования.
+- [ ] Вспомогательный файл `checklist.md` прочитан только при необходимости.
+- [ ] Self-check (not tested): вы понимаете разницу между выполнением в основном диалоге и в режиме `context: fork`.
 
 ## Go further
 
-- [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices): how to write descriptions, structure supporting files and test a skill.
-- [anthropics/skills](https://github.com/anthropics/skills): Anthropic's example skills. Some are source-available rather than open source, so read each one's license before you copy it.
-- [Troubleshooting](https://code.claude.com/docs/en/skills#troubleshooting): skills that don't trigger, trigger too often, or stop being followed.
+- [Extend Claude with skills](https://code.claude.com/docs/en/skills): продвинутые паттерны организации навыков и работа со сложными аргументами.
 
 ---
 
-<sub>Sources: [Extend Claude with skills](https://code.claude.com/docs/en/skills) · [anthropics/skills](https://github.com/anthropics/skills)</sub>
+<sub>Sources: [Extend Claude with skills](https://code.claude.com/docs/en/skills) · [Tools reference](https://code.claude.com/docs/en/tools-reference)</sub>
 
-<sub>Back to the [Intermediate index](../README.md) · Topic: [Skills](../../topics/skills.md) · [Stuck on this lesson?](https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know/issues/new?template=lesson-feedback.yml&lesson=i-skill-patterns)</sub>
+<sub>Back to the [Intermediate index](../README.md) · Topic: [Skills](../../topics/skills.md) · [Stuck on this lesson?](https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know/issues/new?template=lesson-feedback.yml&lesson=i-skills)</sub>

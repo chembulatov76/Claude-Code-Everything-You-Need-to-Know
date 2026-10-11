@@ -2,21 +2,21 @@
 
 <sub>**Intermediate** · about 3 hours · Verified against Claude Code v2.1.285 (stable) on 2026-10-05</sub>
 
-One developer's setup. You shape Claude Code to your own project: skills, project memory, model and effort, permissions and the sandbox, hooks, subagents, MCP servers and plugins.
+Рабочее окружение инженера. Вы настраиваете Claude Code под специфику своего проекта: навыки (skills), память проекта, выбор модели и уровня усилий, права доступа и песочницу (sandbox), хуки (hooks), субагентов, MCP-серверы и плагины. <details style="display:inline"><summary><code>[en]</code></summary>One developer's setup. You shape Claude Code to your own project: skills, project memory, model and effort, permissions and the sandbox, hooks, subagents, MCP servers and plugins.</details>
 
 ## You're ready for this level if you can
 
-- [ ] Install Claude Code, sign in, start it in your repository, and tell which version, model and account you're on.
-- [ ] Choose and switch permission modes, and approve a plan in plan mode before any change.
-- [ ] Take one change from request to commit: explore, plan, implement, test, review the diff, correct, commit.
-- [ ] Keep a session on track with context, clear, compact, rewind and resume.
-- [ ] Create a project CLAUDE.md and show that a new session follows it.
+- [ ] Установить Claude Code, войти в аккаунт, запустить инструмент в репозитории и определить используемые версию, модель и аккаунт.
+- [ ] Выбирать и переключать режимы разрешений, а также утверждать план в plan mode перед внесением изменений.
+- [ ] Проводить задачу от формулировки до коммита: исследование, планирование, реализация, тесты, проверка diff, корректировка, коммит.
+- [ ] Управлять контекстом сессии с помощью команд context, clear, compact, rewind и resume.
+- [ ] Создавать файл `CLAUDE.md` и подтверждать, что новая сессия соблюдает описанные правила.
 
 ## Practice
 
-Practice in your own repository: shaping Claude Code to your project is the point of this level. Run each check from your copy of the [practice template](https://github.com/wesammustafa/claude-code-practice) as `npm run check -- <lesson-id> --dir <your repo>`. If you'd rather not change your own repository, use the template copy itself; the capstone runs there.
+Практикуйтесь в собственном репозитории: адаптация Claude Code под реальный проект - главная цель этого уровня. Запускайте каждую проверку из учебного шаблона [practice template](https://github.com/wesammustafa/claude-code-practice) командой `npm run check -- <lesson-id> --dir <your repo>`. Если вы предпочитаете не менять рабочий репозиторий, используйте саму копию шаблона; итоговое задание capstone запускается непосредственно в ней.
 
-A copy you made for the Beginner level may not have the Intermediate checks: `npm run check` then lists no `i-` lessons. Bring them in from the template, in your copy:
+Копия, созданная для уровня Beginner, может не содержать проверок уровня Intermediate (в выводе `npm run check` отсутствуют уроки с префиксом `i-`). Подтяните их из шаблона в свою копию:
 
 ```bash
 git fetch https://github.com/wesammustafa/claude-code-practice main
@@ -26,15 +26,15 @@ git commit -m "Add the Intermediate checks"
 
 ## When to use what
 
-Five of the ways to extend Claude Code; [Extend Claude Code](https://code.claude.com/docs/en/features-overview) lists the rest. Each links its lesson.
+Пять основных способов расширения возможностей Claude Code; полный список приведён в обзоре [Extend Claude Code](https://code.claude.com/docs/en/features-overview). Каждый пункт ссылается на соответствующий урок: <details style="display:inline"><summary><code>[en]</code></summary>Five of the ways to extend Claude Code; Extend Claude Code lists the rest. Each links its lesson.</details>
 
-- **Skills:** you give Claude the same instructions or workflow again and again. A project skill lives in `.claude/skills/<name>/SKILL.md` ([Extend Claude with skills](https://code.claude.com/docs/en/skills); lesson: [Turn a repeated workflow into a skill](01-first-skill.md)).
-- **Hooks:** something must happen every time at a set point in a session, such as before a tool runs, whatever Claude decides. Hooks are defined in a settings file such as `.claude/settings.json` ([Hooks](https://code.claude.com/docs/en/hooks); lesson: [Enforce a rule with a hook](05-hooks.md)).
-- **Subagents:** a side task should run in its own context window and report back. A project subagent lives in `.claude/agents/` ([Create custom subagents](https://code.claude.com/docs/en/sub-agents); lesson: [Delegate to a custom subagent](06-subagents.md)).
-- **Dynamic workflows:** the job needs more agents than one conversation can coordinate. A saved project workflow lives in `.claude/workflows/` ([Workflows](https://code.claude.com/docs/en/workflows); lesson: [Run and save a dynamic workflow](../advanced/03-dynamic-workflows.md)).
-- **MCP servers:** Claude needs tools or data outside your files, such as a browser, a database or an API. A project-scope server is listed in `.mcp.json` at the project root ([Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp); lesson: [Connect a tool with MCP](07-mcp.md)).
+- **Навыки (Skills):** вы раз за разом повторяете одни и те же инструкции или шаги рабочего процесса. Навык проекта хранится в файле `.claude/skills/<name>/SKILL.md` ([Extend Claude with skills](https://code.claude.com/docs/en/skills); урок: [Turn a repeated workflow into a skill](01-first-skill.md)).
+- **Хуки (Hooks):** действие должно выполняться строго в определённый момент сессии (например, перед вызовом инструмента) независимо от решений модели. Хуки описываются в файле конфигурации, например `.claude/settings.json` ([Hooks](https://code.claude.com/docs/en/hooks); урок: [Enforce a rule with a hook](05-hooks.md)).
+- **Субагенты (Subagents):** вспомогательная задача должна выполниться в собственном изолированном контекстном окне и вернуть только резюме. Субагент проекта описывается в `.claude/agents/` ([Create custom subagents](https://code.claude.com/docs/en/sub-agents); урок: [Delegate to a custom subagent](06-subagents.md)).
+- **Динамические воркфлоу (Dynamic workflows):** задача требует координации большего числа агентов, чем возможно внутри одного диалога. Сохранённый воркфлоу хранится в `.claude/workflows/` ([Workflows](https://code.claude.com/docs/en/workflows); урок: [Run and save a dynamic workflow](../advanced/03-dynamic-workflows.md)).
+- **MCP-серверы:** Claude необходим доступ к инструментам или данным вне локальных файлов (браузер, база данных или внешний API). Сервер проектного уровня описывается в файле `.mcp.json` в корне репозитория ([Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp); урок: [Connect a tool with MCP](07-mcp.md)).
 
-They combine: a [plugin](https://code.claude.com/docs/en/plugins) packages skills, agents, hooks and MCP servers so they install as one unit ([Install and manage plugins](08-plugins.md)).
+Эти механизмы объединяются: [плагин (plugin)](https://code.claude.com/docs/en/plugins) упаковывает навыки, агентов, хуки и MCP-серверы, позволяя устанавливать их единым набором ([Install and manage plugins](08-plugins.md)).
 
 ## Lessons
 
@@ -47,38 +47,38 @@ They combine: a [plugin](https://code.claude.com/docs/en/plugins) packages skill
 7. [Connect a tool with MCP](07-mcp.md)
 8. [Install and manage plugins](08-plugins.md)
 
-Each lesson takes 10 to 20 minutes.
+Каждый урок занимает от 10 до 20 минут.
 
 ## Capstone
 
-[Get a repository ready for a new teammate](capstone.md): a skill, a hook that protects a folder, a read-only reviewer subagent, a project-scope MCP server and an official plugin, with project settings that keep secrets out of reach and turn the sandbox on.
+[Get a repository ready for a new teammate](capstone.md): подготовка репозитория для нового коллеги - навык, защищающий папку хук, субагент-ревьюер только для чтения, проектный MCP-сервер и официальный плагин с настройками проекта, изолирующими секреты и включающими песочницу.
 
 ## By the end of this level you can
 
-- [ ] Write a project skill that runs by name and loads on its own when it applies.
-- [ ] Write a hook that enforces a rule, and show it firing.
-- [ ] Delegate to a custom subagent with limited tools.
-- [ ] Add an MCP server at project scope, and install a plugin from an Anthropic marketplace.
-- [ ] Put permission rules in the right scope, turn on the sandbox, and pick the model and effort for a task.
-- [ ] Organize project memory, and find out what loaded when an instruction isn't followed.
+- [ ] Создавать навык проекта, запускаемый по имени и автоматически загружающийся при подходящем запросе.
+- [ ] Писать хук для строгого соблюдения правила и проверять его срабатывание.
+- [ ] Делегировать задачи специализированному субагенту с ограниченным набором инструментов.
+- [ ] Подключать MCP-сервер на уровне проекта и устанавливать плагины из каталогов Anthropic.
+- [ ] Размещать правила доступа в корректных областях видимости, активировать песочницу и подбирать модель и уровень усилий под задачу.
+- [ ] Грамотно структурировать память проекта и определять, какие файлы инструкций были загружены при возникновении расхождений.
 
 ## Electives
 
-Optional lessons beside the core path:
+Дополнительные уроки:
 
-- [Skill patterns](electives/skill-patterns.md): live data, supporting files and a context of its own.
-- [Claude in Chrome](electives/claude-in-chrome.md): verify UI changes in your own browser.
-- [The status line](electives/status-line.md): show the model, the folder and the context in a bar of your own.
-- [Fast mode](electives/fast-mode.md): faster Opus answers, paid for beyond your plan.
+- [Skill patterns](electives/skill-patterns.md): динамические данные, вспомогательные файлы и собственный контекст навыка.
+- [Claude in Chrome](electives/claude-in-chrome.md): проверка изменений пользовательского интерфейса в реальном браузере.
+- [The status line](electives/status-line.md): вывод модели, текущей папки и заполненности контекста в собственной строке состояния.
+- [Fast mode](electives/fast-mode.md): ускоренные ответы Opus с оплатой через usage credits сверх тарифного плана.
 
 ## Official companions
 
-- [Claude Code in action](https://academy.claude.com/courses/claude-code-in-action): Claude Academy's course on running long, hands-off sessions you can trust.
-- [Introduction to agent skills](https://academy.claude.com/courses/introduction-to-agent-skills) and [Introduction to subagents](https://academy.claude.com/courses/introduction-to-subagents): Claude Academy's courses on skills and subagents.
+- [Claude Code in action](https://academy.claude.com/courses/claude-code-in-action): курс Claude Academy по проведению длительных автономных сессий, результатам которых можно доверять.
+- [Introduction to agent skills](https://academy.claude.com/courses/introduction-to-agent-skills) и [Introduction to subagents](https://academy.claude.com/courses/introduction-to-subagents): курсы Claude Academy по созданию навыков и субагентов.
 
 ## Next level
 
-[Advanced](../advanced/README.md): beyond one session.
+[Advanced](../advanced/README.md): за пределами одной терминальной сессии.
 
 ---
 
