@@ -28,30 +28,30 @@ git commit -m "Add the Intermediate checks"
 
 Пять основных способов расширения возможностей Claude Code; полный список приведён в обзоре [Extend Claude Code](https://code.claude.com/docs/en/features-overview). Каждый пункт ссылается на соответствующий урок: <details style="display:inline"><summary><code>[en]</code></summary>Five of the ways to extend Claude Code; Extend Claude Code lists the rest. Each links its lesson.</details>
 
-- **Навыки (Skills):** вы раз за разом повторяете одни и те же инструкции или шаги рабочего процесса. Навык проекта хранится в файле `.claude/skills/<name>/SKILL.md` ([Extend Claude with skills](https://code.claude.com/docs/en/skills); урок: [Turn a repeated workflow into a skill](01-first-skill.md)).
-- **Хуки (Hooks):** действие должно выполняться строго в определённый момент сессии (например, перед вызовом инструмента) независимо от решений модели. Хуки описываются в файле конфигурации, например `.claude/settings.json` ([Hooks](https://code.claude.com/docs/en/hooks); урок: [Enforce a rule with a hook](05-hooks.md)).
-- **Субагенты (Subagents):** вспомогательная задача должна выполниться в собственном изолированном контекстном окне и вернуть только резюме. Субагент проекта описывается в `.claude/agents/` ([Create custom subagents](https://code.claude.com/docs/en/sub-agents); урок: [Delegate to a custom subagent](06-subagents.md)).
-- **Динамические воркфлоу (Dynamic workflows):** задача требует координации большего числа агентов, чем возможно внутри одного диалога. Сохранённый воркфлоу хранится в `.claude/workflows/` ([Workflows](https://code.claude.com/docs/en/workflows); урок: [Run and save a dynamic workflow](../advanced/03-dynamic-workflows.md)).
-- **MCP-серверы:** Claude необходим доступ к инструментам или данным вне локальных файлов (браузер, база данных или внешний API). Сервер проектного уровня описывается в файле `.mcp.json` в корне репозитория ([Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp); урок: [Connect a tool with MCP](07-mcp.md)).
+- **Навыки (Skills):** вы раз за разом повторяете одни и те же инструкции или шаги рабочего процесса. Навык проекта хранится в файле `.claude/skills/<name>/SKILL.md` ([Extend Claude with skills](https://code.claude.com/docs/en/skills); урок: [Превращение повторяющегося процесса в навык](01-first-skill.md)).
+- **Хуки (Hooks):** действие должно выполняться строго в определённый момент сессии (например, перед вызовом инструмента) независимо от решений модели. Хуки описываются в файле конфигурации, например `.claude/settings.json` ([Hooks](https://code.claude.com/docs/en/hooks); урок: [Обеспечение правил с помощью хуков](05-hooks.md)).
+- **Субагенты (Subagents):** вспомогательная задача должна выполниться в собственном изолированном контекстном окне и вернуть только резюме. Субагент проекта описывается в `.claude/agents/` ([Create custom subagents](https://code.claude.com/docs/en/sub-agents); урок: [Делегирование кастомному субагенту](06-subagents.md)).
+- **Динамические воркфлоу (Dynamic workflows):** задача требует координации большего числа агентов, чем возможно внутри одного диалога. Сохранённый воркфлоу хранится в `.claude/workflows/` ([Workflows](https://code.claude.com/docs/en/workflows); урок: [Запуск и сохранение динамического воркфлоу](../advanced/03-dynamic-workflows.md)).
+- **MCP-серверы:** Claude необходим доступ к инструментам или данным вне локальных файлов (браузер, база данных или внешний API). Сервер проектного уровня описывается в файле `.mcp.json` в корне репозитория ([Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp); урок: [Подключение инструмента через MCP](07-mcp.md)).
 
-Эти механизмы объединяются: [плагин (plugin)](https://code.claude.com/docs/en/plugins) упаковывает навыки, агентов, хуки и MCP-серверы, позволяя устанавливать их единым набором ([Install and manage plugins](08-plugins.md)).
+Эти механизмы объединяются: [плагин (plugin)](https://code.claude.com/docs/en/plugins) упаковывает навыки, агентов, хуки и MCP-серверы, позволяя устанавливать их единым набором ([Установка плагинов и управление ими](08-plugins.md)).
 
 ## Lessons
 
-1. [Turn a repeated workflow into a skill](01-first-skill.md)
-2. [Organize project memory and see what loaded](02-organize-memory.md)
-3. [Pick the model and effort](03-model-and-effort.md)
-4. [Permissions, settings scopes and the sandbox](04-permissions-and-sandbox.md)
-5. [Enforce a rule with a hook](05-hooks.md)
-6. [Delegate to a custom subagent](06-subagents.md)
-7. [Connect a tool with MCP](07-mcp.md)
-8. [Install and manage plugins](08-plugins.md)
+1. [Превращение повторяющегося процесса в навык](01-first-skill.md)
+2. [Организация памяти проекта и проверка загруженного](02-organize-memory.md)
+3. [Выбор модели и уровня усилий мысли](03-model-and-effort.md)
+4. [Разрешения, области видимости настроек и песочница](04-permissions-and-sandbox.md)
+5. [Обеспечение правил с помощью хуков](05-hooks.md)
+6. [Делегирование кастомному субагенту](06-subagents.md)
+7. [Подключение инструмента через MCP](07-mcp.md)
+8. [Установка плагинов и управление ими](08-plugins.md)
 
 Каждый урок занимает от 10 до 20 минут.
 
 ## Capstone
 
-[Get a repository ready for a new teammate](capstone.md): подготовка репозитория для нового коллеги - навык, защищающий папку хук, субагент-ревьюер только для чтения, проектный MCP-сервер и официальный плагин с настройками проекта, изолирующими секреты и включающими песочницу.
+[Подготовка репозитория для нового коллеги](capstone.md): подготовка репозитория для нового коллеги - навык, защищающий папку хук, субагент-ревьюер только для чтения, проектный MCP-сервер и официальный плагин с настройками проекта, изолирующими секреты и включающими песочницу.
 
 ## By the end of this level you can
 
@@ -66,10 +66,10 @@ git commit -m "Add the Intermediate checks"
 
 Дополнительные уроки:
 
-- [Skill patterns](electives/skill-patterns.md): динамические данные, вспомогательные файлы и собственный контекст навыка.
-- [Claude in Chrome](electives/claude-in-chrome.md): проверка изменений пользовательского интерфейса в реальном браузере.
-- [The status line](electives/status-line.md): вывод модели, текущей папки и заполненности контекста в собственной строке состояния.
-- [Fast mode](electives/fast-mode.md): ускоренные ответы Opus с оплатой через usage credits сверх тарифного плана.
+- [Паттерны навыков](electives/skill-patterns.md): динамические данные, вспомогательные файлы и собственный контекст навыка.
+- [Claude в Chrome](electives/claude-in-chrome.md): проверка изменений пользовательского интерфейса в реальном браузере.
+- [Настройка строки статуса](electives/status-line.md): вывод модели, текущей папки и заполненности контекста в собственной строке состояния.
+- [Быстрый режим (Fast mode)](electives/fast-mode.md): ускоренные ответы Opus с оплатой через usage credits сверх тарифного плана.
 
 ## Official companions
 

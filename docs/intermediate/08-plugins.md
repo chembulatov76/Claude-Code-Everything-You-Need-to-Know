@@ -99,7 +99,7 @@ Listings checked against the listing bar on 2026-10-06.
 
 - [Plugins overview](https://code.claude.com/docs/en/plugins/overview): архитектура и устройство плагинов Claude Code.
 - [Anthropic's marketplaces](https://code.claude.com/docs/en/plugins/anthropic-marketplaces): структура официальных каталогов и правила публикации.
-- [Testing and publishing a plugin](../advanced/electives/publish-a-plugin.md): факультатив уровня Advanced по разработке и распространению собственного плагина.
+- [Тестирование и публикация плагина](../advanced/electives/publish-a-plugin.md): факультатив уровня Advanced по разработке и распространению собственного плагина.
 
 ---
 

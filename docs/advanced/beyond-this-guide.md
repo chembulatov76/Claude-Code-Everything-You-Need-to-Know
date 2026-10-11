@@ -1,60 +1,65 @@
-# Beyond this guide
+<a id="beyond-this-guide"></a>
+# За рамками этого руководства (Beyond this guide)
 
 <sub>**Advanced** · Verified against Claude Code v2.1.285 (stable) on 2026-10-09</sub>
 
-Where to go once you finish Advanced. The guide teaches one developer's use of Claude Code, alone or with a team. Building your own agents and MCP servers, running Claude Code for a whole organization, and getting a team to adopt it are separate jobs with their own official docs, so this page links them and doesn't teach them.
+Куда двигаться дальше после завершения уровня Advanced. Это руководство обучает работе одного разработчика с Claude Code - индивидуально или в команде. Создание собственных агентов и MCP-серверов, развертывание Claude Code в масштабе всей организации и внедрение инструмента в процессы команды представляют собой отдельные масштабные задачи с собственной официальной документацией. На этой странице собраны ссылки на ключевые материалы. <details style="display:inline"><summary><code>[en]</code></summary>Where to go once you finish Advanced. The guide teaches one developer's use of Claude Code, alone or with a team. Building your own agents and MCP servers, running Claude Code for a whole organization, and getting a team to adopt it are separate jobs with their own official docs, so this page links them and doesn't teach them.</details>
 
-Every item is published by Anthropic, except the MCP project's pages on modelcontextprotocol.io.
+Все материалы опубликованы Anthropic, за исключением страниц проекта MCP на modelcontextprotocol.io.
 
-Listings checked against the listing bar on 2026-10-09.
+Ресурсы проверены по критериям включения 2026-10-09.
 
-## Build your own agents
+<a id="build-your-own-agents"></a>
+## Создание собственных агентов
 
-To build Claude Code's agent loop into your own application:
+Для интеграции цикла агентов Claude Code в собственное приложение:
 
-- [Agent SDK overview](https://code.claude.com/docs/en/agent-sdk/overview): the tools, agent loop and context management that power Claude Code, as a Python or TypeScript library. Its first table compares it with other Claude tools.
-- [Agent SDK quickstart](https://code.claude.com/docs/en/agent-sdk/quickstart): build an agent that finds and fixes bugs in existing code.
-- [Intro to Claude](https://platform.claude.com/docs/en/intro): the Claude API, with a path from a first API call to a working integration.
+- [Agent SDK overview](https://code.claude.com/docs/en/agent-sdk/overview): инструменты, цикл агента и управление контекстом, лежащие в основе Claude Code, в виде библиотеки для Python или TypeScript. В первой таблице приведено сопоставление с другими инструментами Claude.
+- [Agent SDK quickstart](https://code.claude.com/docs/en/agent-sdk/quickstart): создание агента, находящего и исправляющего ошибки в существующем коде.
+- [Intro to Claude](https://platform.claude.com/docs/en/intro): документация Claude API с пошаговым путем от первого вызова до рабочей интеграции.
 
-To drive the same agent loop from a language other than Python or TypeScript, the docs suggest running the CLI as a subprocess with `-p` and `--output-format json` ([Agent SDK overview](https://code.claude.com/docs/en/agent-sdk/overview#compare-the-agent-sdk-to-other-claude-tools)), as the script in [Script Claude Code with `claude -p`](04-headless.md) does.
+Для управления аналогичным циклом агента из языков, отличных от Python или TypeScript, документация рекомендует запускать CLI как дочерний процесс с флагами `-p` и `--output-format json` ([Agent SDK overview](https://code.claude.com/docs/en/agent-sdk/overview#compare-the-agent-sdk-to-other-claude-tools)), как показано в [Уроке 4](04-headless.md).
 
-A product or service you build on the Agent SDK should use API key authentication through the Claude Console or a supported cloud provider ([Legal and compliance](https://code.claude.com/docs/en/legal-and-compliance#authentication-and-credential-use)). Unless previously approved, Anthropic doesn't allow third-party developers to offer claude.ai login for their products ([Agent SDK overview](https://code.claude.com/docs/en/agent-sdk/overview#get-started)).
+Продукт или сервис, созданный на базе Agent SDK, должен использовать аутентификацию по API-ключу через Claude Console или поддерживаемого облачного провайдера ([Legal and compliance](https://code.claude.com/docs/en/legal-and-compliance#authentication-and-credential-use)). Без предварительного согласования Anthropic не разрешает сторонним разработчикам использовать авторизацию claude.ai в своих продуктах ([Agent SDK overview](https://code.claude.com/docs/en/agent-sdk/overview#get-started)).
 
-While you write code that calls the Claude API, the bundled `/claude-api` skill loads Claude API reference material for your project's language, and Claude also loads it on its own when your code imports `anthropic` or `@anthropic-ai/sdk` ([Skills](https://code.claude.com/docs/en/skills#work-on-claude-api-projects)).
+Когда вы пишете код, вызывающий Claude API, встроенный навык `/claude-api` подгружает справочные материалы для языка вашего проекта; Claude также загружает его автоматически при импорте библиотек `anthropic` или `@anthropic-ai/sdk` ([Skills](https://code.claude.com/docs/en/skills#work-on-claude-api-projects)).
 
-## Build MCP servers
+<a id="build-mcp-servers"></a>
+## Создание MCP-серверов
 
-[Connect a tool with MCP](../intermediate/07-mcp.md) used a server someone else wrote. To write your own:
+В [Уроке 7 уровня Intermediate](../intermediate/07-mcp.md) использовался готовый сервер. Для создания собственного сервера:
 
-- [Find and build MCP servers](https://code.claude.com/docs/en/mcp#find-and-build-mcp-servers): where the Claude Code docs point server builders, for protocol basics and for connector authentication, testing and submission to the Anthropic Directory.
-- [Build an MCP server](https://modelcontextprotocol.io/docs/develop/build-server) (Vendor: the MCP project): the MCP project's own tutorial, and its [SDKs](https://modelcontextprotocol.io/docs/sdk) for building servers and clients.
-- [Introduction to Model Context Protocol](https://academy.claude.com/courses/introduction-to-model-context-protocol): Claude Academy's course on building servers and clients from scratch with the Python SDK.
-- [Model Context Protocol: Advanced topics](https://academy.claude.com/courses/model-context-protocol-advanced-topics): Claude Academy's course on sampling, notifications and roots.
+- [Find and build MCP servers](https://code.claude.com/docs/en/mcp#find-and-build-mcp-servers): отправная точка для разработчиков серверов в документации Claude Code, описывающая основы протокола, аутентификацию коннекторов, тестирование и публикацию в каталоге Anthropic Directory.
+- [Build an MCP server](https://modelcontextprotocol.io/docs/develop/build-server) (Разработчик: проект MCP): официальное руководство проекта MCP и доступные [SDK](https://modelcontextprotocol.io/docs/sdk) для создания серверов и клиентов.
+- [Introduction to Model Context Protocol](https://academy.claude.com/courses/introduction-to-model-context-protocol): курс Claude Academy по созданию серверов и клиентов с нуля на Python SDK.
+- [Model Context Protocol: Advanced topics](https://academy.claude.com/courses/model-context-protocol-advanced-topics): курс Claude Academy по сэмплированию, уведомлениям и roots.
 
-## Run Claude Code for an organization
+<a id="run-claude-code-for-an-organization"></a>
+## Развертывание Claude Code в организации
 
-[Share your setup with a team](06-share-your-setup.md) commits a setup to the repository your team works in. An organization also sets policy, sign-in, network access and reporting for every machine:
+Урок [Совместное использование настроек в команде](06-share-your-setup.md) сохраняет конфигурацию в репозитории проекта. На уровне организации также настраиваются общие политики, аутентификация, сетевой доступ и отчетность для всех рабочих машин:
 
-- [Set up Claude Code for your organization](https://code.claude.com/docs/en/admin-setup): Anthropic's decision map for administrators, and the place to start. It covers API providers, managed settings, policy enforcement, usage monitoring and data handling, and says where SSO and seat assignment are configured.
-- [Deploy managed settings](https://code.claude.com/docs/en/managed-settings), for delivering your organization's settings to every developer's machine on each operating system, and [Configure server-managed settings](https://code.claude.com/docs/en/server-managed-settings), for delivering them from the claude.ai console without device management.
-- [Authentication](https://code.claude.com/docs/en/authentication#set-up-team-authentication), for the ways a team or organization can configure access to Claude Code, and the [Enterprise deployment overview](https://code.claude.com/docs/en/third-party-integrations), which helps you choose between deploying through Anthropic and through a cloud provider.
-- [Enterprise network configuration](https://code.claude.com/docs/en/network-config) for proxy servers, custom certificate authorities and mTLS, and [Run Claude Code through a gateway](https://code.claude.com/docs/en/gateways) for central credentials, usage tracking and cost controls.
-- [Monitoring](https://code.claude.com/docs/en/monitoring-usage), for exporting usage, cost and tool activity through OpenTelemetry, and [Track team usage with analytics](https://code.claude.com/docs/en/analytics), the usage and adoption dashboard.
-- [Data usage](https://code.claude.com/docs/en/data-usage): Anthropic's training and retention policies, and where a session's data goes.
+- [Set up Claude Code for your organization](https://code.claude.com/docs/en/admin-setup): карта решений для администраторов от Anthropic и отправная точка внедрения. Охватывает выбор API-провайдеров, управляемые настройки, применение политик, мониторинг использования, обработку данных, а также настройку SSO и распределение мест.
+- [Deploy managed settings](https://code.claude.com/docs/en/managed-settings): доставка корпоративных настроек на машины разработчиков для каждой ОС, и [Configure server-managed settings](https://code.claude.com/docs/en/server-managed-settings) для централизованного управления настройками из консоли claude.ai без MDM-систем.
+- [Authentication](https://code.claude.com/docs/en/authentication#set-up-team-authentication): варианты настройки доступа команды или организации к Claude Code, и [Enterprise deployment overview](https://code.claude.com/docs/en/third-party-integrations) для выбора между развертыванием через Anthropic и через облачного провайдера.
+- [Enterprise network configuration](https://code.claude.com/docs/en/network-config): прокси-серверы, корпоративные центры сертификации (CA) и mTLS; [Run Claude Code through a gateway](https://code.claude.com/docs/en/gateways) для централизованных учетных данных, мониторинга и контроля расходов.
+- [Monitoring](https://code.claude.com/docs/en/monitoring-usage): экспорт метрик использования, расходов и активности инструментов через OpenTelemetry; [Track team usage with analytics](https://code.claude.com/docs/en/analytics) - дашборд использования и внедрения.
+- [Data usage](https://code.claude.com/docs/en/data-usage): политики хранения данных и обучения моделей Anthropic, маршруты движения данных сессий.
 
-If your organization deploys managed settings, a setting from a lesson may not apply on a work machine, or on any machine where you sign in with a work account: no user, project, local or `--settings` value overrides them, apart from a few security-sensitive exceptions where a stricter value from a lower level still counts ([Deploy managed settings](https://code.claude.com/docs/en/managed-settings), [Configure server-managed settings](https://code.claude.com/docs/en/server-managed-settings#platform-availability)). When developers connect through a gateway with a gateway credential, usage is billed to the organization's provider account at API rates, and their claude.ai subscriptions aren't used or charged ([Subscriptions and gateways](https://code.claude.com/docs/en/gateways#subscriptions-and-gateways)).
+Если в вашей организации развернуты управляемые настройки (managed settings), параметры из уроков могут не применяться на рабочих машинах: настройки пользователя, проекта, локальные файлы или параметр `--settings` не могут переопределить их, за редкими исключениями более строгих политик безопасности ([Deploy managed settings](https://code.claude.com/docs/en/managed-settings), [Configure server-managed settings](https://code.claude.com/docs/en/server-managed-settings#platform-availability)). При подключении разработчиков через шлюз (gateway) с учетными данными шлюза расходы тарифицируются по аккаунту провайдера организации по ставкам API, а индивидуальные подписки claude.ai не задействуются ([Subscriptions and gateways](https://code.claude.com/docs/en/gateways#subscriptions-and-gateways)).
 
-## Roll it out to a team
+<a id="roll-it-out-to-a-team"></a>
+## Внедрение в команде
 
-Once the setup is in place, these help people adopt it:
+После настройки инфраструктуры эти материалы помогут коллегам освоить инструмент:
 
-- [Champion kit](https://code.claude.com/docs/en/champion-kit): for an engineer already using Claude Code who wants to help their team adopt it.
-- [Communications kit](https://code.claude.com/docs/en/communications-kit): launch announcements, drip-campaign messages and FAQ answers for the administrators and engineering leads who roll Claude Code out.
-- [The AI-native SDLC playbook](https://academy.claude.com/courses/ai-native-sdlc-playbook): Claude Academy's course for engineering, platform and security leads whose organization already uses Claude Code.
-- [Running an AI-native engineering org](https://claude.com/resources/articles/running-an-ai-native-engineering-org): how the Claude Code team's processes and structure changed once agentic coding became its default way of working.
+- [Champion kit](https://code.claude.com/docs/en/champion-kit): материалы для инженера, уже освоившего Claude Code и помогающего своей команде внедрить инструмент.
+- [Communications kit](https://code.claude.com/docs/en/communications-kit): шаблоны анонсов запуска, цепочки писем и ответы на частые вопросы для администраторов и технических руководителей.
+- [The AI-native SDLC playbook](https://academy.claude.com/courses/ai-native-sdlc-playbook): курс Claude Academy для руководителей инженерных направлений, платформенных команд и специалистов по безопасности, чьи организации уже используют Claude Code.
+- [Running an AI-native engineering org](https://claude.com/resources/articles/running-an-ai-native-engineering-org): как изменились процессы и структура команды Claude Code после того, как разработка через агентов стала основным способом работы.
 
 ---
 
 <sub>Sources: the pages linked above, each checked on 2026-10-09.</sub>
 
-<sub>Up: [Advanced](README.md)</sub>
+<sub>Up: [Продвинутый уровень (Advanced)](README.md)</sub>

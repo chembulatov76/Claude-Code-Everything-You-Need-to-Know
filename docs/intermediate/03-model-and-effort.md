@@ -28,7 +28,7 @@
 | Рутинная работа: механические правки, чётко сформулированные изменения | Меньшая модель, например `sonnet`, и низкий effort ([Choose an effort level](https://code.claude.com/docs/en/model-config#choose-an-effort-level)) |
 | Глубокое планирование с последующей рутиной | `opusplan`: Opus в режиме планирования, затем Sonnet для исполнения |
 
-Область применения определяет способ настройки. Страница [Models and effort](../reference/models.md) содержит полный список алиасов и уровней:
+Область применения определяет способ настройки. Страница [Модели и усилия мысли](../reference/models.md) содержит полный список алиасов и уровней:
 
 | Область (Scope) | Модель | Effort |
 |---|---|---|
@@ -103,7 +103,7 @@
 ## Go further
 
 - [Choosing a Claude model and effort level in Claude Code](https://claude.com/blog/claude-model-and-effort-level-in-claude-code): руководство Anthropic с методикой "try or know", рассмотренной в этом уроке.
-- [Models and effort](../reference/models.md): алиасы моделей, уровни усилий и способы их конфигурирования.
+- [Модели и усилия мысли](../reference/models.md): алиасы моделей, уровни усилий и способы их конфигурирования.
 - [Model configuration](https://code.claude.com/docs/en/model-config): значения по умолчанию для аккаунтов и облачных провайдеров, а также политики организаций.
 
 ---
