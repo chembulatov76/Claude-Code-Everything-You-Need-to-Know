@@ -1,14 +1,17 @@
-# Hooks
+<a id="hooks"></a>
+# Хуки (Hooks)
 
 <sub>Topic · Verified against Claude Code v2.1.285 (stable) on 2026-10-05</sub>
 
-Commands that run at fixed points in a session, so a rule holds without relying on Claude to remember it.
+Команды, которые выполняются в фиксированные моменты сессии, гарантируя соблюдение правил без необходимости полагаться на память Claude. <details style="display:inline"><summary><code>[en]</code></summary>Commands that run at fixed points in a session, so a rule holds without relying on Claude to remember it.</details>
 
-## Lessons
+<a id="lessons"></a>
+## Уроки
 
-- Intermediate: [Enforce a rule with a hook](../intermediate/05-hooks.md)
+- Intermediate: [Обеспечение правил с помощью хуков](../intermediate/05-hooks.md)
 
-## Official docs
+<a id="official-docs"></a>
+## Официальная документация
 
 - [Automate actions with hooks](https://code.claude.com/docs/en/hooks-guide)
 - [Hooks reference](https://code.claude.com/docs/en/hooks)
@@ -17,4 +20,4 @@ Commands that run at fixed points in a session, so a rule holds without relying 
 
 <sub>Sources: [Automate actions with hooks](https://code.claude.com/docs/en/hooks-guide) · [Hooks reference](https://code.claude.com/docs/en/hooks)</sub>
 
-<sub>Up: [Topics](README.md)</sub>
+<sub>Наверх: [Темы](README.md)</sub>

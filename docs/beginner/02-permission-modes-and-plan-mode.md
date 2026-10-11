@@ -4,73 +4,73 @@
 
 ## Goal
 
-By the end of this lesson you can pick a permission mode for a task, switch modes during a session, and use plan mode to approve a plan before Claude edits your files.
+К концу этого урока вы сможете выбирать подходящий режим разрешений (permission mode) для задачи, переключать режимы во время сессии и использовать режим планирования (plan mode) для утверждения плана до того, как Claude изменит ваши файлы. <details style="display:inline"><summary><code>[en]</code></summary>By the end of this lesson you can pick a permission mode for a task, switch modes during a session, and use plan mode to approve a plan before Claude edits your files.</details>
 
 ## You need
 
-- Your copy of the practice template, cloned, with no uncommitted changes, and Node.js LTS for its checks (a Codespace on your copy has both). To practice in one of your own repositories instead, commit or stash your work there first so it has no uncommitted changes either, and keep the template copy as well: the check runs from it. Set up the repository's `.practice/` folder as [lesson 1](01-install-and-look-around.md#you-need) describes, if you haven't yet.
-- Usage: light.
+- Ваша клонированная копия учебного шаблона без незакоммиченных изменений и Node.js LTS для проверок (в Codespace доступны оба инструмента). Чтобы практиковаться в собственном репозитории, закоммитьте или сохраните в stash текущую работу, чтобы рабочее дерево было чистым, и сохраните также копию шаблона (проверка вызывается из неё). Настройте папку `.practice/` в соответствии с описанием в [Уроке 1](01-install-and-look-around.md#you-need), если не сделали этого ранее.
+- Расход токенов: минимальный (light).
 
 > [!NOTE]
-> On native Windows, run the commands in PowerShell and use the lines marked **Windows** where they differ. If `Shift+Tab` does nothing, press `Alt+M` instead ([Interactive mode](https://code.claude.com/docs/en/interactive-mode)).
+> В нативной среде Windows запускайте команды в PowerShell и используйте строки с пометкой **Windows** там, где синтаксис различается. Если комбинация `Shift+Tab` не реагирует, нажимайте `Alt+M` ([Interactive mode](https://code.claude.com/docs/en/interactive-mode)).
 
 ## The idea
 
-A [permission mode](https://code.claude.com/docs/en/permission-modes) decides which actions Claude can take without asking you first. You switch modes with `Shift+Tab`, and the status bar under the prompt always shows the one in force.
+[Режим разрешений (permission mode)](https://code.claude.com/docs/en/permission-modes) определяет, какие действия Claude может предпринимать без вашего предварительного одобрения. Переключение режимов выполняется комбинацией `Shift+Tab`, а текущий активный режим постоянно отображается в строке статуса под полем ввода.
 
-Four modes matter now:
+В данный момент важны четыре режима:
 
-| Status bar shows | Mode | Claude does this without asking |
+| Строка статуса отображает | Режим | Что Claude выполняет без подтверждения |
 |---|---|---|
-| `⏸ manual mode on` | Manual | Reads only |
-| `⏵⏵ accept edits on` | Accept edits | Reads, edits files, runs common file commands |
-| `⏸ plan mode on` | Plan | Reads, plus commands a background safety check approves when auto mode is available, then writes a plan. It can't edit your files until you approve the plan |
-| `⏵⏵ auto mode on` | Auto | Everything, with background safety checks |
+| `⏸ manual mode on` | Manual | Только чтение |
+| `⏵⏵ accept edits on` | Accept edits | Чтение, редактирование файлов, типовые файловые команды |
+| `⏸ plan mode on` | Plan | Чтение, плюс команды, одобренные фоновой проверкой безопасности при доступности auto mode, затем составление плана. Файлы не редактируются до одобрения плана вами |
+| `⏵⏵ auto mode on` | Auto | Все операции под контролем фоновых проверок безопасности |
 
-Manual suits sensitive work and unfamiliar code, where you want to review every action yourself. Auto suits long tasks, where it saves you from approving every step.
+Режим Manual подходит для чувствительных задач и незнакомой кодовой базы, где вы хотите лично контролировать каждое действие. Режим Auto эффективен для длительных масштабных задач, избавляя вас от ручного подтверждения каждого шага.
 
-Plan mode is the habit to build first: you see the whole change as a plan before Claude edits any of your files.
+Режим планирования (plan mode): это ключевая привычка, которую стоит сформировать первой: вы видите всё планируемое изменение целиком до того, как Claude коснётся хотя бы одного файла.
 
 ## Worked example
 
-1. Start `claude` in your practice copy and look at the status bar. A new session usually starts in auto mode.
-2. Press `Shift+Tab` until the status bar reads `⏸ plan mode on`. From auto, the first press gives Manual, then Accept edits, then Plan.
-3. Ask for the change:
+1. Запустите `claude` в учебной копии репозитория и обратите внимание на строку статуса. Новая сессия обычно запускается в режиме auto mode.
+2. Нажимайте комбинацию `Shift+Tab`, пока в строке статуса не появится `⏸ plan mode on`. Из режима auto первое нажатие включает Manual, затем Accept edits, затем Plan.
+3. Отправьте запрос на внесение изменения:
 
    ```text
    Make parseConfig in src/config.js reject an empty file with a clear error message, and add a test for it.
    ```
 
-4. Claude reads files and may run commands to explore, but doesn't edit your files. If it needs a decision from you first, it asks a [multiple-choice question](https://code.claude.com/docs/en/tools-reference#askuserquestion-tool-behavior): pick an option or type your own answer, and it keeps planning. Then it shows a plan and asks how to proceed, with three choices:
-   - **Yes, and use auto mode** (it reads **Yes, auto-accept edits** if auto mode isn't available to you)
+4. Claude исследует файлы и может выполнять диагностические команды, но не вносит правок в файлы. Если потребуется уточнение, Claude задаст вопрос с вариантами выбора ([multiple-choice question](https://code.claude.com/docs/en/tools-reference#askuserquestion-tool-behavior)): выберите вариант или введите собственный ответ, после чего планирование продолжится. Затем Claude сформирует план и предложит варианты дальнейших действий:
+   - **Yes, and use auto mode** (или **Yes, auto-accept edits**, если автоматический режим вам недоступен)
    - **Yes, manually approve edits**
-   - A text field that reads **Tell Claude what to change** (the [docs](https://code.claude.com/docs/en/permission-modes#review-and-approve-a-plan) call this choice **No, keep planning**)
+   - Текстовое поле с надписью **Tell Claude what to change** (в [документации](https://code.claude.com/docs/en/permission-modes#review-and-approve-a-plan) этот пункт называется **No, keep planning**)
 
-   The first choice is highlighted when the menu opens. Until you choose, the session stays in plan mode.
-5. Send the plan back once, even if it already looks right, so you practice it. Use `Down arrow` to move the highlight to **Tell Claude what to change**, type this correction on that line, and press `Enter`:
+   При появлении меню по умолчанию подсвечен первый вариант. До вашего выбора сессия остаётся в режиме планирования.
+5. Отправьте план на доработку один раз (даже если он выглядит корректно), чтобы закрепить навык. Стрелкой вниз (`Down arrow`) переместите выделение на пункт **Tell Claude what to change**, введите следующее уточнение и нажмите `Enter`:
 
    ```text
    Keep the change to src/config.js and test/config.test.js. Don't add new files.
    ```
 
-   Claude revises the plan and shows the menu again. If you press `Enter` before typing, Claude Code shows `User rejected Claude's plan:` and the session stays in plan mode, waiting for you: type the correction at the prompt instead.
-6. When the revised plan looks right, leave it on screen and open another terminal in the same folder. Save what git sees, and the files the plan says it will change, one path per line, written the way `git status` shows them (relative to the repository root, with forward slashes):
+   Claude обновит план и снова покажет меню. Если вы случайно нажали `Enter` до ввода текста, Claude Code выведет сообщение `User rejected Claude's plan:`, оставаясь в режиме планирования: в таком случае просто введите уточнение в обычной строке промпта.
+6. Когда согласованный план готов, оставьте его на экране и откройте второй терминал в той же папке. Сохраните статус git и список файлов, которые план намеревается изменить (по одному относительному пути на строку с прямыми слешами, как их отображает `git status`):
 
    ```bash
    git status --porcelain > .practice/b-2-before.txt
    printf '%s\n' src/config.js test/config.test.js > .practice/b-2-plan.txt
    ```
 
-   **Windows:** `'src/config.js','test/config.test.js' | Set-Content .practice/b-2-plan.txt` replaces the `printf` line.
-7. Back in Claude Code, use `Down arrow` to move the highlight to **Yes, manually approve edits** and press `Enter`. Pressing `Enter` on the highlighted first choice would let Claude edit without asking you. The session leaves plan mode for Manual mode, so Claude asks before each edit and before most shell commands, such as running the tests.
+   **Windows:** строка `'src/config.js','test/config.test.js' | Set-Content .practice/b-2-plan.txt` заменяет вызов `printf`.
+7. Вернитесь в окно Claude Code, стрелкой вниз выберите пункт **Yes, manually approve edits** и нажмите `Enter`. (Нажатие `Enter` на первом подсвеченном пункте разрешило бы Claude редактировать файлы без подтверждений). Сессия выйдет из plan mode и переключится в Manual mode, поэтому Claude будет запрашивать подтверждение перед каждой правкой и перед большинством команд терминала (таких как запуск тестов).
 
-   Read each request and answer with plain **Yes**: the other Yes choices stop Claude asking again for that kind of action, or switch the session to Accept edits or auto mode ([Configure permissions](https://code.claude.com/docs/en/permissions#permission-system)). If a command does more than the plan needs, choose **No** and tell Claude what to do instead. When Claude is done, save what git sees now, in the other terminal:
+   Внимательно читайте каждый запрос и отвечайте простым нажатием **Yes**: другие варианты Yes отключают повторные запросы для аналогичных действий или переводят сессию в Accept edits либо auto mode ([Configure permissions](https://code.claude.com/docs/en/permissions#permission-system)). Если команда выходит за рамки утверждённого плана, выбирайте **No** и уточняйте, что следует сделать вместо этого. После завершения работы Claude сохраните итоговое состояние git во втором терминале:
 
    ```bash
    git status --porcelain > .practice/b-2-after.txt
    ```
 
-8. Set the example's change aside so Your turn starts clean. Git ignores `.practice/`, so your snapshots stay:
+8. Отложите изменения из примера в stash, чтобы блок практического задания (Your turn) начался на чистом дереве. Git игнорирует папку `.practice/`, поэтому сохранённые снимки останутся на месте:
 
    ```bash
    git stash push --include-untracked -m b-2-example
@@ -78,32 +78,32 @@ Plan mode is the habit to build first: you see the whole change as a plan before
 
 ## Your turn
 
-Repeat the example in your practice copy, or your own repository, with a small change of your own:
+Повторите эти действия в учебной копии или собственном репозитории, выполнив небольшое самостоятельное изменение:
 
-1. Switch to plan mode with `Shift+Tab` until the status bar reads `⏸ plan mode on`.
-2. Ask for the change, and answer any question Claude asks.
-3. Send the plan back once: type one correction in **Tell Claude what to change** and press `Enter`.
-4. While the final plan is on screen, run step 6's commands in another terminal, with your plan's file list.
-5. Approve with **Yes, manually approve edits**, read and approve each edit and command as in step 7, then save `git status --porcelain > .practice/b-2-after.txt`.
+1. Переключитесь в режим plan mode с помощью `Shift+Tab`, пока в строке статуса не появится `⏸ plan mode on`.
+2. Опишите требуемое изменение и ответьте на уточняющие вопросы Claude, если они возникнут.
+3. Отправьте план на доработку один раз: введите одно исправление в строке **Tell Claude what to change** и нажмите `Enter`.
+4. Пока итоговый план отображается на экране, выполните команды шага 6 во втором терминале, указав список файлов из вашего плана.
+5. Подтвердите выполнение через **Yes, manually approve edits**, подтверждайте каждую правку и команду как в шаге 7, затем сохраните статус: `git status --porcelain > .practice/b-2-after.txt`.
 
-Stop before committing. The next lesson starts from a clean tree and takes a new change to a commit.
+Остановитесь до выполнения коммита. Следующий урок начнётся с чистого рабочего дерева и доведёт задачу до коммита.
 
 ## Check
 
-You are done when all of these are true:
+Задание считается выполненным, когда соблюдены все условия:
 
-- [ ] `.practice/b-2-before.txt`, saved while the plan was on screen, lists no files. `cat .practice/b-2-before.txt` prints nothing.
-- [ ] Every path in `.practice/b-2-after.txt` appears in `.practice/b-2-plan.txt`.
-- [ ] Self-check (not tested): say, in one sentence, when you would pick Manual instead of Auto.
+- [ ] Файл `.practice/b-2-before.txt`, сохранённый при отображении плана, пуст. Команда `cat .practice/b-2-before.txt` ничего не выводит.
+- [ ] Каждый путь из `.practice/b-2-after.txt` присутствует в файле `.practice/b-2-plan.txt`.
+- [ ] Self-check (not tested): сформулируйте в одном предложении, в каких ситуациях вы выберете режим Manual вместо Auto.
 
-In the other terminal, run `npm run check -- b-2` in your practice copy. In your own repository, run `npm run check -- b-2 --dir <your repo>` from your practice copy instead.
+Во втором терминале запустите команду `npm run check -- b-2` в учебной копии. В собственном репозитории выполните из учебной копии: `npm run check -- b-2 --dir <your repo>`.
 
-If `.practice/b-2-before.txt` lists files, either the tree wasn't clean when Your turn started (the worked example's files there mean step 8 was skipped; in your own repository, they are your uncommitted work), or Claude wrote a file before you approved: check that the status bar read `⏸ plan mode on` when you sent the prompt, and look in the session for a command Claude ran that wrote a file. Either way, set the changes aside with `git stash push --include-untracked` (or commit your own work), then repeat Your turn from step 1 so the snapshots are saved again. If a changed path is missing from `.practice/b-2-plan.txt`, check that the plan file writes it the way `git status` does, then compare the plan you approved with what Claude changed.
+Если файл `.practice/b-2-before.txt` содержит файлы, это означает, что либо дерево было загрязнено перед началом Your turn (наличие файлов из примера указывает на пропуск шага 8), либо Claude изменил файлы до подтверждения плана: проверьте, горел ли статус `⏸ plan mode on` при отправке запроса, и найдите команду, изменившую файлы. В любом случае отложите изменения через `git stash push --include-untracked` (или закоммитьте свою работу) и повторите Your turn с шага 1. Если изменённый файл отсутствует в `.practice/b-2-plan.txt`, убедитесь, что пути записаны в формате `git status`, и сравните одобренный план с реальными правками.
 
 ## Go further
 
-- Type `/plan <your task>` to enter plan mode and start the task in one step ([Commands](https://code.claude.com/docs/en/commands)).
-- [Analyze before you edit with plan mode](https://code.claude.com/docs/en/permission-modes#analyze-before-you-edit-with-plan-mode): planning in more depth, including editing a plan before you approve it.
+- Введите команду `/plan <your task>`, чтобы войти в режим планирования и запустить формулирование задачи одной командой ([Commands](https://code.claude.com/docs/en/commands)).
+- [Analyze before you edit with plan mode](https://code.claude.com/docs/en/permission-modes#analyze-before-you-edit-with-plan-mode): подробный разбор планирования, включая редактирование файла плана до его одобрения.
 
 ---
 

@@ -4,43 +4,43 @@
 
 ## Goal
 
-By the end of this lesson you can install a plugin from one of Anthropic's marketplaces at the scope that fits, see what it adds, and turn it off, update it or remove it.
+К концу этого урока вы сможете устанавливать плагины из каталогов Anthropic в подходящей области видимости, проверять состав добавляемых ими возможностей, а также отключать, обновлять и удалять плагины. <details style="display:inline"><summary><code>[en]</code></summary>By the end of this lesson you can install a plugin from one of Anthropic's marketplaces at the scope that fits, see what it adds, and turn it off, update it or remove it.</details>
 
 ## You need
 
-- The repository from [lesson 4](04-permissions-and-sandbox.md), with its `.claude/settings.json`, and your copy of the practice template with Node.js LTS: the check runs from the copy.
-- Usage: light.
+- Репозиторий из [урока 4](04-permissions-and-sandbox.md) с файлом `.claude/settings.json`, и учебная копия шаблона с Node.js LTS (проверка запускается из неё).
+- Расход токенов: минимальный (light).
 
 ## The idea
 
-A [plugin](https://code.claude.com/docs/en/plugins/overview) packages the pieces of the last lessons, skills, subagents, hooks and MCP servers, so they install as one unit from a marketplace. Anthropic publishes three general-purpose marketplaces ([Anthropic's marketplaces](https://code.claude.com/docs/en/plugins/anthropic-marketplaces)):
+[Плагин (plugin)](https://code.claude.com/docs/en/plugins/overview) объединяет компоненты предыдущих уроков (навыки, субагенты, хуки и MCP-серверы), позволяя устанавливать их единым пакетом из каталогов-маркетплейсов. Anthropic публикует три основных каталога ([Anthropic's marketplaces](https://code.claude.com/docs/en/plugins/anthropic-marketplaces)): <details style="display:inline"><summary><code>[en]</code></summary>A plugin packages the pieces of the last lessons, skills, subagents, hooks and MCP servers, so they install as one unit from a marketplace.</details>
 
-- `claude-plugins-official`, which Claude Code adds for you the first time you start an interactive session;
-- `claude-community`, third-party plugins their authors submitted to Anthropic;
-- `claude-code-plugins`, a demo set.
+- `claude-plugins-official` - официальный каталог, автоматически подключаемый при первом старте интерактивной сессии;
+- `claude-community` - плагины сторонних авторов, прошедшие регистрацию в каталоге Anthropic;
+- `claude-code-plugins` - демонстрационный набор плагинов.
 
-You install a plugin as `<plugin>@<marketplace>`, at a scope that decides which settings file turns it on ([Choose an install scope](https://code.claude.com/docs/en/plugins/install#choose-an-install-scope)):
+Установка выполняется в формате `<plugin>@<marketplace>` с указанием области действия (scope), определяющей файл настроек ([Choose an install scope](https://code.claude.com/docs/en/plugins/install#choose-an-install-scope)):
 
-| Scope | Who gets it | `enabledPlugins` entry in |
+| Scope | Кому доступен | Запись `enabledPlugins` в |
 |---|---|---|
-| User | You, in every project | `~/.claude/settings.json` |
-| Project | Everyone who works in the repository | `.claude/settings.json`, committed |
-| Local | You, in this repository | `.claude/settings.local.json` |
+| User | Вам во всех проектах | `~/.claude/settings.json` |
+| Project | Всем участникам репозитория | `.claude/settings.json`, в git |
+| Local | Вам лично в текущем репозитории | `.claude/settings.local.json` |
 
-Committing a project-scope entry turns the plugin on for your collaborators, but it may not be installed on their machines yet, so each of them runs `claude plugin install <plugin>@<marketplace> --scope project` once. An enabled plugin is part of every session: its skill descriptions sit in Claude's context, and its hooks and MCP servers run, as you.
+Коммит записи проектного уровня активирует плагин для ваших коллег, однако сам плагин может ещё не быть скачан на их машинах, поэтому каждому достаточно один раз выполнить `claude plugin install <plugin>@<marketplace> --scope project`. Включённый плагин участвует в каждой сессии: описания его навыков находятся в контексте, а его хуки и серверы MCP выполняются от имени вашего пользователя.
 
 ## Worked example
 
-1. In a session in your repository, open the official marketplace's `commit-commands` plugin (Anthropic):
+1. В сессии вашего репозитория откройте плагин `commit-commands` из официального каталога (Anthropic):
 
    ```text
    /plugin install commit-commands@claude-plugins-official
    ```
 
-   Nothing installs yet. The panel shows the plugin's description and, under **Will install**, the commands it adds. Read it before you choose.
-2. Choose **Install for you, in this repo only (local scope)**. The install summary ends with `Plugin is now active.`
-3. Type `/commit-commands:`. The plugin's commands are listed under its name, such as `/commit-commands:commit`.
-4. Manage it from your shell ([Manage plugins from your shell](https://code.claude.com/docs/en/plugins/install#manage-plugins-from-your-shell)):
+   На этом шаге ничего не устанавливается. Панель показывает описание плагина и в блоке **Will install** перечисляет добавляемые команды. Всегда изучайте этот список перед выбором.
+2. Выберите вариант **Install for you, in this repo only (local scope)**. Итог установки завершится строкой `Plugin is now active.`
+3. Введите `/commit-commands:`. Команды плагина отобразятся под его именем (например, `/commit-commands:commit`).
+4. Управляйте плагинами из терминала ([Manage plugins from your shell](https://code.claude.com/docs/en/plugins/install#manage-plugins-from-your-shell)):
 
    ```bash
    claude plugin list
@@ -48,13 +48,13 @@ Committing a project-scope entry turns the plugin on for your collaborators, but
    claude plugin uninstall commit-commands@claude-plugins-official --scope local
    ```
 
-   `claude plugin list` shows the plugin's version, `Scope: local` and its status. `disable` turns it off and keeps it installed; `uninstall` removes it.
+   Команда `claude plugin list` выводит версию плагина, область действия (`Scope: local`) и текущий статус. Команда `disable` выключает плагин, сохраняя установленные файлы; команда `uninstall` удаляет его полностью.
 
 ## Your turn
 
-Turn on the `claude-code-setup` plugin (Anthropic) for everyone who works in your repository, then install it the way a teammate would.
+Включите плагин `claude-code-setup` (Anthropic) для всех разработчиков вашего репозитория и установите его по сценарию нового коллеги.
 
-1. Add this block to `.claude/settings.json`, beside the keys from earlier lessons, and replace the `TODO` with the plugin's full name, `<plugin>@<marketplace>`:
+1. Добавьте следующий блок в `.claude/settings.json` рядом с ключами из предыдущих уроков, заменив маркер `TODO` полным идентификатором плагина `<plugin>@<marketplace>`:
 
    ```json
    "enabledPlugins": {
@@ -62,34 +62,34 @@ Turn on the `claude-code-setup` plugin (Anthropic) for everyone who works in you
    }
    ```
 
-2. Commit `.claude/settings.json`.
-3. Install it as a teammate would after pulling your commit:
+2. Закоммитьте обновлённый `.claude/settings.json`.
+3. Установите плагин так, как это сделал бы коллега после получения вашего коммита:
 
    ```bash
    claude plugin install claude-code-setup@claude-plugins-official --scope project
    ```
 
-   It prints `Successfully installed plugin: claude-code-setup@claude-plugins-official (scope: project)`. Run `git status`: if the install changed `.claude/settings.json`, commit that change too.
-4. Start `claude` and ask `Recommend Claude Code automations for this project.` Claude uses the plugin's read-only skill ([its README](https://github.com/anthropics/claude-plugins-official/blob/main/plugins/claude-code-setup/README.md)) and suggests hooks, skills, subagents and MCP servers. Your wording will differ.
-5. Save the plugin list for the check, in the repository's root: `claude plugin list --json > .practice/i-8-plugins.json`.
+   Команда выведет: `Successfully installed plugin: claude-code-setup@claude-plugins-official (scope: project)`. Выполните `git status`: если установка обновила `.claude/settings.json`, закоммитьте эти изменения.
+4. Запустите `claude` и отправьте запрос: `Recommend Claude Code automations for this project.` Claude задействует навык плагина только для чтения ([его README](https://github.com/anthropics/claude-plugins-official/blob/main/plugins/claude-code-setup/README.md)) и предложит подходящие хуки, навыки, субагентов и MCP-серверы.
+5. Сохраните список плагинов для проверки в корне репозитория: `claude plugin list --json > .practice/i-8-plugins.json`.
 
 ## Check
 
-You are done when all of these are true:
+Задание выполнено, когда выполняются все условия:
 
-- [ ] The committed settings turn the plugin on for the project: `git show HEAD:.claude/settings.json | jq .enabledPlugins` shows `"claude-code-setup@claude-plugins-official": true`.
-- [ ] It's installed at project scope and enabled: `jq '.[] | select(.id == "claude-code-setup@claude-plugins-official") | {scope, enabled, projectEnabled}' .practice/i-8-plugins.json` shows `"project"`, `true` and `true`.
-- [ ] Self-check (not tested): you can say what `disable` keeps that `uninstall` removes, and why a teammate may still need `claude plugin install` after pulling the settings.
+- [ ] Закоммиченные настройки включают плагин для проекта: `git show HEAD:.claude/settings.json | jq .enabledPlugins` содержит `"claude-code-setup@claude-plugins-official": true`.
+- [ ] Плагин установлен в project scope и активирован: `jq '.[] | select(.id == "claude-code-setup@claude-plugins-official") | {scope, enabled, projectEnabled}' .practice/i-8-plugins.json` возвращает `"project"`, `true` и `true`.
+- [ ] Self-check (not tested): вы можете объяснить, что сохраняет `disable`, но удаляет `uninstall`, и почему коллеге может потребоваться выполнить `claude plugin install` после стягивания настроек.
 
-Run `npm run check -- i-8 --dir <your repo>` from your practice copy, or `npm run check -- i-8` in the copy itself.
+Запустите `npm run check -- i-8 --dir <your repo>` из учебной копии, либо `npm run check -- i-8` в самой копии.
 
-If the first item fails, check the name after `@`: it's the marketplace's name, `claude-plugins-official`, not its repository. If the second fails, run the install command in the repository itself, then save the list again from there.
+Если первый пункт не проходит, проверьте название после символа `@`: это имя каталога `claude-plugins-official`, а не URL репозитория. Если не проходит второй пункт, выполните команду установки в самом репозитории и повторно экспортируйте JSON-список.
 
 ## Watch out
 
-- A plugin's hooks and MCP servers run with your user's rights, and Anthropic doesn't review third-party marketplaces. Read the **Will install** list first ([Plugin security and trust](https://code.claude.com/docs/en/plugins/security)).
-- The official marketplace also lists a `chrome-devtools-mcp` plugin (Vendor: Google), pinned to a commit of the server's repository ([its catalog](https://github.com/anthropics/claude-plugins-official/blob/main/.claude-plugin/marketplace.json)). On 2026-10-06, [its manifest](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/1cec9cd1a3bbf1895c98fa4b4e0e2da5a36e4075/.claude-plugin/plugin.json) started the server from [lesson 7](07-mcp.md), at an earlier version and without that lesson's flags, so its usage statistics, CrUX lookups and update checks keep their defaults, which are on ([upstream README](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/chrome-devtools-mcp-v1.10.1/README.md)). Keep lesson 7's `.mcp.json` instead.
-- Plugins from `claude-plugins-official` update on their own; a running session keeps the version it loaded until `/reload-plugins` or the next session. Plugins from the community marketplace don't, unless you turn auto-update on for it ([Keep plugins updated](https://code.claude.com/docs/en/plugins/install#keep-plugins-updated)).
+- Хуки и MCP-серверы плагина выполняются с полными правами вашего пользователя ОС, а сторонние каталоги не модерируются компанией Anthropic. Всегда изучайте список **Will install** перед подтверждением ([Plugin security and trust](https://code.claude.com/docs/en/plugins/security)).
+- Официальный каталог содержит также плагин `chrome-devtools-mcp` (Vendor: Google), зафиксированный на коммите репозитория сервера ([его каталог](https://github.com/anthropics/claude-plugins-official/blob/main/.claude-plugin/marketplace.json)). На 2026-10-06 [его манифест](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/1cec9cd1a3bbf1895c98fa4b4e0e2da5a36e4075/.claude-plugin/plugin.json) запускал сервер из [урока 7](07-mcp.md) более старой версии и без защитных флагов, из-за чего телеметрия остаётся включённой по умолчанию ([upstream README](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/chrome-devtools-mcp-v1.10.1/README.md)). Предпочитайте конфигурацию `.mcp.json` из урока 7.
+- Плагины из `claude-plugins-official` обновляются автоматически; запущенная сессия использует загруженную версию до команды `/reload-plugins` или перезапуска. Плагины из каталога сообщества не обновляются автоматически, если вы явно не включите автообновление ([Keep plugins updated](https://code.claude.com/docs/en/plugins/install#keep-plugins-updated)).
 
 Third-party: it can run code on your machine or give Claude new tools. Review it before installing; this guide does not audit it.
 
@@ -97,12 +97,12 @@ Listings checked against the listing bar on 2026-10-06.
 
 ## Go further
 
-- [Anthropic's marketplaces](https://code.claude.com/docs/en/plugins/anthropic-marketplaces): the three marketplaces, and where to browse the official one. This is where to look for more plugins.
-- [Plugins overview](https://code.claude.com/docs/en/plugins/overview): what a plugin can hold, and what an enabled one costs each session.
-- [Create a Claude Code plugin](https://code.claude.com/docs/en/plugins/create): package your own skills, hooks and subagents.
+- [Plugins overview](https://code.claude.com/docs/en/plugins/overview): архитектура и устройство плагинов Claude Code.
+- [Anthropic's marketplaces](https://code.claude.com/docs/en/plugins/anthropic-marketplaces): структура официальных каталогов и правила публикации.
+- [Тестирование и публикация плагина](../advanced/electives/publish-a-plugin.md): факультатив уровня Advanced по разработке и распространению собственного плагина.
 
 ---
 
-<sub>Sources: [Plugins overview](https://code.claude.com/docs/en/plugins/overview) · [Install and manage plugins](https://code.claude.com/docs/en/plugins/install) · [Anthropic's marketplaces](https://code.claude.com/docs/en/plugins/anthropic-marketplaces) · [Plugin security and trust](https://code.claude.com/docs/en/plugins/security) · [claude-code-setup README](https://github.com/anthropics/claude-plugins-official/blob/main/plugins/claude-code-setup/README.md) · [Official marketplace catalog](https://github.com/anthropics/claude-plugins-official/blob/main/.claude-plugin/marketplace.json) · [chrome-devtools-mcp plugin manifest](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/1cec9cd1a3bbf1895c98fa4b4e0e2da5a36e4075/.claude-plugin/plugin.json) · [Chrome DevTools MCP README](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/chrome-devtools-mcp-v1.10.1/README.md)</sub>
+<sub>Sources: [Plugins overview](https://code.claude.com/docs/en/plugins/overview) · [Install and manage plugins](https://code.claude.com/docs/en/plugins/install) · [Anthropic's marketplaces](https://code.claude.com/docs/en/plugins/anthropic-marketplaces) · [Plugin security and trust](https://code.claude.com/docs/en/plugins/security) · [Chrome DevTools MCP README](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/chrome-devtools-mcp-v1.10.1/README.md) · [claude-plugins-official manifest](https://github.com/anthropics/claude-plugins-official/blob/main/.claude-plugin/marketplace.json) · [chrome-devtools plugin manifest](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/1cec9cd1a3bbf1895c98fa4b4e0e2da5a36e4075/.claude-plugin/plugin.json)</sub>
 
 <sub>← [Connect a tool with MCP](07-mcp.md) · [Intermediate index](README.md) · [Intermediate capstone](capstone.md) → · Topic: [Plugins](../topics/plugins.md) · [Stuck on this lesson?](https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know/issues/new?template=lesson-feedback.yml&lesson=i-8)</sub>

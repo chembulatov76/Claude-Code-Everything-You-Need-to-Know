@@ -1,15 +1,16 @@
-# Glossary
+<a id="glossary"></a>
+# Глоссарий
 
 <sub>Verified against Claude Code v2.1.285 (stable) on 2026-10-05</sub>
 
-The words this guide uses for its own parts. For Claude Code's terms, such as hooks, subagents or compaction, see the official [Glossary](https://code.claude.com/docs/en/glossary).
+Термины, используемые в данном руководстве для описания его структуры. Терминология самого Claude Code (хуки, субагенты, сжатие контекста и т. д.) приведена в официальном [Glossary](https://code.claude.com/docs/en/glossary).
 
-- **Level:** how far along you are: Beginner, Intermediate or Advanced. Beginner covers one session and one change, Intermediate one developer's setup, and Advanced work beyond one session.
-- **Lesson:** a page that moves you one step toward a level's Exit by having you do something and check it. Each lesson belongs to one level and has one place in its order.
-- **Elective:** an optional lesson outside a level's core path. Nothing in a level's Exit depends on one.
-- **Capstone:** the task that ends a level and exercises its Exit in one go, with its own check.
-- **Check:** the last part of a lesson: observable state, such as files, git history, exit codes or settings, that shows your exercise worked. It never depends on how Claude words a reply.
-- **Exit:** the list of things you can do unaided at the end of a level. Each level's Exit is the next level's "You're ready for this level if you can" list.
+- **Уровень (Level):** этап освоения инструмента - Начальный (Beginner), Промежуточный (Intermediate) или Продвинутый (Advanced). Начальный уровень охватывает одну сессию и одну задачу; Промежуточный - постоянное рабочее окружение разработчика; Продвинутый - автономные процессы за пределами одной сессии.
+- **Урок (Lesson):** практический модуль, приближающий читателя к финальным критериям уровня через выполнение конкретного упражнения и проверку результата. Каждый урок принадлежит ровно одному уровню и занимает фиксированное место в последовательности.
+- **Факультатив (Elective):** дополнительный урок вне базовой программы уровня. Прохождение факультативов необязательно для сдачи финальных требований уровня.
+- **Финальный проект (Capstone):** комплексное итоговое задание, завершающее уровень и проверяющее все приобретенные навыки за один проход с собственным набором автопроверок.
+- **Проверка (Check):** заключительная часть каждого урока: наблюдаемое состояние системы (файлы, история git, коды возврата команд или параметры настроек), подтверждающее правильность выполнения. Проверка никогда не зависит от конкретных формулировок ответов Claude.
+- **Выходные критерии (Exit):** перечень навыков и действий, которые читатель способен выполнять самостоятельно по завершении уровня. Выходные критерии текущего уровня соответствуют входным требованиям следующего.
 
 ---
 

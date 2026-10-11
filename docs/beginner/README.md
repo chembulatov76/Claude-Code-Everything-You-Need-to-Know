@@ -2,65 +2,73 @@
 
 <sub>**Beginner** · about 2½ hours · Verified against Claude Code v2.1.285 (stable) on 2026-10-05</sub>
 
-One session, one change. You install Claude Code, decide what it may do without asking, take one change from request to commit, keep a long session on track, and give it a project memory.
+Одна сессия, одно изменение. Вы установите Claude Code, определите, что ему разрешено делать без подтверждения, проведёте одно изменение от запроса до коммита, научитесь удерживать сессию в рамках задачи и добавите проекту долговременную память. <details style="display:inline"><summary><code>[en]</code></summary>One session, one change. You install Claude Code, decide what it may do without asking, take one change from request to commit, keep a long session on track, and give it a project memory.</details>
 
+<a id="youre-ready-for-this-level-if-you-can"></a>
 ## You're ready for this level if you can
 
-- [ ] Work in a terminal: change folders, run commands and read their output.
-- [ ] Use git: clone a repository, commit, and read `git status` and `git diff`.
-- [ ] Have a Claude subscription (Pro, Max, Team or Enterprise; the free plan doesn't include Claude Code), a Claude Console account, or access through a supported cloud provider ([Quickstart](https://code.claude.com/docs/en/quickstart), [Advanced setup](https://code.claude.com/docs/en/setup)). Lesson 1 shows you how to sign in.
+- [ ] Уверенно работать в терминале: переходить между папками, запускать команды и читать их вывод.
+- [ ] Пользоваться git: клонировать репозиторий, делать коммиты и ориентироваться в `git status` и `git diff`.
+- [ ] Иметь платную подписку Claude (Pro, Max, Team или Enterprise; бесплатный план не включает Claude Code), аккаунт Claude Console либо доступ через поддерживаемого облачного провайдера ([Quickstart](https://code.claude.com/docs/en/quickstart), [Advanced setup](https://code.claude.com/docs/en/setup)). В Уроке 1 показано, как войти в систему.
 
-New to the terminal? The official [Terminal guide for new users](https://code.claude.com/docs/en/terminal-guide) walks you through opening one and installing Claude Code.
+Впервые в терминале? Официальное [Руководство по терминалу для новичков](https://code.claude.com/docs/en/terminal-guide) шаг за шагом показывает, как открыть терминал и установить Claude Code.
 
+<a id="practice"></a>
 ## Practice
 
-Before lesson 1, make your own copy of the [practice template](https://github.com/wesammustafa/claude-code-practice): select **Use this template**, then **Create a new repository**, and clone your copy. Every Beginner exercise and the capstone run there.
+Перед началом Урока 1 создайте собственную копию [шаблона для практики](https://github.com/wesammustafa/claude-code-practice): нажмите **Use this template**, затем **Create a new repository** и клонируйте полученный репозиторий. Все упражнения уровня Beginner и выпускное задание выполняются в нём.
 
-Each core lesson and the capstone end with a check you run in your copy as `npm run check -- <id>`, where the id is `b-1` to `b-5` for the lessons and `b-capstone` for the capstone. The Electives end with a checklist you confirm yourself. The checks need Node.js LTS, which a Codespace on your copy has preinstalled. To practice in one of your own repositories instead, keep the template copy as well: the checks run from it with `--dir`.
+Каждый основной урок и итоговое задание завершаются скриптом проверки, который вы запускаете в своей копии командой `npm run check -- <id>`, где идентификатор: от `b-1` до `b-5` для уроков и `b-capstone` для выпускного задания. Факультативы завершаются чек-листом для самостоятельной проверки. Для работы скриптов проверки необходим Node.js LTS (в среде Codespace вашей копии он уже предустановлен). Если вы хотите практиковаться в одном из своих рабочих репозиториев, сохраните также копию шаблона: проверки запускаются из неё с указанием пути через флаг `--dir`.
 
-On native Windows, if PowerShell refuses to run `npm` with `running scripts is disabled on this system` ([Troubleshoot installation](https://code.claude.com/docs/en/troubleshoot-install#running-scripts-is-disabled-on-this-system)), follow the Windows note in [lesson 1](01-install-and-look-around.md#you-need).
+На чистой Windows, если PowerShell блокирует запуск `npm` с сообщением `running scripts is disabled on this system` ([Troubleshoot installation](https://code.claude.com/docs/en/troubleshoot-install#running-scripts-is-disabled-on-this-system)), следуйте указаниям для Windows из [Урока 1](01-install-and-look-around.md#you-need).
 
+<a id="lessons"></a>
 ## Lessons
 
-1. [Install, sign in and look around](01-install-and-look-around.md)
-2. [Permission modes and plan mode](02-permission-modes-and-plan-mode.md)
-3. [Your first change, from request to commit](03-first-change.md)
-4. [Keep a session on track](04-keep-a-session-on-track.md)
-5. [Project memory with CLAUDE.md](05-project-memory.md)
+1. [Установка, вход и первый запуск](01-install-and-look-around.md) <details style="display:inline"><summary><code>[en]</code></summary>Install, sign in and look around</details>
+2. [Режимы разрешений и режим планирования](02-permission-modes-and-plan-mode.md) <details style="display:inline"><summary><code>[en]</code></summary>Permission modes and plan mode</details>
+3. [Первое изменение: от запроса до коммита](03-first-change.md) <details style="display:inline"><summary><code>[en]</code></summary>Your first change, from request to commit</details>
+4. [Управление сессией и удержание фокуса](04-keep-a-session-on-track.md) <details style="display:inline"><summary><code>[en]</code></summary>Keep a session on track</details>
+5. [Память проекта с CLAUDE.md](05-project-memory.md) <details style="display:inline"><summary><code>[en]</code></summary>Project memory with CLAUDE.md</details>
 
-Each lesson takes about 20 minutes, and the capstone 30 to 60.
+Каждый урок занимает около 20 минут, а выпускное задание: от 30 до 60 минут.
 
+<a id="capstone"></a>
 ## Capstone
 
-[Fix a reported bug, from plan to commit](capstone.md): record your Claude Code version, then fix a reported bug in the practice template: plan the fix, change two source files, add a test that fails before the fix and passes after it, and commit. Its check covers what it can see in files and git, and the capstone page lists the rest of the [Beginner Exit](#by-the-end-of-this-level-you-can) for you to tick yourself.
+[Исправление ошибки в коде: от плана до коммита](capstone.md): зафиксируйте версию Claude Code, затем найдите и устраните зарегистрированную ошибку в учебном шаблоне: спланируйте исправление, измените два исходных файла, добавьте тест (падающий до фикса и проходящий после него) и сделайте коммит. Проверочный скрипт анализирует изменения в файлах и коммитах git, а остальные навыки из списка [Критериев завершения Beginner](#by-the-end-of-this-level-you-can) вы отмечаете самостоятельно.
 
+<a id="by-the-end-of-this-level-you-can"></a>
 ## By the end of this level you can
 
-This list is the Beginner Exit ([Glossary](../reference/glossary.md)), which the capstone puts together in one task.
+Этот перечень представляет собой квалификационный профиль уровня Beginner ([Глоссарий](../reference/glossary.md)), который выпускное задание объединяет в единый рабочий процесс.
 
-- [ ] Install Claude Code, sign in, start it in your repository, and tell which version, model and account you're on.
-- [ ] Choose and switch permission modes, and approve a plan in plan mode before any change.
-- [ ] Take one change from request to commit: explore, plan, implement, test, review the diff, correct, commit.
-- [ ] Keep a session on track with context, clear, compact, rewind and resume.
-- [ ] Create a project CLAUDE.md and show that a new session follows it.
+- [ ] Установить Claude Code, выполнить вход, запустить инструмент в репозитории и определить версию, модель и аккаунт текущей сессии.
+- [ ] Выбирать и переключать режимы разрешений, а также утверждать план в режиме plan mode до внесения любых правок в файлы.
+- [ ] Проводить изменение от запроса до коммита: исследование, план, реализация, запуск тестов, проверка diff, корректировка, коммит.
+- [ ] Удерживать сессию в рамках задачи, используя команды context, clear, compact, rewind и resume.
+- [ ] Создавать файл CLAUDE.md проекта и подтверждать, что новая сессия соблюдает описанные в нём правила.
 
+<a id="electives"></a>
 ## Electives
 
-Optional lessons beside the core path:
+Дополнительные практические темы (факультативы):
 
-- [IDE extensions](electives/ide-extensions.md)
-- [Screenshots and images](electives/screenshots-and-images.md)
-- [The built-in teachers](electives/built-in-teachers.md): `/powerup`, the Learning and Explanatory output styles, and the `claude-code-guide` subagent
+- [Интеграция с редакторами и IDE](electives/ide-extensions.md)
+- [Скриншоты и изображения в промптах](electives/screenshots-and-images.md)
+- [Встроенные инструменты обучения](electives/built-in-teachers.md): команда `/powerup`, стили вывода Learning и Explanatory, а также субагент `claude-code-guide`
 
+<a id="official-companions"></a>
 ## Official companions
 
-- [Quickstart](https://code.claude.com/docs/en/quickstart): Anthropic's walkthrough from install to a first change.
-- [Claude Code 101](https://academy.claude.com/courses/claude-code-101): Claude Academy's beginner course.
-- `/powerup`: interactive lessons inside Claude Code ([Commands](https://code.claude.com/docs/en/commands)).
+- [Quickstart](https://code.claude.com/docs/en/quickstart): пошаговое руководство от Anthropic от установки до первого изменения.
+- [Claude Code 101](https://academy.claude.com/courses/claude-code-101): вводный курс от Claude Academy.
+- `/powerup`: интерактивные обучающие уроки прямо внутри Claude Code ([Commands](https://code.claude.com/docs/en/commands)).
 
+<a id="next-level"></a>
 ## Next level
 
-[Intermediate](../intermediate/README.md): one developer's setup.
+[Intermediate](../intermediate/README.md): конфигурация рабочего места индивидуального разработчика.
 
 ---
 

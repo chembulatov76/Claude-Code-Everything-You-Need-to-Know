@@ -1,16 +1,17 @@
-# Reference
+<a id="reference"></a>
+# Справочник
 
 <sub>Verified against Claude Code v2.1.285 (stable) on 2026-10-05</sub>
 
-Pages to look things up in. Each one adds a table or decision aid that the official docs don't have, and links the official pages for everything else.
+Материалы для быстрого поиска и справок. Каждый раздел содержит сравнительную таблицу или алгоритм принятия решений, дополняющие официальную документацию, а также прямые ссылки на официальные страницы.
 
-- [Models and effort](models.md)
-- [Commands by level](commands.md)
-- [Feature map](feature-map.md): every feature's stability label and who gets it.
-- [Further learning](further-reading.md)
-- [Glossary](glossary.md): the guide's own words.
+- [Модели и глубина рассуждений](models.md)
+- [Команды по уровням](commands.md)
+- [Карта возможностей](feature-map.md): статусы стабильности функций и доступность по тарифам.
+- [Материалы для углубленного изучения](further-reading.md)
+- [Глоссарий](glossary.md): терминология самого руководства.
 
-For Claude Code's own terms, see the official [Glossary](https://code.claude.com/docs/en/glossary).
+Официальная терминология Claude Code приведена в [Glossary](https://code.claude.com/docs/en/glossary).
 
 ---
 

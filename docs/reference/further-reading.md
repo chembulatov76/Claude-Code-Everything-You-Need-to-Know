@@ -1,50 +1,51 @@
-<a id="further-reading"></a>
-# Further learning
+<a id="further-reading"></a><a id="further-learning"></a>
+# Материалы для углубленного изучения
 
 <sub>Verified against Claude Code v2.1.285 (stable) on 2026-10-05</sub>
 
-Courses, docs and posts that go deeper than the guide, grouped by the level where they help most. Lessons link the pages they rely on; this page collects the rest. Every item is published by Anthropic, except the Agent Skills specification, an open standard that Anthropic started.
+Курсы, документация и аналитические статьи для более глубокого погружения, сгруппированные по уровням сложности. В уроках приведены источники непосредственных утверждений; на этой странице собраны дополнительные материалы. Все публикации подготовлены компанией Anthropic, за исключением спецификации Agent Skills (открытый стандарт, созданный Anthropic).
 
-Listings checked against the listing bar on 2026-10-05.
+Ссылки проверены на 2026-10-05.
 
-<a id="official-claude--anthropic-resources"></a><a id="official"></a><a id="claude-code-documentation"></a><a id="claude-models--api"></a><a id="model-announcements-2026"></a>
-## Start anywhere
+<a id="official-claude--anthropic-resources"></a><a id="official"></a><a id="claude-code-documentation"></a><a id="claude-models--api"></a><a id="model-announcements-2026"></a><a id="start-anywhere"></a>
+## С чего начать
 
-- [Claude Code overview](https://code.claude.com/docs/en/overview): what it is and where it runs.
-- [Best practices](https://code.claude.com/docs/en/best-practices): Anthropic's advice for working with Claude Code.
-- [What's new](https://code.claude.com/docs/en/whats-new): a weekly digest of notable new features.
-- [CLI reference](https://code.claude.com/docs/en/cli-reference): every command-line flag.
-- [Claude Code user FAQ](https://support.claude.com/en/articles/14554922-claude-code-user-faq): answers from Anthropic's Help Center.
-- [Models overview](https://platform.claude.com/docs/en/about-claude/models/overview) and [plans and pricing](https://claude.com/pricing). The guide's own [Models and effort](models.md) page covers the aliases and effort levels.
+- [Обзор Claude Code](https://code.claude.com/docs/en/overview): архитектура и среды запуска.
+- [Лучшие практики](https://code.claude.com/docs/en/best-practices): официальные рекомендации Anthropic по работе с Claude Code.
+- [Что нового](https://code.claude.com/docs/en/whats-new): еженедельный дайджест ключевых обновлений.
+- [Справочник CLI](https://code.claude.com/docs/en/cli-reference): параметры командной строки.
+- [Пользовательский FAQ](https://support.claude.com/en/articles/14554922-claude-code-user-faq): ответы на типовые вопросы в справочном центре Anthropic.
+- [Обзор моделей](https://platform.claude.com/docs/en/about-claude/models/overview) и [тарифные планы](https://claude.com/pricing). Справочник руководства [Модели и глубина рассуждений](models.md) описывает псевдонимы и уровни effort.
 
-## Beginner
+<a id="beginner"></a>
+## Начальный уровень
 
-- [Quickstart](https://code.claude.com/docs/en/quickstart): from install to a first change.
-- [Commands](https://code.claude.com/docs/en/commands): every built-in command. The guide's [Commands by level](commands.md) lists the ones the lessons use.
+- [Быстрый старт](https://code.claude.com/docs/en/quickstart): от установки до первого коммита.
+- [Команды](https://code.claude.com/docs/en/commands): встроенные команды сессии. Справочник [Команды по уровням](commands.md) содержит команды, используемые в уроках.
 
-<a id="hooks--automation"></a><a id="workflows--tutorials"></a><a id="model-context-protocol-mcp"></a><a id="mcp-server-examples"></a>
-## Intermediate
+<a id="hooks--automation"></a><a id="workflows--tutorials"></a><a id="model-context-protocol-mcp"></a><a id="mcp-server-examples"></a><a id="intermediate"></a>
+## Промежуточный уровень
 
-- [Hooks reference](https://code.claude.com/docs/en/hooks): every hook event and its input and output.
-- [Troubleshooting](https://code.claude.com/docs/en/troubleshooting) and the [error reference](https://code.claude.com/docs/en/errors): when a setup doesn't behave.
-- [Fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode): the API side of fast mode.
-- [How Anthropic teams use Claude Code](https://claude.com/blog/how-anthropic-teams-use-claude-code): how teams inside Anthropic work with it.
-- [Onboarding Claude Code like a new developer](https://claude.com/blog/onboarding-claude-code-like-a-new-developer-lessons-from-17-years-of-development): how one open source project set Claude Code up for its large codebase.
-- [Maximizing the value of your Claude Code sessions](https://claude.com/blog/maximizing-the-value-of-your-claude-code-sessions) and [Claude Code power user tips](https://support.claude.com/en/articles/14554000-claude-code-power-user-tips).
-- [How Claude Code is used in practice](https://www.anthropic.com/research/claude-code-expertise): Anthropic's research on how people work with it.
-- For MCP, the [MCP topic page](../topics/mcp.md) lists the official docs.
+- [Справочник хуков](https://code.claude.com/docs/en/hooks): события жизненного цикла, входные и выходные параметры.
+- [Устранение неполадок](https://code.claude.com/docs/en/troubleshooting) и [справочник ошибок](https://code.claude.com/docs/en/errors): диагностика нестандартного поведения.
+- [Быстрый режим](https://platform.claude.com/docs/en/build-with-claude/fast-mode): архитектура fast mode со стороны API.
+- [Как команды Anthropic используют Claude Code](https://claude.com/blog/how-anthropic-teams-use-claude-code): реальный внутренний опыт команд разработки Anthropic.
+- [Онбординг Claude Code в роли нового разработчика](https://claude.com/blog/onboarding-claude-code-like-a-new-developer-lessons-from-17-years-of-development): опыт интеграции Claude Code в крупную кодовую базу с 17-летней историей.
+- [Максимизация отдачи от сессий](https://claude.com/blog/maximizing-the-value-of-your-claude-code-sessions) и [Советы опытным пользователям](https://support.claude.com/en/articles/14554000-claude-code-power-user-tips).
+- [Применение Claude Code на практике](https://www.anthropic.com/research/claude-code-expertise): исследование Anthropic о сценариях взаимодействия пользователей с агентом.
+- По протоколу MCP: тематический раздел [MCP](../topics/mcp.md) содержит официальную документацию.
 
-<a id="agent-development"></a>
-## Advanced
+<a id="agent-development"></a><a id="advanced"></a>
+## Продвинутый уровень
 
-- [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents): Anthropic's patterns for agent systems.
-- [Agent Skills specification](https://agentskills.io/specification): the open format that Claude Code skills follow.
-- [Set up Claude Code in a monorepo or large codebase](https://code.claude.com/docs/en/large-codebases): nested CLAUDE.md files, sparse worktrees and per-package skills.
-- [How Anthropic runs large-scale code migrations with Claude Code](https://claude.com/blog/ai-code-migration).
-- [Code w/ Claude talks](https://claude.com/blog/code-w-claude-sf-2026-sf): the recap and recorded sessions.
+- [Создание эффективных агентов](https://www.anthropic.com/engineering/building-effective-agents): фундаментальные архитектурные паттерны агентных систем от Anthropic.
+- [Спецификация Agent Skills](https://agentskills.io/specification): открытый стандарт описания навыков, используемый в Claude Code.
+- [Настройка Claude Code в монорепозиториях и больших кодовых базах](https://code.claude.com/docs/en/large-codebases): вложенные файлы CLAUDE.md, разреженные worktree и локальные навыки для пакетов.
+- [Масштабная миграция кода силами Claude Code](https://claude.com/blog/ai-code-migration): опыт Anthropic по автоматизированной трансформации кодовой базы.
+- [Доклады конференции Code w/ Claude](https://claude.com/blog/code-w-claude-sf-2026-sf): видеозаписи и конспекты выступлений разработчиков.
 
 <a id="development-tools--adjacent-resources"></a><a id="agent-interoperability"></a>
-The third-party tools, model announcements and agent-interoperability links this page used to list were removed; see the [CHANGELOG](../../CHANGELOG.md#removed-further-reading-listings).
+Сторонние утилиты и каталоги, ранее присутствовавшие в списке, были удалены в соответствии с редакционной политикой; см. [CHANGELOG](../../CHANGELOG.md#removed-further-reading-listings).
 
 ---
 

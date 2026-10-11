@@ -1,20 +1,24 @@
-# Models, effort and cost
+<a id="models-effort-and-cost"></a>
+# Модели, усилия и стоимость
 
 <sub>Topic · Verified against Claude Code v2.1.285 (stable) on 2026-10-05</sub>
 
-Which model and effort level a task needs, and what a session costs.
+Какая модель и уровень мыслительных усилий нужны для конкретной задачи, и как контролировать расходы токенов. <details style="display:inline"><summary><code>[en]</code></summary>Which model and effort level a task needs, and what a session costs.</details>
 
-## Lessons
+<a id="lessons"></a>
+## Уроки
 
-- Beginner: [Install, sign in and look around](../beginner/01-install-and-look-around.md)
-- Intermediate: [Pick the model and effort](../intermediate/03-model-and-effort.md)
-- Intermediate Electives: [The status line](../intermediate/electives/status-line.md), [Fast mode](../intermediate/electives/fast-mode.md)
+- Beginner: [Установка, вход и первый запуск](../beginner/01-install-and-look-around.md)
+- Intermediate: [Выбор модели и уровня усилий мысли](../intermediate/03-model-and-effort.md)
+- Факультативы Intermediate: [Настройка строки статуса](../intermediate/electives/status-line.md), [Быстрый режим (Fast mode)](../intermediate/electives/fast-mode.md)
 
-## Reference
+<a id="reference"></a>
+## Справочник
 
-- [Models and effort](../reference/models.md)
+- [Модели и усилия мысли](../reference/models.md)
 
-## Official docs
+<a id="official-docs"></a>
+## Официальная документация
 
 - [Model configuration](https://code.claude.com/docs/en/model-config)
 - [Manage costs effectively](https://code.claude.com/docs/en/costs)
@@ -25,4 +29,4 @@ Which model and effort level a task needs, and what a session costs.
 
 <sub>Sources: [Model configuration](https://code.claude.com/docs/en/model-config) · [Manage costs effectively](https://code.claude.com/docs/en/costs) · [Customize your status line](https://code.claude.com/docs/en/statusline) · [Speed up responses with fast mode](https://code.claude.com/docs/en/fast-mode)</sub>
 
-<sub>Up: [Topics](README.md)</sub>
+<sub>Наверх: [Темы](README.md)</sub>

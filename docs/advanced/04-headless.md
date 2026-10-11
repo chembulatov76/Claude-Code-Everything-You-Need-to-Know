@@ -4,27 +4,27 @@
 
 ## Goal
 
-By the end of this lesson you can write a script that runs Claude Code with no one at the keyboard, reads its JSON result and exit code, and limits it to the tools and turns the job needs.
+К концу этого урока вы сможете писать скрипты для запуска Claude Code в полностью автономном режиме без участия человека за клавиатурой, считывать результат в формате JSON и код завершения, а также жестко ограничивать доступные инструменты и число раундов диалога под требования задачи. <details style="display:inline"><summary><code>[en]</code></summary>By the end of this lesson you can write a script that runs Claude Code with no one at the keyboard, reads its JSON result and exit code, and limits it to the tools and turns the job needs.</details>
 
 ## You need
 
-- One of your own repositories with a test command, and your copy of the practice template with Node.js LTS: the check runs from the copy. To practice in the template copy instead, use it for both. Set up the repository's `.practice/` folder as [Beginner lesson 1](../beginner/01-install-and-look-around.md#you-need) describes, if you haven't yet.
-- bash and `jq`, on macOS, Linux or WSL 2.
-- Usage: light. Each `claude -p` run is one short session.
+- Один из ваших репозиториев с настроенной командой запуска тестов, а также копия учебного шаблона с Node.js LTS: скрипт проверки запускается из копии. Чтобы практиковаться непосредственно в копии шаблона, используйте ее для обеих целей. Настройте папку `.practice/` в соответствии с описанием в [Уроке 1 уровня Beginner](../beginner/01-install-and-look-around.md#you-need), если еще не сделали этого.
+- Оболочка bash и утилита `jq` в среде macOS, Linux или WSL 2.
+- Расход токенов: минимальный (light). Каждый запуск `claude -p` представляет собой одну короткую сессию.
 
 ## The idea
 
-`claude -p "<prompt>"` runs one prompt without the interactive interface, prints the answer and exits with 0, or non-zero when the run fails ([Run Claude Code programmatically](https://code.claude.com/docs/en/headless)). It reads stdin, so a script can pipe a diff in.
+Команда `claude -p "<prompt>"` выполняет один запрос без запуска интерактивного интерфейса, выводит ответ в терминал и завершается с кодом 0 (или ненулевым кодом при сбое) ([Run Claude Code programmatically](https://code.claude.com/docs/en/headless)). Она читает стандартный поток ввода stdin, поэтому скрипты могут передавать вывод diff прямо через конвейер.
 
-With [`--output-format json`](https://code.claude.com/docs/en/headless#get-structured-output), it prints one JSON object with `result`, `is_error`, `num_turns`, `session_id` and `permission_denials` ([`SDKResultMessage`](https://code.claude.com/docs/en/agent-sdk/typescript#sdkresultmessage)). `result` holds the answer, or the failure message when something fails inside the run ([Basic usage](https://code.claude.com/docs/en/headless#basic-usage)). `subtype` is `success`, or why the run stopped early, such as `error_max_turns`; such a run has no `result` ([Handle the result](https://code.claude.com/docs/en/agent-sdk/agent-loop#handle-the-result)). Check the exit code and `is_error` before you use `result`.
+С флагом [`--output-format json`](https://code.claude.com/docs/en/headless#get-structured-output) команда возвращает один JSON-объект с полями `result`, `is_error`, `num_turns`, `session_id` и `permission_denials` ([`SDKResultMessage`](https://code.claude.com/docs/en/agent-sdk/typescript#sdkresultmessage)). Поле `result` содержит текст ответа или сообщение об ошибке при внутреннем сбое ([Basic usage](https://code.claude.com/docs/en/headless#basic-usage)). Поле `subtype` принимает значение `success` либо причину досрочной остановки (например, `error_max_turns`; в таком случае поле `result` отсутствует) ([Handle the result](https://code.claude.com/docs/en/agent-sdk/agent-loop#handle-the-result)). Всегда проверяйте код завершения процесса и флаг `is_error` перед использованием содержимого `result`.
 
-Nobody can answer a permission prompt, so pass a mode every time: a run where nothing sets one can start in auto mode ([Auto-approve tools](https://code.claude.com/docs/en/headless#auto-approve-tools)). Three flags set the limits: `--permission-mode dontAsk` denies every call that would otherwise prompt, `--allowedTools` names what may run anyway, and `--max-turns` caps the turns ([CLI flags](https://code.claude.com/docs/en/cli-reference#cli-flags)).
+Поскольку подтвердить запрос разрешений некому, всегда явно указывайте режим: сессия без указания режима может запуститься в режиме auto ([Auto-approve tools](https://code.claude.com/docs/en/headless#auto-approve-tools)). Три флага устанавливают границы: `--permission-mode dontAsk` отклоняет любые вызовы, требующие подтверждения, `--allowedTools` явно указывает разрешенные инструменты, а `--max-turns` ограничивает максимальное число раундов вызова инструментов ([CLI flags](https://code.claude.com/docs/en/cli-reference#cli-flags)).
 
 ## Worked example
 
-In your repository:
+В вашем репозитории:
 
-1. Ask one question, and save the JSON:
+1. Задайте один вопрос и сохраните структурированный ответ в JSON:
 
    ```bash
    claude -p "In one sentence, what does this repository do?" --output-format json --permission-mode dontAsk > .practice/a-4-first.json
@@ -33,8 +33,8 @@ In your repository:
    jq -r .result .practice/a-4-first.json
    ```
 
-   It prints `exit 0`, then `"is_error": false` and `"subtype": "success"` with a turn count and a session ID, then one sentence about your repository (your wording will differ). Reading files in your working directory needs no approval, so `dontAsk` let Claude read what it needed ([dontAsk mode](https://code.claude.com/docs/en/permission-modes#allow-only-pre-approved-tools-with-dontask-mode)).
-2. Ask for something that needs approval. `--setting-sources user` keeps your project's settings files out of the run ([CLI flags](https://code.claude.com/docs/en/cli-reference#cli-flags)), so neither the allow rule nor the sandbox's auto-allow mode from [Intermediate lesson 4](../intermediate/04-permissions-and-sandbox.md) approves the test command ([Auto-allow mode](https://code.claude.com/docs/en/sandboxing#auto-allow-mode)). It also leaves out the project's deny rules, such as your `.env` rules from that lesson, so steps 2 to 4 pass them again with `--disallowedTools`, which takes deny rules ([CLI flags](https://code.claude.com/docs/en/cli-reference#cli-flags)):
+   Команда выведет `exit 0`, затем `"is_error": false` и `"subtype": "success"` с количеством раундов и идентификатором сессии, а затем одно предложение с описанием репозитория. Чтение файлов в рабочей директории не требует подтверждения, поэтому режим `dontAsk` позволил Claude прочитать нужные файлы ([dontAsk mode](https://code.claude.com/docs/en/permission-modes#allow-only-pre-approved-tools-with-dontask-mode)).
+2. Запросите действие, требующее подтверждения. Флаг `--setting-sources user` исключает файлы настроек проекта из сессии ([CLI flags](https://code.claude.com/docs/en/cli-reference#cli-flags)), поэтому ни разрешающие правила, ни режим auto-allow песочницы из [Урока 4 уровня Intermediate](../intermediate/04-permissions-and-sandbox.md) не одобрят запуск тестов ([Auto-allow mode](https://code.claude.com/docs/en/sandboxing#auto-allow-mode)). Это также исключает правила запрета проекта (например, защиту `.env`), поэтому шаги со 2 по 4 передают их заново через `--disallowedTools` ([CLI flags](https://code.claude.com/docs/en/cli-reference#cli-flags)):
 
    ```bash
    claude -p "Run the test suite and say how many tests pass" --output-format json --permission-mode dontAsk --setting-sources user --disallowedTools "Read(./.env)" "Read(./.env.*)" > .practice/a-4-denied.json
@@ -42,15 +42,15 @@ In your repository:
    jq -r .result .practice/a-4-denied.json
    ```
 
-   Each line is a call that `dontAsk` denied ([`SDKPermissionDenial`](https://code.claude.com/docs/en/agent-sdk/typescript#sdkpermissiondenial)), such as `{"tool_name":"Bash","command":"npm test 2>&1 | tail -20"}`; Claude picks the command, so yours may differ. The result says Claude couldn't run the tests (your wording will differ).
-3. Allow the command step 2 listed (here `npm test`), and cap the turns:
+   Каждая строка лога представляет собой вызов инструмента, отклоненный режимом `dontAsk` ([`SDKPermissionDenial`](https://code.claude.com/docs/en/agent-sdk/typescript#sdkpermissiondenial)), например `{"tool_name":"Bash","command":"npm test 2>&1 | tail -20"}`. Результат сообщит, что Claude не смог запустить тесты.
+3. Разрешите команду из шага 2 (в данном случае `npm test`) и ограничьте число раундов:
 
    ```bash
    claude -p "Run the test suite and say how many tests pass" --output-format json --permission-mode dontAsk --setting-sources user --disallowedTools "Read(./.env)" "Read(./.env.*)" --allowedTools "Bash(npm test *)" --max-turns 3 | jq '{subtype, num_turns, denied: (.permission_denials | length)}'
    ```
 
-   It shows `"subtype": "success"` and `"denied": 0`: this time Claude ran the tests. The space before the `*` matters, and a trailing ` *` also matches the bare command ([Wildcard patterns](https://code.claude.com/docs/en/permissions#wildcard-patterns)). The rule also covers a pipeline such as `npm test 2>&1 | tail -20`: Claude Code checks each part of a pipeline on its own, and `tail` is one of the read-only commands that run without approval ([Compound commands](https://code.claude.com/docs/en/permissions#compound-commands), [Read-only commands](https://code.claude.com/docs/en/permissions#read-only-commands)).
-4. Hit the cap. This task takes two steps in a row, and `--max-turns 1` allows one turn that calls tools. Keep `Read` and use the same Bash rule as in step 3:
+   Вывод покажет `"subtype": "success"` и `"denied": 0`: на этот раз Claude запустил тесты. Пробел перед `*` имеет значение, при этом ` *` на конце также соответствует вызову команды без параметров ([Wildcard patterns](https://code.claude.com/docs/en/permissions#wildcard-patterns)). Правило также покрывает конвейеры вида `npm test 2>&1 | tail -20`: Claude Code проверяет каждую часть конвейера независимо, а `tail` входит в список команд только для чтения, работающих без запроса разрешений ([Compound commands](https://code.claude.com/docs/en/permissions#compound-commands), [Read-only commands](https://code.claude.com/docs/en/permissions#read-only-commands)).
+4. Достигните установленного лимита раундов. Задача требует последовательного выполнения нескольких действий, а флаг `--max-turns 1` разрешает только один раунд вызова инструментов:
 
    ```bash
    claude -p "Read the file that defines this project's test command, then run that command, then summarize any failures" --output-format json --permission-mode dontAsk --setting-sources user --disallowedTools "Read(./.env)" "Read(./.env.*)" --allowedTools "Read,Bash(npm test *)" --max-turns 1 > .practice/a-4-capped.json
@@ -58,52 +58,52 @@ In your repository:
    jq '{subtype, has_result: has("result")}' .practice/a-4-capped.json
    ```
 
-   It prints a non-zero exit code, then `"subtype": "error_max_turns"` and `"has_result": false`: a run that stops at the cap has no `result`. `--max-turns` counts only the turns that call tools ([Turns and messages](https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages)), so if the run finished, give it a task with more steps.
+   Команда вернет ненулевой код завершения, затем `"subtype": "error_max_turns"` и `"has_result": false`: сессия, остановленная по достижении лимита, не содержит поля `result`. Параметр `--max-turns` считает только раунды с вызовом инструментов ([Turns and messages](https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages)).
 
 ## Your turn
 
-Write a review you can run before every commit: `scripts/review-staged.sh` sends your staged changes to Claude, prints Claude's review and saves the JSON result. The Advanced capstone reuses it.
+Напишите скрипт автоматического ревью, который можно запускать перед каждым коммитом: `scripts/review-staged.sh` передает подготовленные к коммиту изменения в Claude, выводит рецензию и сохраняет JSON-ответ. Этот скрипт повторно используется в выпускном задании уровня Advanced.
 
-Acceptance criteria:
+Критерии приемки:
 
-- A bash script at `scripts/review-staged.sh`, committed and executable.
-- It pipes `git diff --cached`, the staged changes ([git diff](https://git-scm.com/docs/git-diff)), into one `claude -p` call. Claude needs no Bash to read the diff, because it arrives on stdin ([Add Claude to a build script](https://code.claude.com/docs/en/headless#add-claude-to-a-build-script)).
-- That call puts the prompt right after `-p`, as the [Pipe data through Claude](https://code.claude.com/docs/en/headless#pipe-data-through-claude) and [Add Claude to a build script](https://code.claude.com/docs/en/headless#add-claude-to-a-build-script) examples do, and passes `--output-format json`, `--permission-mode dontAsk`, `--allowedTools` naming only `Read`, `Grep` and `Glob`, and `--max-turns` with a number from 1 to 10. On macOS, Linux and WSL, Glob and Grep are absent by default, and naming either one in `--allowedTools` brings both back ([Glob tool behavior](https://code.claude.com/docs/en/tools-reference#glob-tool-behavior)).
-- It calls `claude` by name, not by a path or through `npx`, and doesn't change `PATH`: that is how the check swaps in a stand-in for it.
-- It saves the JSON to the path in its first argument, or to `.practice/a-4-result.json` when it gets none, creating the folder if it's missing.
-- It prints the `result` text, and exits non-zero when `claude` does or when `is_error` is `true`.
-- With nothing staged, it says so and exits non-zero without calling Claude. `git diff --cached --quiet` exits with 0 when nothing is staged ([git diff](https://git-scm.com/docs/git-diff)).
+- Скрипт bash по пути `scripts/review-staged.sh`, закоммиченный и с правами на исполнение (`chmod +x`).
+- Он передает через конвейер вывод команды `git diff --cached` (подготовленные изменения, [git diff](https://git-scm.com/docs/git-diff)) в один вызов `claude -p`. Claude не требуется инструмент Bash для чтения diff, так как данные поступают через stdin ([Add Claude to a build script](https://code.claude.com/docs/en/headless#add-claude-to-a-build-script)).
+- Промпт в вызове передается сразу после аргумента `-p`, как в официальных примерах [Pipe data through Claude](https://code.claude.com/docs/en/headless#pipe-data-through-claude) и [Add Claude to a build script](https://code.claude.com/docs/en/headless#add-claude-to-a-build-script), а также передаются флаги `--output-format json`, `--permission-mode dontAsk`, `--allowedTools` с перечислением только `Read`, `Grep` и `Glob`, и флаг `--max-turns` со значением от 1 до 10. В macOS, Linux и WSL инструменты Glob и Grep по умолчанию скрыты, а указание любого из них в `--allowedTools` делает доступными оба ([Glob tool behavior](https://code.claude.com/docs/en/tools-reference#glob-tool-behavior)).
+- Скрипт вызывает `claude` напрямую по имени команды (не по абсолютному пути и не через `npx`) и не модифицирует переменную `PATH`: скрипт проверки подставляет тестовую заглушку через стандартное имя.
+- Скрипт сохраняет результат JSON по пути из своего первого аргумента либо в `.practice/a-4-result.json`, если аргумент не передан, предварительно создавая папку при необходимости.
+- Он выводит текст поля `result` и завершается с ненулевым кодом при сбое `claude` или если флаг `is_error` равен `true`.
+- Если в git нет подготовленных изменений, скрипт сообщает об этом и завершается с ненулевым кодом, не вызывая Claude. Команда `git diff --cached --quiet` завершается с кодом 0, когда изменений нет ([git diff](https://git-scm.com/docs/git-diff)).
 
-Commit the script. Then stage a small change, such as a one-line fix, and run `scripts/review-staged.sh` once: it saves `.practice/a-4-result.json`. Read the review before you commit that change.
+Закоммитьте скрипт. Затем подготовьте небольшое изменение в git (например, правку в одну строку) и вызовите `scripts/review-staged.sh` один раз: он создаст файл `.practice/a-4-result.json`. Ознакомьтесь с рецензией перед коммитом изменения.
 
 ## Check
 
-You are done when all of these are true:
+Задание выполнено, когда выполняются все условия:
 
-- [ ] `scripts/review-staged.sh` is committed and executable.
-- [ ] Its `claude -p` call has the prompt right after `-p`, asks for JSON, runs in `dontAsk` mode, pre-approves only `Read`, `Grep` and `Glob`, and caps turns at 10 or fewer.
-- [ ] It pipes the staged diff in, saves the JSON where its argument says, prints the result, exits non-zero when the run fails, and doesn't call Claude when nothing is staged.
-- [ ] `.practice/a-4-result.json` holds a run that succeeded within your cap.
-- [ ] Self-check (not tested): you saw a run stop at `--max-turns`, in step 4 of the Worked example.
+- [ ] Скрипт `scripts/review-staged.sh` закоммичен и имеет права на исполнение.
+- [ ] Вызов `claude -p` содержит промпт сразу после `-p`, запрашивает вывод в формате JSON, работает в режиме `dontAsk`, предварительно разрешает только `Read`, `Grep` и `Glob`, и ограничивает количество раундов числом 10 или меньше.
+- [ ] Скрипт передает подготовленный diff через stdin, сохраняет JSON по указанному пути, выводит результат, завершается с ненулевым кодом при ошибке и не вызывает Claude при отсутствии подготовленных изменений.
+- [ ] Файл `.practice/a-4-result.json` содержит успешно выполненный запуск в рамках лимита раундов.
+- [ ] Самопроверка (не тестируется): вы видели остановку сессии по достижении лимита `--max-turns` на шаге 4 пошагового примера.
 
-Run `npm run check -- a-4 --dir <your repo>` from your practice copy, or `npm run check -- a-4` in the copy itself. The check runs your committed script with a stand-in for `claude`, so it uses none of your usage.
+Запустите команду `npm run check -- a-4 --dir <your repo>` из копии учебного шаблона или `npm run check -- a-4` внутри самого шаблона. Проверка запускает ваш закоммиченный скрипт с заглушкой вместо реального `claude`, поэтому токены вашего плана не расходуются.
 
-If the first item fails, run `chmod +x scripts/review-staged.sh`, then `git add` it and commit again. If the second item fails, read its hint: it names the flag it didn't find, or says your script calls `claude` by a path or through `npx`, or changes `PATH`. Compare your `claude -p` line with the criteria in Your turn, starting with where the prompt sits. If the third item fails, run the script by hand with nothing staged and again with a staged change, and run `echo $?` after each; the check runs the committed script, so commit each fix before you run the check again. If the fourth item fails, stage a change and run the script again: a run that stopped at your cap doesn't count, so raise the cap or narrow the prompt.
+Если первый пункт не проходит, выполните `chmod +x scripts/review-staged.sh`, добавьте файл через `git add` и закоммитьте снова. Если не проходит второй пункт, изучите подсказку: она назовет отсутствующий флаг либо укажет на вызов `claude` по пути, через `npx` или изменение `PATH`. Сопоставьте строку вызова с критериями из раздела Ваша очередь, начиная с позиции промпта. Если не проходит третий пункт, запустите скрипт вручную сначала без подготовленных изменений, а затем с подготовленными, проверяя `echo $?` после каждого запуска; скрипт проверки тестирует именно закоммиченную версию, поэтому коммитьте правки перед перезапуском проверки. Если не проходит четвертый пункт, подготовьте изменение и запустите скрипт еще раз: сессия, прерванная по лимиту, не засчитывается, поэтому увеличьте лимит раундов или сузьте задачу в промпте.
 
 ## Watch out
 
-- A `-p` run shows no trust dialog: it runs the hooks in a project's `.claude/settings.json` and connects the servers in its `.mcp.json`, even in a folder you've never trusted ([Start faster with bare mode](https://code.claude.com/docs/en/headless#start-faster-with-bare-mode)). Before you script Claude Code in a repository you didn't write, pass `--setting-sources user`, so Claude Code reads neither the project's settings files nor its `.mcp.json` ([What runs before you trust a folder](https://code.claude.com/docs/en/permissions#what-runs-before-you-trust-a-folder)).
-- When `ANTHROPIC_API_KEY` is set, a `-p` run always uses that key instead of your plan ([Authentication precedence](https://code.claude.com/docs/en/authentication#authentication-precedence)). The JSON's `total_cost_usd` is a client-side estimate, not your bill ([Track cost and usage](https://code.claude.com/docs/en/agent-sdk/cost-tracking#estimates-not-billing)).
-- In a folder you've never trusted, a `-p` run ignores the `permissions.allow` rules in the project's `.claude/settings.json` and prints a `this workspace has not been trusted` warning on stderr; trusting a parent folder doesn't count ([Project allow rules and workspace trust](https://code.claude.com/docs/en/permissions#project-allow-rules-and-workspace-trust), [Error reference](https://code.claude.com/docs/en/errors#workspace-has-not-been-trusted)). Pass the rules a script needs on its command line, with `--allowedTools`.
+- Запуск через `-p` не отображает диалог доверия рабочей директории: он запускает хуки из `.claude/settings.json` проекта и подключает серверы из `.mcp.json` даже в директории, которой вы никогда не давали доверия ([Start faster with bare mode](https://code.claude.com/docs/en/headless#start-faster-with-bare-mode)). Перед написанием скриптов в чужом репозитории передавайте флаг `--setting-sources user`, чтобы Claude Code не читал файлы настроек проекта и его `.mcp.json` ([What runs before you trust a folder](https://code.claude.com/docs/en/permissions#what-runs-before-you-trust-a-folder)).
+- Если установлена переменная окружения `ANTHROPIC_API_KEY`, запуск `-p` всегда использует указанный API-ключ вместо вашего тарифного плана ([Authentication precedence](https://code.claude.com/docs/en/authentication#authentication-precedence)). Значение `total_cost_usd` в JSON представляет собой расчетную оценку на стороне клиента, а не фактический счет за использование ([Track cost and usage](https://code.claude.com/docs/en/agent-sdk/cost-tracking#estimates-not-billing)).
+- В репозитории, которому вы еще не подтвердили доверие, запуск `-p` игнорирует разрешающие правила `permissions.allow` из `.claude/settings.json` и выводит предупреждение `this workspace has not been trusted` в stderr; подтверждение доверия для родительской папки не учитывается ([Project allow rules and workspace trust](https://code.claude.com/docs/en/permissions#project-allow-rules-and-workspace-trust), [Error reference](https://code.claude.com/docs/en/errors#workspace-has-not-been-trusted)). Передавайте необходимые скрипту правила явно в командной строке через `--allowedTools`.
 
 ## Go further
 
-- [Run Claude Code programmatically](https://code.claude.com/docs/en/headless): structured output with `--json-schema`, streaming JSON, and continuing a run with `--resume` and its `session_id`.
-- [Approve the plan before it runs](https://code.claude.com/docs/en/workflows#approve-the-plan-before-it-runs): start the workflow you saved in the previous lesson from a script, with `Workflow(<name>)` in your allow rules.
-- [Agent SDK overview](https://code.claude.com/docs/en/agent-sdk/overview): the same agent loop from Python or TypeScript.
+- [Программный запуск Claude Code](https://code.claude.com/docs/en/headless): структурированный вывод со схемой `--json-schema`, потоковая передача JSON и продолжение сессии через флаг `--resume` с идентификатором `session_id`.
+- [Подтверждение плана перед выполнением](https://code.claude.com/docs/en/workflows#approve-the-plan-before-it-runs): запуск сохраненного в прошлом уроке воркфлоу из скрипта с указанием `Workflow(<name>)` в правилах доступа.
+- [Обзор Agent SDK](https://code.claude.com/docs/en/agent-sdk/overview): запуск аналогичного цикла работы агента на Python или TypeScript.
 
 ---
 
 <sub>Sources: [Run Claude Code programmatically](https://code.claude.com/docs/en/headless) · [CLI reference](https://code.claude.com/docs/en/cli-reference) · [Choose a permission mode](https://code.claude.com/docs/en/permission-modes) · [Configure permissions](https://code.claude.com/docs/en/permissions) · [Configure the sandboxed Bash tool](https://code.claude.com/docs/en/sandboxing) · [How the agent loop works](https://code.claude.com/docs/en/agent-sdk/agent-loop) · [Agent SDK reference - TypeScript](https://code.claude.com/docs/en/agent-sdk/typescript) · [Track cost and usage](https://code.claude.com/docs/en/agent-sdk/cost-tracking) · [Authentication](https://code.claude.com/docs/en/authentication) · [Tools reference](https://code.claude.com/docs/en/tools-reference) · [Error reference](https://code.claude.com/docs/en/errors) · [git diff](https://git-scm.com/docs/git-diff)</sub>
 
-<sub>← [Run and save a dynamic workflow](03-dynamic-workflows.md) · [Advanced index](README.md) · [GitHub Actions](05-github-actions.md) → · Topic: [Automation](../topics/automation.md) · [Stuck on this lesson?](https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know/issues/new?template=lesson-feedback.yml&lesson=a-4)</sub>
+<sub>← [Запуск и сохранение динамического воркфлоу](03-dynamic-workflows.md) · [Advanced index](README.md) · [GitHub Actions](05-github-actions.md) → · Topic: [Автоматизация](../topics/automation.md) · [Stuck on this lesson?](https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know/issues/new?template=lesson-feedback.yml&lesson=a-4)</sub>
