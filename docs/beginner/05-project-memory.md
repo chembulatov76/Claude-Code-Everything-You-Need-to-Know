@@ -4,66 +4,66 @@
 
 ## Goal
 
-By the end of this lesson you can create a project CLAUDE.md and show that a new session follows it.
+К концу этого урока вы сможете создать файл `CLAUDE.md` для проекта и убедиться, что новая сессия соблюдает описанные в нём правила. <details style="display:inline"><summary><code>[en]</code></summary>By the end of this lesson you can create a project CLAUDE.md and show that a new session follows it.</details>
 
 ## You need
 
-- Your copy of the practice template with no uncommitted changes, and Node.js LTS (a Codespace on your copy has it). To practice in one of your own repositories instead, keep the template copy as well: the check runs from it. Set up the repository's `.practice/` folder as [lesson 1](01-install-and-look-around.md#you-need) describes, if you haven't yet.
-- Usage: light.
+- Ваша учебная копия репозитория без незакоммиченных изменений и Node.js LTS (в GitHub Codespace вашей копии всё уже готово). Чтобы практиковаться в собственном репозитории, сохраните также копию шаблона: проверка запускается из неё. Настройте папку `.practice/`, как описано в [уроке 1](01-install-and-look-around.md#you-need), если вы ещё этого не сделали.
+- Расход токенов: минимальный (light).
 
 ## The idea
 
-Each session starts with a fresh context window, so you can end up repeating your project's habits. A `CLAUDE.md` file at the project root fixes that: Claude Code reads it at the start of every session ([How Claude remembers your project](https://code.claude.com/docs/en/memory)).
+Каждая сессия начинается с чистого контекстного окна, из-за чего приходится снова и снова напоминать Claude о принятых в проекте правилах. Файл `CLAUDE.md` в корне проекта решает эту проблему: Claude Code автоматически считывает его в начале каждой сессии ([How Claude remembers your project](https://code.claude.com/docs/en/memory)). <details style="display:inline"><summary><code>[en]</code></summary>Each session starts with a fresh context window, so you can end up repeating your project's habits. A CLAUDE.md file at the project root fixes that: Claude Code reads it at the start of every session</details>
 
-- Put in it what every session should know: the build and test commands, conventions, the project's layout, "always do X" rules. Keep it short; the docs suggest under 200 lines.
-- Commit it, so everyone who works on the project gets the same instructions.
-- `/init` writes a first version for you from what it finds in the code.
-- Claude treats CLAUDE.md as context, not as configuration it must obey. A rule that must never be broken needs a [hook](https://code.claude.com/docs/en/hooks-guide), which the [Intermediate level](../intermediate/README.md) teaches.
+- Поместите в него то, о чём должна знать каждая сессия: команды сборки и запуска тестов, соглашения по коду, структуру репозитория и правила формата "всегда делай X". Держите файл компактным: официальная документация рекомендует укладываться в объём до 200 строк.
+- Закоммитьте его в git, чтобы все участники проекта получали одинаковые инструкции.
+- Команда `/init` автоматически генерирует первую версию файла на основе анализа кодовой базы.
+- Claude воспринимает `CLAUDE.md` как контекст, а не как жёсткую обязательную конфигурацию. Правило, которое ни при каких обстоятельствах нельзя нарушать, требует использования хуков ([hooks](https://code.claude.com/docs/en/hooks-guide)), о которых рассказывается на [уровне Intermediate](../intermediate/README.md).
 
-A session reads CLAUDE.md when it starts, so after you change the file, start a new session to be sure it uses the change.
+Сессия считывает `CLAUDE.md` только в момент запуска, поэтому после изменения этого файла начните новую сессию, чтобы гарантированно применить правки.
 
 ## Worked example
 
-1. Start `claude` in your practice copy and run:
+1. Запустите `claude` в вашей учебной копии и выполните команду:
 
    ```text
    /init
    ```
 
-   Claude reads the code and writes a `CLAUDE.md` with the commands and conventions it found. Approve the file if it asks. In a second terminal, read it with `cat CLAUDE.md`.
-2. Open `CLAUDE.md` in your editor, or type `/memory` and choose **Project instructions**, the `./CLAUDE.md` in this folder. Don't pick the user file in `~/.claude/`: it applies to all your projects ([View and edit with `/memory`](https://code.claude.com/docs/en/memory#view-and-edit-with-%2Fmemory)). A terminal editor such as Vim takes over the terminal until you save and quit.
+   Claude проанализирует код проекта и сформирует файл `CLAUDE.md` с найденными командами и правилами. Подтвердите создание файла, если появится запрос. Во втором терминале прочитайте его содержимое с помощью `cat CLAUDE.md`.
+2. Откройте `CLAUDE.md` в редакторе кода или введите команду `/memory` и выберите пункт **Project instructions** (`./CLAUDE.md` в текущей папке). Не выбирайте пользовательский файл в `~/.claude/`: он влияет на все ваши проекты одновременно ([View and edit with `/memory`](https://code.claude.com/docs/en/memory#view-and-edit-with-%2Fmemory)). Терминальный редактор (например, Vim) займёт терминал до тех пор, пока вы не сохраните файл и не выйдете.
 
-   In the practice copy, `/init` may also describe the course's own files: `checks/`, `capstone/` and `.github/`. Delete what it says about them and about `npm run check`, including any rule that says to keep your work off `main`: that rule is for the template repository, not your copy. Keep the other commands, including `npm test`, which the [capstone](capstone.md) checks for.
+   В учебной копии команда `/init` может также описать служебные файлы курса: `checks/`, `capstone/` и `.github/`. Удалите упоминания о них и о команде `npm run check`, включая любое правило, запрещающее работать в ветке `main`: это правило относится к родительскому репозиторию шаблона, а не к вашей локальной копии. Сохраните остальные команды, включая `npm test`, которую проверяет итоговое задание ([capstone](capstone.md)).
 
-   Then add a rule that shows up in files, so you can see whether a session follows it. Put it under a `## Conventions` heading, and add that heading at the end of the file if `/init` didn't write one:
+   Затем добавьте правило, которое проявляется непосредственно в создаваемых файлах, чтобы легко проверить его исполнение. Разместите его под заголовком `## Conventions` (добавьте этот заголовок в конец файла, если `/init` его не создал):
 
    ```markdown
    - Every new source file starts with the line `// Part of linkcheck.`
    ```
 
-   In the second terminal, save the rule's exact line for the check:
+   Во втором терминале сохраните точную строку правила в файл для запуска проверки:
 
    ```bash
    echo '// Part of linkcheck.' > .practice/b-5-rule.txt
    ```
 
    **Windows:** `'// Part of linkcheck.' | Set-Content .practice/b-5-rule.txt`
-3. Save `CLAUDE.md`, then commit it in the second terminal:
+3. Сохраните `CLAUDE.md`, затем закоммитьте его во втором терминале:
 
    ```bash
    git add CLAUDE.md
    git commit -m "Add project instructions for Claude Code"
    ```
 
-4. Type `/exit`, then start a new session with `claude`, so it loads CLAUDE.md with your rule. Type `/context all` and find `CLAUDE.md` under **Memory files**: the session has loaded it. Plain `/context` can collapse that list, and `all` expands it ([Commands](https://code.claude.com/docs/en/commands)).
-5. Ask for a change that creates a new file:
+4. Введите `/exit` и запустите новую сессию с помощью `claude`, чтобы агент загрузил обновлённый `CLAUDE.md` с вашим правилом. Выполните `/context all` и найдите `CLAUDE.md` в блоке **Memory files**: сессия успешно его загрузила. Базовая команда `/context` может свернуть этот список, а параметр `all` разворачивает его полностью ([Commands](https://code.claude.com/docs/en/commands)).
+5. Попросите агента выполнить изменение, создающее новый файл:
 
    ```text
    Add src/stats.js with a function countLinks(markdown) that returns how many links findLinks finds. Add a test in test/stats.test.js, run the tests and commit.
    ```
 
-   Approve any permission prompts Claude shows.
-6. In the second terminal, look at the first line of the new file, save the commit for the check, and confirm nothing is left over:
+   Подтвердите запросы разрешений, которые запросит Claude.
+6. Во втором терминале проверьте первую строку созданного файла, сохраните хеш коммита для проверки и убедитесь в чистоте рабочей директории:
 
    ```bash
    head -1 src/stats.js
@@ -71,49 +71,49 @@ A session reads CLAUDE.md when it starts, so after you change the file, start a 
    git status
    ```
 
-   **Windows:** `Get-Content src/stats.js -TotalCount 1` replaces `head -1`.
+   **Windows:** замените `head -1` на `Get-Content src/stats.js -TotalCount 1`.
 
-   The first line should read `// Part of linkcheck.`, though you never asked for it in this session. `git status` should read `nothing to commit, working tree clean`. If it lists `src/stats.js`, Claude hasn't committed yet: ask it to commit, then save the commit again.
+   Первая строка файла должна содержать `// Part of linkcheck.`, хотя в текущей сессии вы об этом явно не просили. Команда `git status` должна сообщить: `nothing to commit, working tree clean`. Если в выводе отображается `src/stats.js`, Claude ещё не закоммитил изменения: попросите его сделать коммит, после чего повторно сохраните хеш коммита.
 
 ## Your turn
 
-Repeat the example in your practice copy, or your own repository, with a new rule and a new file. Your practice copy already has a `CLAUDE.md`, so skip `/init` there:
+Повторите пример в учебной копии или в собственном репозитории с новым правилом и другим файлом. В учебной копии файл `CLAUDE.md` уже существует, поэтому шаг `/init` можно пропустить:
 
-1. Open `CLAUDE.md` and replace the example's rule with a new one:
+1. Откройте `CLAUDE.md` и замените правило из примера на новое:
 
    ```markdown
    - Every new source file starts with the line `// linkcheck source.`
    ```
 
-2. In the second terminal, save the new rule's exact line: `echo '// linkcheck source.' > .practice/b-5-rule.txt` (**Windows:** `'// linkcheck source.' | Set-Content .practice/b-5-rule.txt`).
-3. Commit `CLAUDE.md` there.
-4. Exit, start a new session, and check that `/context all` lists `CLAUDE.md` under **Memory files**.
-5. Ask for a new file and its test, and let Claude commit:
+2. Во втором терминале сохраните точную строку нового правила: `echo '// linkcheck source.' > .practice/b-5-rule.txt` (**Windows:** `'// linkcheck source.' | Set-Content .practice/b-5-rule.txt`).
+3. Закоммитьте `CLAUDE.md` в git.
+4. Выйдите из сессии, запустите новую сессию и убедитесь, что `/context all` выводит `CLAUDE.md` в блоке **Memory files**.
+5. Попросите создать новый файл и тест к нему, позволив Claude закоммитить изменения:
 
    ```text
    Add src/external.js with a function countExternal(markdown) that returns how many of the links findLinks finds are external, according to isExternal. Add a test in test/external.test.js, run the tests and commit.
    ```
 
-6. As in the example's step 6, check the first line of `src/external.js`, save the commit to `.practice/b-5-commit.txt`, and run `git status`.
+6. Как и в шаге 6 примера, проверьте первую строку `src/external.js`, сохраните коммит в `.practice/b-5-commit.txt` и выполните `git status`.
 
-In your own repository, start with `/init`; if the repository already has a `CLAUDE.md`, `/init` suggests improvements rather than overwriting it. Write the rule in your language's comment style, such as `# Part of my-project.`, save that exact line to `.practice/b-5-rule.txt` in step 2, and ask for a small new file. If the repository has an `AGENTS.md`, put `@AGENTS.md` on the first line of `CLAUDE.md`: by default, once a `CLAUDE.md` exists, Claude reads it instead of `AGENTS.md` ([AGENTS.md](https://code.claude.com/docs/en/memory#agents-md)).
+В собственном репозитории начните с `/init`; если в репозитории уже есть `CLAUDE.md`, `/init` предложит улучшения вместо перезаписи. Напишите правило в стиле комментариев используемого вами языка программирования (например, `# Part of my-project.`), сохраните эту точную строку в `.practice/b-5-rule.txt` на шаге 2 и попросите создать небольшой файл. Если в репозитории уже используется `AGENTS.md`, поместите `@AGENTS.md` на первой строке `CLAUDE.md`: по умолчанию, как только появляется `CLAUDE.md`, Claude читает его вместо `AGENTS.md` ([AGENTS.md](https://code.claude.com/docs/en/memory#agents-md)).
 
 ## Check
 
-You are done when all of these are true:
+Задание выполнено, когда выполняются все условия:
 
-- [ ] A committed CLAUDE.md holds the rule saved in `.practice/b-5-rule.txt`: `git show HEAD:CLAUDE.md` shows it.
-- [ ] The commit named in `.practice/b-5-commit.txt` adds at least one file other than tests and Markdown, and each such file starts with that rule: `git show --stat $(cat .practice/b-5-commit.txt)` lists them. **Windows:** `git show --stat (Get-Content .practice/b-5-commit.txt)`.
-- [ ] Self-check (not tested): you started a new session after adding the rule to CLAUDE.md, and you can say why that matters.
+- [ ] Закоммиченный `CLAUDE.md` содержит правило, сохранённое в `.practice/b-5-rule.txt`: команда `git show HEAD:CLAUDE.md` отображает его.
+- [ ] Коммит из `.practice/b-5-commit.txt` добавляет как минимум один файл (кроме тестов и Markdown), и каждый такой файл начинается с этого правила: `git show --stat $(cat .practice/b-5-commit.txt)` выводит эти файлы. **Windows:** `git show --stat (Get-Content .practice/b-5-commit.txt)`.
+- [ ] Self-check (not tested): вы перезапустили сессию после добавления правила в `CLAUDE.md` и можете объяснить, почему это необходимо.
 
-Run `npm run check -- b-5` in your practice copy. In your own repository, run `npm run check -- b-5 --dir <your repo>` from your practice copy instead.
+Запустите `npm run check -- b-5` в учебной копии. В собственном репозитории выполните из учебной копии: `npm run check -- b-5 --dir <your repo>`.
 
-If CLAUDE.md isn't committed, run `git add CLAUDE.md` and commit it. If a new file doesn't start with the rule, start a new session and run `/context all`. When `CLAUDE.md` is missing under **Memory files**, the session can't see it: start `claude` in the folder that holds `CLAUDE.md`. When it is listed, Claude read the rule but didn't follow it. Either way, ask the session for a different new file, such as `src/summary.js` with a test, and to commit it. Then save that commit with `git rev-parse HEAD > .practice/b-5-commit.txt` and run the check again. Fixing the old file in place won't pass, because the check reads only the files that commit adds.
+Если `CLAUDE.md` не закоммичен, выполните `git add CLAUDE.md` и сделайте коммит. Если новый файл не начинается с заданного правила, запустите новую сессию и проверьте вывод `/context all`. Когда `CLAUDE.md` отсутствует в блоке **Memory files**, сессия его не видит: убедитесь, что запускаете `claude` в той папке, где находится `CLAUDE.md`. Если файл отображается в списке, значит, Claude прочитал правило, но не применил его: попросите сессию создать другой файл (например, `src/summary.js` с тестом) и закоммитить его, затем сохраните хеш коммита командой `git rev-parse HEAD > .practice/b-5-commit.txt` и запустите проверку снова. Правка старого файла на месте не поможет пройти тест, так как проверка анализирует только файлы, добавленные указанным коммитом.
 
 ## Go further
 
-- [Write an effective CLAUDE.md](https://code.claude.com/docs/en/best-practices#write-an-effective-claude-md): what to put in it and what to leave out.
-- [Using CLAUDE.md files](https://claude.com/blog/using-claude-md-files): Anthropic's guide, with examples.
+- [Write an effective CLAUDE.md](https://code.claude.com/docs/en/best-practices#write-an-effective-claude-md): рекомендации по наполнению файла и исключению лишнего контекста.
+- [Using CLAUDE.md files](https://claude.com/blog/using-claude-md-files): руководство Anthropic с наглядными практическими примерами.
 
 ---
 

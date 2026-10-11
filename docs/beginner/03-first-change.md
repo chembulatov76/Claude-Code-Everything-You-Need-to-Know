@@ -4,110 +4,110 @@
 
 ## Goal
 
-By the end of this lesson you can take one change from request to commit: explore, plan, implement, test, review the diff, correct, and commit.
+К концу этого урока вы сможете провести одно изменение от формулирования задачи до коммита: исследование, планирование, реализация, тестирование, просмотр diff, корректировка и коммит. <details style="display:inline"><summary><code>[en]</code></summary>By the end of this lesson you can take one change from request to commit: explore, plan, implement, test, review the diff, correct, and commit.</details>
 
 ## You need
 
-- Your copy of the practice template, and Node.js LTS (a Codespace on your copy has it).
-- To practice in one of your own repositories instead, keep the template copy as well: the check runs from it. Set up the repository's `.practice/` folder as [lesson 1](01-install-and-look-around.md#you-need) describes, if you haven't yet.
-- No uncommitted changes where you practice. If lesson 2's change is still there, set it aside with `git stash push --include-untracked -m b-2`; in your own repository, commit it instead if you want to keep it. Later lessons don't use what you set aside, and `git stash list` shows it.
-- Usage: light.
+- Ваша копия учебного шаблона и Node.js LTS (в среде Codespace доступно по умолчанию).
+- При выполнении в собственном репозитории сохраните также учебный шаблон (скрипт проверки запускается из него). Создайте папку `.practice/` в соответствии с инструкцией [Урока 1](01-install-and-look-around.md#you-need), если не сделали этого ранее.
+- Отсутствие незакоммиченных изменений в рабочем каталоге. Если изменения из Урока 2 всё ещё присутствуют, отложите их командой `git stash push --include-untracked -m b-2`; в собственном репозитории закоммитьте их, если хотите сохранить. В последующих уроках эти данные не используются, а просмотреть их список можно через `git stash list`.
+- Расход токенов: минимальный (light).
 
 ## The idea
 
-Asking for a change and accepting whatever comes back is how sessions go wrong. Anthropic's [best practices](https://code.claude.com/docs/en/best-practices#explore-first-then-plan-then-code) recommend four phases: explore, plan, implement and commit. This lesson adds a check at each step:
+Запрашивать изменение и без проверки соглашаться со всем предложенным кодом: верный путь к ошибкам и деградации сессии. Руководство по эффективным практикам Anthropic ([best practices](https://code.claude.com/docs/en/best-practices#explore-first-then-plan-then-code)) рекомендует разделять процесс на четыре фазы: исследование (explore), планирование (plan), реализация (implement) и фиксация (commit). Этот урок добавляет точку контроля на каждом шаге:
 
-1. **Explore** in plan mode: Claude reads and answers, and changes nothing.
-2. **Plan**, and approve it only when it matches what you want.
-3. **Implement**, approving edits as they come.
-4. **Test**: the tests are what tell you the change works, not the summary Claude writes.
-5. **Review the diff** line by line.
-6. **Correct** anything you don't want, in plain words.
-7. **Commit**, so the change is saved and easy to undo.
+1. **Исследование (Explore)** в режиме plan mode: Claude читает файлы и отвечает на вопросы, ничего не изменяя.
+2. **Планирование (Plan)**: план утверждается только тогда, когда он в точности соответствует вашим ожиданиям.
+3. **Реализация (Implement)**: подтверждение правок по мере их внесения.
+4. **Тестирование (Test)**: именно прохождение тестов доказывает работоспособность кода, а не текстовое резюме, составленное моделью.
+5. **Просмотр diff (Review the diff)** построчно.
+6. **Корректировка (Correct)**: формулирование необходимых правок обычными словами при наличии замечаний.
+7. **Коммит (Commit)**: фиксация изменений для сохранения результата и возможности лёгкого отката.
 
 ## Worked example
 
-The practice app checks Markdown links, but it skips any link with a title, such as `[setup](setup.md "Setup guide")`. You'll fix that.
+Учебное приложение проверяет ссылки в Markdown-файлах, но игнорирует ссылки с атрибутом title, например `[setup](setup.md "Setup guide")`. В этом примере вы исправите это поведение.
 
-1. Start `claude` in your practice copy and press `Shift+Tab` until the status bar reads `⏸ plan mode on`. Explore:
+1. Запустите `claude` в учебной копии и нажимайте `Shift+Tab`, пока в строке статуса не появится `⏸ plan mode on`. Исследуйте кодовую базу:
 
    ```text
    How does this app find links in a Markdown file? Which kinds of links would it miss?
    ```
 
-   Your wording will differ, but Claude should point to `src/links.js` and mention links with a title.
-2. Plan:
+   Ваша точная формулировка может отличаться, но Claude укажет на `src/links.js` и отметит ссылки с атрибутом title.
+2. Спланируйте задачу:
 
    ```text
    Plan a change so links with a title, like [setup](setup.md "Setup guide"), are checked too. Add a test for it to test/links.test.js.
    ```
 
-   Read the plan. When it names only `src/links.js` and `test/links.test.js`, choose **Yes, manually approve edits**. If it names other files too, send it back as in [lesson 2](02-permission-modes-and-plan-mode.md#worked-example): in **Tell Claude what to change**, ask Claude to keep the change to those two files.
-3. Implement and test. Approve each edit. Claude also asks before most commands, such as running the tests: read each one. Answer plain **Yes** when it does what the plan needs, as in lesson 2. Answer **No** and say what to do instead when it does more, such as a command that stashes, overwrites or moves files. Don't choose **Yes, and switch to auto mode**: background safety checks would then review the rest of this lesson's steps instead of you ([Choose a permission mode](https://code.claude.com/docs/en/permission-modes#switch-permission-modes)). Then ask, even if Claude already ran the tests, so you see the result yourself:
+   Внимательно прочтите план. Если в нём указаны только `src/links.js` и `test/links.test.js`, выберите **Yes, manually approve edits**. Если план затрагивает лишние файлы, верните его на доработку (как в [Уроке 2](02-permission-modes-and-plan-mode.md#worked-example)): в строке **Tell Claude what to change** попросите ограничить изменения только этими двумя файлами.
+3. Реализация и запуск тестов. Одобряйте каждую правку. Claude также запрашивает подтверждение перед большинством команд (например, перед запуском тестов): внимательно читайте каждую команду. Отвечайте простым **Yes**, когда действие соответствует плану. Отвечайте **No** с указанием альтернативы, если команда делает лишнее (например, прячет изменения в stash, перезаписывает или перемещает файлы). Не выбирайте пункт **Yes, and switch to auto mode**: иначе фоновые проверки безопасности начнут принимать решения вместо вас на всех оставшихся шагах ([Choose a permission mode](https://code.claude.com/docs/en/permission-modes#switch-permission-modes)). Затем явно попросите запустить тесты (даже если Claude уже выполнил их ранее), чтобы лично увидеть результат:
 
    ```text
    run the tests
    ```
 
-   Claude Code collapses long command output to a short summary. Press `Ctrl+O` to expand it ([Interactive mode](https://code.claude.com/docs/en/interactive-mode#general-controls)), find the test summary near the end, and press `Esc` to go back. It should report `fail 0`.
-4. Review the diff. Type `/diff` to see the changes Claude made, beside anything else you haven't committed ([Interactive mode](https://code.claude.com/docs/en/interactive-mode#review-changes-with-%2Fdiff)). One of two views opens:
-   - A panel beside the conversation. Its list leaves test files out until you click the line that counts them, so click it. The panel can also open on its own once Claude edits files: if it's already open, read it there, because typing `/diff` closes it.
-   - A list above the prompt. Select a file with the arrow keys, press `Enter` to read its diff, and press `Esc` to go back.
+   Claude Code сворачивает длинный вывод команд в краткое резюме. Нажмите `Ctrl+O`, чтобы развернуть полный вывод ([Interactive mode](https://code.claude.com/docs/en/interactive-mode#general-controls)), найдите итоговую строку тестов в конце и нажмите `Esc` для возврата. Должно отображаться `fail 0`.
+4. Просмотр diff. Введите слэш-команду `/diff`, чтобы просмотреть изменения, сделанные Claude, наряду с другими незакоммиченными файлами ([Interactive mode](https://code.claude.com/docs/en/interactive-mode#review-changes-with-%2Fdiff)). Откроется одно из двух представлений:
+   - Боковая панель рядом с диалогом. Список скрывает тестовые файлы, пока вы не кликнете по строке с их количеством: кликните по ней. Панель может открываться автоматически при редактировании файлов: если она уже открыта, изучайте изменения в ней (повторный ввод `/diff` закроет панель).
+   - Список файлов над полем ввода. Выберите файл клавишами со стрелками, нажмите `Enter` для просмотра diff и `Esc` для возврата.
 
-   Read each line, the test included. In a second terminal, `git diff` prints the uncommitted changes to files git already tracks. For a new file Claude created, run `git add -N <file>` first so it shows up ([git add](https://git-scm.com/docs/git-add#Documentation/git-add.txt--N)).
-5. Correct. Read the new test. If it covers only double-quoted titles, ask:
+   Проверьте каждую строку изменений, включая тестовый файл. Во втором терминале команда `git diff` выведет незакоммиченные изменения для уже отслеживаемых файлов git. Если Claude создал новый файл, предварительно выполните `git add -N <file>`, чтобы он отображался в diff ([git add](https://git-scm.com/docs/git-add#Documentation/git-add.txt--N)).
+5. Корректировка. Прочтите добавленный тест. Если он покрывает только заголовки в двойных кавычках, отправьте запрос:
 
    ```text
    The test covers only double-quoted titles. Add a case for a single-quoted title, like [faq](faq.md 'FAQ'), and run the tests again.
    ```
 
-   If it already covers single quotes, ask for another small change you would want instead, such as giving each kind of title its own test. Then check the diff again.
-6. Commit:
+   Если тест уже учитывает одинарные кавычки, попросите о другом небольшом улучшении (например, вынести проверку каждого типа кавычек в отдельный тест). После этого снова проверьте diff.
+6. Коммит:
 
    ```text
    commit this with a message that says what changed
    ```
 
-   Claude asks before it runs the commit. Read the whole command, then choose **Yes**. If it also creates a branch, that's fine: the check works on any branch. To keep the commit on your current branch, say so in your prompt. Then, in the second terminal, save the commit for the check and confirm nothing is left over:
+   Claude запросит подтверждение перед запуском коммита. Прочтите сформированную команду целиком и выберите **Yes**. Если инструмент создаст отдельную ветку, это допустимо: скрипт проверки работает на любой ветке. Если коммит требуется сохранить в текущей ветке, укажите это в тексте промпта. Затем во втором терминале сохраните хеш коммита для проверки и убедитесь в чистоте репозитория:
 
    ```bash
    git rev-parse HEAD > .practice/b-3-commit.txt
    git status
    ```
 
-   `git status` ends with `nothing to commit, working tree clean`.
+   Вывод `git status` должен завершаться строкой `nothing to commit, working tree clean`.
 
 ## Your turn
 
-Repeat the example with a second gap: links whose target sits in angle brackets, such as `[my notes](<my notes.md>)`.
+Повторите этот цикл для второй недоработки: ссылок, целевой путь которых заключён в угловые скобки, например `[my notes](<my notes.md>)`.
 
-1. Explore in plan mode: ask how the app reads a link's target.
-2. Plan the change, with a test in `test/links.test.js`. Send the plan back if it names other files, then approve it with **Yes, manually approve edits**.
-3. Approve the edits and any test commands with **Yes**, then ask Claude to run the tests.
-4. Review the whole diff with `/diff`, the test file included.
-5. Ask for one correction, even a small one, and check the diff again.
-6. Once the correction is in, ask Claude to commit the change, its test and your correction together. Then, in the second terminal, run `git rev-parse HEAD > .practice/b-3-commit.txt`.
+1. Исследуйте задачу в режиме plan mode: спросите, как приложение парсит целевой адрес ссылки.
+2. Спланируйте изменение с добавлением теста в `test/links.test.js`. Отправьте план на доработку при попытке изменить лишние файлы, затем подтвердите через **Yes, manually approve edits**.
+3. Подтверждайте правки и запуск тестов выбором **Yes**, затем попросите Claude выполнить тесты.
+4. Просмотрите весь diff через `/diff`, включая файл с тестами.
+5. Попросите внести хотя бы одну корректировку (пусть даже небольшую) и проверьте diff повторно.
+6. Когда правка внесена, попросите Claude закоммитить код, тест и вашу корректировку единым коммитом. Затем во втором терминале выполните: `git rev-parse HEAD > .practice/b-3-commit.txt`.
 
-In your own repository, pick a small change of your own that comes with a test.
+В собственном репозитории выберите небольшое самостоятельное изменение, сопровождаемое тестом.
 
 ## Check
 
-You are done when all of these are true:
+Задание считается выполненным, когда соблюдены все условия:
 
-- [ ] The commit named in `.practice/b-3-commit.txt` changes a test file and at least one other file: `git show --stat $(cat .practice/b-3-commit.txt)`. **Windows:** `git show --stat (Get-Content .practice/b-3-commit.txt)`.
-- [ ] The tests pass: `npm test` reports `fail 0`.
-- [ ] Nothing is left uncommitted: `git status --porcelain` prints nothing.
-- [ ] Self-check (not tested): you read the whole diff before committing and asked Claude for at least one correction.
+- [ ] Коммит, зафиксированный в `.practice/b-3-commit.txt`, изменяет тестовый файл и как минимум один файл исходного кода: `git show --stat $(cat .practice/b-3-commit.txt)`. **Windows:** `git show --stat (Get-Content .practice/b-3-commit.txt)`.
+- [ ] Все тесты успешно проходят: команда `npm test` сообщает `fail 0`.
+- [ ] В репозитории нет незакоммиченных изменений: `git status --porcelain` ничего не выводит.
+- [ ] Self-check (not tested): вы полностью просмотрели diff перед коммитом и запросили у Claude как минимум одну корректировку.
 
-In the second terminal, run `npm run check -- b-3` in your practice copy. In your own repository, run `npm run check -- b-3 --dir <your repo>` from your practice copy instead. If that repository has no `npm test` script, first save your test command's exit code with `<your test command>; echo $? > .practice/b-3-tests.txt` (**Windows:** `<your test command>; $LASTEXITCODE > .practice/b-3-tests.txt`).
+Во втором терминале запустите команду `npm run check -- b-3` в учебной копии. В собственном репозитории выполните из учебной копии: `npm run check -- b-3 --dir <your repo>`. Если в целевом репозитории отсутствует скрипт `npm test`, предварительно сохраните код возврата вашей команды тестирования: `<your test command>; echo $? > .practice/b-3-tests.txt` (**Windows:** `<your test command>; $LASTEXITCODE > .practice/b-3-tests.txt`).
 
-If the commit changes no test file, or only tests, the code and its test didn't land in one commit: ask Claude to amend the commit with the missing test (`git commit --amend`), or to combine the last two commits into one, as long as you haven't pushed them. Then save the commit again with `git rev-parse HEAD > .practice/b-3-commit.txt`. If the tests fail, read the first failure and ask Claude to fix the code, not the test. If `git status --porcelain` lists files, commit them or set them aside with `git stash push --include-untracked`.
+Если коммит не затрагивает тестовый файл (или содержит только тесты без исходного кода), значит, код и тесты не попали в один коммит: попросите Claude дополнить коммит недостающим тестом (`git commit --amend`) либо объединить два последних коммита в один (если вы ещё не отправляли их в удалённый репозиторий). Затем сохраните хеш заново через `git rev-parse HEAD > .practice/b-3-commit.txt`. Если тесты падают, прочтите первую ошибку и попросите Claude исправить код, а не ослаблять тест. Если `git status --porcelain` отображает файлы, закоммитьте их или отложите через `git stash push --include-untracked`.
 
 ## Go further
 
-- [Common workflows](https://code.claude.com/docs/en/common-workflows): step-by-step guides for fixing bugs, refactoring and testing.
-- [Prompt library](https://code.claude.com/docs/en/prompt-library): copy-ready prompts, tagged by task.
-- [Give Claude a way to verify its work](https://code.claude.com/docs/en/best-practices#give-claude-a-way-to-verify-its-work): why a test beats a summary.
+- [Common workflows](https://code.claude.com/docs/en/common-workflows): пошаговые руководства по исправлению багов, рефакторингу и написанию тестов.
+- [Prompt library](https://code.claude.com/docs/en/prompt-library): готовые шаблоны промптов с разбивкой по задачам.
+- [Give Claude a way to verify its work](https://code.claude.com/docs/en/best-practices#give-claude-a-way-to-verify-its-work): почему реальный запуск тестов надёжнее текстового резюме.
 
 ---
 
