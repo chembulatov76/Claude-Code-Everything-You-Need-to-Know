@@ -4,105 +4,105 @@
 
 ## Goal
 
-By the end of this lesson you can keep a session on track: see how full its context is, clear or compact it, rewind a change, and resume an earlier conversation.
+К концу этого урока вы научитесь удерживать сессию в рамках задачи: отслеживать заполненность контекстного окна, очищать или сжимать контекст (clear/compact), откатывать нежелательные изменения (rewind) и возобновлять сохранённые диалоги (resume). <details style="display:inline"><summary><code>[en]</code></summary>By the end of this lesson you can keep a session on track: see how full its context is, clear or compact it, rewind a change, and resume an earlier conversation.</details>
 
 ## You need
 
-- Your copy of the practice template with no uncommitted changes, and Node.js LTS (a Codespace on your copy has it). To practice in one of your own repositories instead, keep the template copy as well: the check runs from it. Set up the repository's `.practice/` folder as [lesson 1](01-install-and-look-around.md#you-need) describes, if you haven't yet. Start that repository with no uncommitted changes too: commit them, or set them aside with `git stash push --include-untracked`.
-- Usage: light.
+- Ваша копия учебного шаблона без незакоммиченных изменений и Node.js LTS (в среде Codespace доступно сразу). Чтобы практиковаться в собственном репозитории, сохраните также учебный шаблон (проверочный скрипт вызывается из него). Создайте папку `.practice/` по инструкции [Урока 1](01-install-and-look-around.md#you-need), если не сделали этого ранее. Начните урок с чистым рабочим деревом git: закоммитьте изменения или отложите их командой `git stash push --include-untracked`.
+- Расход токенов: минимальный (light).
 
 ## The idea
 
-Everything in a conversation, your prompts, Claude's replies and every file it read, sits in the session's context window. The window is large but not endless, and a long, wandering conversation leaves Claude less room for the work that matters now ([Explore the context window](https://code.claude.com/docs/en/context-window)). Five commands keep it in hand ([Commands](https://code.claude.com/docs/en/commands)):
+Всё содержимое диалога: ваши промпты, ответы Claude и каждый прочитанный файл: накапливается в контекстном окне сессии. Окно контекста велико, но не бесконечно, и затянувшийся диалог оставляет Claude всё меньше пространства для текущей актуальной работы ([Explore the context window](https://code.claude.com/docs/en/context-window)). Пять встроенных команд помогают держать контекст под контролем ([Commands](https://code.claude.com/docs/en/commands)):
 
-| Command | What it does |
+| Команда | Назначение |
 |---|---|
-| `/context` | Shows how full the context window is, as a colored grid |
-| `/compact` | Summarizes the conversation so far, to free space |
-| `/clear` | Starts a new conversation with empty context |
-| `/rewind` | Goes back to an earlier prompt, restoring the code, the conversation or both |
-| `/resume` | Picks up an earlier conversation |
+| `/context` | Показывает степень заполнения контекстного окна в виде цветной сетки |
+| `/compact` | Сжимает и суммаризирует историю диалога для освобождения места |
+| `/clear` | Начинает новый диалог с чистым контекстом |
+| `/rewind` | Возвращает состояние к более раннему промпту, восстанавливая код, диалог или оба элемента |
+| `/resume` | Возобновляет одну из сохранённых ранее сессий |
 
-Compact when you want to keep going on the same task; clear when you start a different one. Rewind when a change went the wrong way ([Checkpointing](https://code.claude.com/docs/en/checkpointing)).
+Используйте `/compact`, когда хотите продолжить работу над текущей задачей. Применяйте `/clear`, когда переходите к принципиально новой задаче. Вызывайте `/rewind`, если изменения пошли по ошибочному сценарию ([Checkpointing](https://code.claude.com/docs/en/checkpointing)).
 
 ## Worked example
 
-1. Start `claude` in your practice copy and type `/context`. The grid shows how much of the window is used, broken down by category, including your messages and any memory files, such as `CLAUDE.md`, that loaded ([Explore the context window](https://code.claude.com/docs/en/context-window)). Your practice copy has no `CLAUDE.md` yet, so you may see no memory files; [lesson 5](05-project-memory.md) adds one.
-2. Fill it a little:
+1. Запустите `claude` в учебной копии репозитория и введите `/context`. Сетка наглядно продемонстрирует объём занятого контекста с детализацией по категориям (включая ваши сообщения и файлы памяти, такие как `CLAUDE.md`, если они были загружены) ([Explore the context window](https://code.claude.com/docs/en/context-window)). В учебной копии файл `CLAUDE.md` пока отсутствует, поэтому секция памяти может быть пустой; [Урок 5](05-project-memory.md) добавит его.
+2. Немного наполните контекст вопросом:
 
    ```text
    Explain how src/check-links.js decides that a link is broken.
    ```
 
-   Run `/context` again: the messages part has grown.
-3. Compact, telling Claude what to keep:
+   Снова вызовите `/context`: доля категории сообщений заметно увеличилась.
+3. Сожмите контекст, указав Claude, какую информацию важно сохранить:
 
    ```text
    /compact keep what we learned about check-links.js
    ```
 
-   The conversation is replaced by a summary: in `/context` the messages part shrinks and free space grows. After one short question there is little to summarize, so the change is small; compacting pays off when a conversation gets long.
-4. Make a change to undo. Rewind can't undo changes Claude makes by running commands (see [Watch out](#watch-out)), so the prompt asks for its file editing tool. Approve the edit if Claude asks:
+   История сообщений будет заменена кратким саммари: в окне `/context` блок сообщений сократится, а свободное место увеличится. После одного короткого вопроса эффект сжатия невелик, но компактность даёт решающее преимущество в длинных диалогах.
+4. Внесите изменение для последующего отката. Механизм Rewind не умеет отменять изменения, сделанные терминальными командами Claude (см. раздел [Watch out](#watch-out)), поэтому в промпте мы прямо требуем использовать инструмент редактирования файлов. Подтвердите операцию, если Claude запросит разрешение:
 
    ```text
    In src/cli.js, change the success message to "All relative links are fine." Use your file editing tool, not a shell command.
    ```
 
-   In a second terminal in the same folder, save what git sees:
+   Во втором терминале в той же папке сохраните снимок состояния git:
 
    ```bash
    git status --porcelain > .practice/b-4-before-rewind.txt
    ```
 
-   The file lists `src/cli.js`.
-5. Rewind. Type `/rewind`, or press `Esc` twice with an empty prompt. Pick the prompt from step 4 and choose **Restore code and conversation**. If the menu offers only **Restore conversation**, the summarize options and **Never mind**, Claude changed the file with a command, which rewind can't undo: choose **Never mind**, press `Esc` to close the menu ([Interactive mode](https://code.claude.com/docs/en/interactive-mode)), run `git restore src/cli.js` in the second terminal, and repeat step 4.
+   В файле будет зафиксирован изменённый путь `src/cli.js`.
+5. Выполните откат. Введите команду `/rewind` или дважды нажмите клавишу `Esc` при пустой строке ввода. Выберите промпт из шага 4 и укажите вариант **Restore code and conversation**. Если в меню доступны только **Restore conversation**, пункты сжатия и **Never mind**, значит, Claude изменил файл командой терминала (что rewind отменить не в силах): выберите **Never mind**, закройте меню клавишей `Esc` ([Interactive mode](https://code.claude.com/docs/en/interactive-mode)), выполните во втором терминале `git restore src/cli.js` и повторите шаг 4.
 
-   Once the code is restored, save what git sees in the second terminal:
+   Когда исходный код восстановлен, сохраните новое состояние git во втором терминале:
 
    ```bash
    git status --porcelain > .practice/b-4-after-rewind.txt
    ```
 
-   This file is empty: the edit is gone.
-6. The rewind put your step 4 prompt back in the input box, so anything you type now is added to it. Press `Esc` twice quickly to clear it: after the first press, a hint at the bottom reads `Esc again to clear`. Then type `/clear`. The conversation starts over with empty context, and the old one stays available.
-7. Type `/exit`, then reopen the most recent conversation in this folder ([Manage sessions](https://code.claude.com/docs/en/sessions)):
+   Этот файл должен быть пустым: изменение отменено.
+6. Откат вернул текст промпта из шага 4 обратно в поле ввода. Дважды быстро нажмите клавишу `Esc`, чтобы очистить поле (после первого нажатия внизу появится подсказка `Esc again to clear`). Затем введите `/clear`. Диалог начнётся заново с пустым контекстом, при этом предыдущая беседа останется сохранена.
+7. Введите `/exit`, затем заново откройте последнюю сессию в этой директории ([Manage sessions](https://code.claude.com/docs/en/sessions)):
 
    ```bash
    claude --continue
    ```
 
-   If it opens the empty conversation from step 6, run `/resume` and pick the earlier one. Inside a session, `/resume` with no argument opens a picker of earlier conversations. The conversation you pick may still show the edit you rewound, because it was saved before the rewind. Your files stay as the rewind left them (`git status --porcelain` prints nothing), so don't ask Claude to make the edit again.
+   Если откроется пустая сессия из шага 6, введите `/resume` и выберите более раннюю беседу. Внутри сессии вызов `/resume` без аргументов открывает интерактивный список сохранённых разговоров. В выбранном диалоге может по-прежнему отображаться текст отменённой правки (так как он был сохранён до отката), однако ваши файлы на диске останутся в исходном виде (`git status --porcelain` ничего не выводит), поэтому не просите Claude вносить эту правку снова.
 
 ## Your turn
 
-Repeat the example in your practice copy, or your own repository:
+Повторите этот сценарий в учебной копии или собственном репозитории:
 
-1. Run `/context`, ask one question about the code, and run `/context` again.
-2. Run `/compact` with a sentence about what to keep.
-3. Ask for a small edit to one file, ending the prompt with "Use your file editing tool, not a shell command.", and approve it if Claude asks. Save `git status --porcelain > .practice/b-4-before-rewind.txt`.
-4. Rewind that prompt with **Restore code and conversation**, and save `git status --porcelain > .practice/b-4-after-rewind.txt`.
-5. Press `Esc` twice to clear the restored prompt, then run `/clear`, then `/exit`, then `claude --continue`.
+1. Вызовите `/context`, задайте один вопрос о коде и повторно просмотрите `/context`.
+2. Запустите `/compact` с указанием того, что важно сохранить в памяти.
+3. Попросите внести небольшую правку в один файл, закончив промпт фразой "Use your file editing tool, not a shell command.", и подтвердите правку. Сохраните статус: `git status --porcelain > .practice/b-4-before-rewind.txt`.
+4. Откатите этот промпт через **Restore code and conversation** и сохраните статус: `git status --porcelain > .practice/b-4-after-rewind.txt`.
+5. Дважды нажмите `Esc` для очистки строки ввода, затем выполните последовательно `/clear`, затем `/exit`, затем `claude --continue`.
 
 ## Check
 
-You are done when all of these are true:
+Задание считается выполненным, когда соблюдены все условия:
 
-- [ ] `.practice/b-4-before-rewind.txt` lists the file Claude changed: `cat .practice/b-4-before-rewind.txt`.
-- [ ] `.practice/b-4-after-rewind.txt` lists no files: `cat .practice/b-4-after-rewind.txt` prints nothing.
-- [ ] Self-check (not tested): you can say when you'd use `/compact` and when `/clear`.
+- [ ] Файл `.practice/b-4-before-rewind.txt` содержит путь к файлу, изменённому Claude: `cat .practice/b-4-before-rewind.txt`.
+- [ ] Файл `.practice/b-4-after-rewind.txt` пуст: команда `cat .practice/b-4-after-rewind.txt` ничего не выводит.
+- [ ] Self-check (not tested): вы можете объяснить разницу в применении команд `/compact` и `/clear`.
 
-Run `npm run check -- b-4` in your practice copy. In your own repository, run `npm run check -- b-4 --dir <your repo>` from your practice copy instead.
+Во втором терминале запустите `npm run check -- b-4` в учебной копии. В собственном репозитории выполните: `npm run check -- b-4 --dir <your repo>`.
 
-If the first file lists nothing, you saved it before the edit was made; make the edit again, save the file after it, then rewind again. If the second file still lists the file Claude changed, rewind that prompt with an option that restores code, then save the second file again. When the menu no longer lists that prompt (after **Restore conversation**) or offers no option that restores code (Claude used a command), run `git restore <file>` and repeat Your turn steps 3 and 4 instead. Files you changed before the lesson also stay listed, because rewind can't undo them: commit them or set them aside with `git stash push --include-untracked`, then save the second file again.
+Если первый файл пуст, значит, снимок был сохранён до выполнения правки: повторите изменение, сохраните снимок и выполните откат заново. Если во втором файле всё ещё числится изменённый файл, откатите промпт через пункт меню, восстанавливающий код, и пересохраните второй файл. Если промпт пропал из списка или не предлагает возврат кода, выполните `git restore <file>` и повторите шаги 3 и 4 блока Your turn. Файлы, изменённые до начала урока, также останутся в статусе, поскольку rewind их не затрагивает: закоммитьте их или отложите в `git stash push --include-untracked`, после чего пересохраните второй файл.
 
 ## Watch out
 
-- Rewind undoes only the edits Claude made with its file editing tools. Changes made by commands it ran, such as deleting a file with `rm`, stay ([Checkpointing](https://code.claude.com/docs/en/checkpointing#bash-command-changes-not-tracked)); commit your work so git can bring it back.
+- Механизм Rewind отменяет только те правки, которые Claude внёс с помощью встроенных инструментов редактирования файлов. Изменения, выполненные терминальными командами (например, удаление файлов через `rm`), не отслеживаются контрольными точками ([Checkpointing](https://code.claude.com/docs/en/checkpointing#bash-command-changes-not-tracked)): всегда фиксируйте важный код коммитами, чтобы git мог вернуть его при необходимости.
 
 ## Go further
 
-- [Explore the context window](https://code.claude.com/docs/en/context-window): an interactive view of what fills a session.
-- [Session management and 1M context](https://claude.com/blog/using-claude-code-session-management-and-1m-context): when to compact, clear or start fresh.
+- [Explore the context window](https://code.claude.com/docs/en/context-window): интерактивный разбор структуры контекста сессии.
+- [Session management and 1M context](https://claude.com/blog/using-claude-code-session-management-and-1m-context): рекомендации Anthropic по использованию compact, clear и открытию новых сессий.
 
 ---
 
